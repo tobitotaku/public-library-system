@@ -2,12 +2,7 @@
 from config import configurationhelper
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
 
-from models import Member
-
-
-# class app:
-    # def __init__(self):
-        # 
+from models import Member, Book
 
 
 resolver = DataResolver()
@@ -20,4 +15,10 @@ m = [
 
 ]
 x = Member("Dirk", "De vries", 17)
-DataResolver.save(resolver, x, TargetFile.Member)
+books = Book("J.K. Rowling", "harry potter 1")
+
+
+
+DataResolver.save(resolver, m, TargetFile.Member)
+DataResolver.save(resolver, books, TargetFile.Book)
+

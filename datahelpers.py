@@ -42,9 +42,9 @@ class CSVDataLayer:
 
     def WriteToFile(self, target : TargetFile,  collection :  list() ):
         print("writing to: " + target.name)
-        # print(str(target.name))
-        with open( target.name + ".csv", mode='w') as toFile:
+        with open( "./data/" + target.name + ".csv", mode='w') as toFile:
             writer = csv.writer(toFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-            print(collection[0].toHeader())
+            writer.writerow(collection[0].toHeader())
+
             for obj in collection : 
                 writer.writerow(obj.toRow())

@@ -11,3 +11,18 @@ class Member:
 
     def toRow(self):
         return [self.name, self.surname, self.age]
+
+
+
+class Book:
+    csvFields = ["name"]
+
+    def __init__ (self, author, title):
+        self.author = author
+        self.title = title
+
+    def toHeader(self):
+        return ["author", "title"]
+
+    def toRow(self):
+        return [self.author, self.title]
