@@ -25,10 +25,10 @@ class DataResolver:
             object = [object]
 
         if(target == TargetFile.Book):
-            return CSVDataLayer.WriteToFile(self, target= target, collection=object)
+            return JSONDataLayer.WriteToFile(self, target= target, collection=object)
 
         if(target == TargetFile.Member):
-            return JSONDataLayer.WriteToFile(self, target= target, collection=object)
+            return CSVDataLayer.WriteToFile(self, target= target, collection=object)
 
     def read(self, target : TargetFile):
         return
