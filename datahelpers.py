@@ -28,13 +28,21 @@ class DataResolver:
             return CSVDataLayer.WriteToFile(self, target= target, collection=object)
 
         if(target == TargetFile.Member):
-            return CSVDataLayer.WriteToFile(self, target= target, collection=object)
+            return JSONDataLayer.WriteToFile(self, target= target, collection=object)
+
+    def read(self, target : TargetFile):
+        return
+
+
+
+
 
 
 class JSONDataLayer:
-
-    def WriteToFile(self, item):
-        jString = json.dumps(item.__dict__)
+    def WriteToFile(self, target: TargetFile, collection : list()):
+        jString = json.dumps([ob.__dict__ for ob in collection])
+        with open('./data/' + target.name + '.json', 'w') as outfile:
+            outfile.write(jString)
         print(jString)
 
 class CSVDataLayer:
@@ -48,3 +56,4 @@ class CSVDataLayer:
 
             for obj in collection : 
                 writer.writerow(obj.toRow())
+

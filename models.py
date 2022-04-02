@@ -1,5 +1,5 @@
+import json
 class Member:
-    csvFields = ["name"]
 
     def __init__ (self, name, surname, age):
         self.name = name
@@ -14,8 +14,9 @@ class Member:
 
 
 
+
+
 class Book:
-    csvFields = ["name"]
 
     def __init__ (self, author, title):
         self.author = author
