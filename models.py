@@ -8,8 +8,8 @@ class Member:
 
 
     def __init__(self, *args):
-        print("inside Member: " )
-        print(args)
+        # print("inside Member: " )
+        # print(args)
         if len(args) > 2:
             self.name = args[0]
             self.surname = args[1]
@@ -40,8 +40,8 @@ class Book:
         self.ISBN = ISBN
 
     def __init__(self, *args):
-        print("inside Book: " )
-        print(args)
+        # print("inside Book: " )
+        # print(args)
         if len(args) > 2:
             self.author = args[0]
             self.title = args[1]
@@ -49,10 +49,10 @@ class Book:
             self.ISBN = args[3]
 
         else:
-            self.author = args[0][0]
-            self.title = args[0][1]
-            self.ID = args[0][2]
-            self.ISBN = args[0][3]
+            self.author = args[0]['author']
+            self.title = args[0]['title']
+            self.ID = args[0]['ID']
+            self.ISBN = args[0]['ISBN']
 
 
     def toHeader(self):
@@ -63,18 +63,3 @@ class Book:
 
 
 
-
-class Catalog:
-
-    def __init__ ():
-        return
-
-
-    def addBook() :
-        return
-
-    def UpdateBook() :
-        
-        return
-
-    
