@@ -16,7 +16,7 @@ class DataResolver:
             return JSONDataLayer.WriteToFile(self, target= target, collection=object)
 
         if(target == TargetFile.Member):
-            return CSVDataLayer.WriteToFile(self, target= target, collection=object)
+            return JSONDataLayer.WriteToFile(self, target= target, collection=object)
 
 
     def Read(self, target : TargetFile, ReturnType):

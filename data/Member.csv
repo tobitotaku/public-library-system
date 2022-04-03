@@ -1,6 +1,2 @@
-"name","surname","age"
-"Jessin","rodenburg","33"
-"JOhnny","rodenburg","33"
-"JOhnny","rodenburg","33"
-"JOhnny","rodenburg","33"
-"Eric","rodenburg","33"
+"name","surname","age","password"
+"Jessin","rodenburg","33","test123"

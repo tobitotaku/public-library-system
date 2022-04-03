@@ -2,19 +2,21 @@
 from config import configurationhelper
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
 
-from models import Member, Book
-
+from models import Book
+from usermodels import Person
+from controllers import ControllerView
 
 resolver = DataResolver()
 m = [
-    Member("Jessin", "rodenburg", 33),
-    Member("JOhnny", "rodenburg", 33),
-    Member("JOhnny", "rodenburg", 33),
-    Member("JOhnny", "rodenburg", 33),
-    Member("Eric", "rodenburg", 33),
+    Person("Jessin", "rodenburg", 33, "test123", "member"),
+    Person("admin", "rodenburg", 33, "admin123", "admin"),
+    # Member("JOhnny", "rodenburg", 33),
+    # Member("JOhnny", "rodenburg", 33),
+    # Member("JOhnny", "rodenburg", 33),
+    # Member("Eric", "rodenburg", 33),
 
 ]
-x = Member("Dirk", "De vries", 17)
+# x = Member("Dirk", "De vries", 17)
 # books = Book("J.K. Rowling", "harry potter 1")
 
 
@@ -23,7 +25,10 @@ DataResolver.Save(resolver, m, TargetFile.Member)
 
 # DataResolver.save(resolver, books, TargetFile.Book)
 
-test = DataResolver.Read(resolver, TargetFile.Member, Member)
+# test = DataResolver.Read(resolver, TargetFile.Member, Member)
 
 # print(x.toRow())
 # print(test[1].toRow())
+
+cv = ControllerView()
+cv.login_form()
