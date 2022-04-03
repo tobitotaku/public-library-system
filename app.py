@@ -27,7 +27,4 @@ DataResolver.Save(resolver, m, TargetFile.Member)
 
 # test = DataResolver.Read(resolver, TargetFile.Member, Member)
 
-# print(x.toRow())
-# print(test[1].toRow())
-
 cv = ControllerView()
