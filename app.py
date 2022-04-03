@@ -15,11 +15,15 @@ m = [
 
 ]
 x = Member("Dirk", "De vries", 17)
-books = Book("J.K. Rowling", "harry potter 1")
+# books = Book("J.K. Rowling", "harry potter 1")
 
 
 
-DataResolver.save(resolver, m, TargetFile.Member)
+DataResolver.Save(resolver, m, TargetFile.Member)
 
-DataResolver.save(resolver, books, TargetFile.Book)
+# DataResolver.save(resolver, books, TargetFile.Book)
 
+test = DataResolver.Read(resolver, TargetFile.Member, Member)
+
+# print(x.toRow())
+# print(test[1].toRow())

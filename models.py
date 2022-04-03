@@ -1,16 +1,31 @@
 import json
 class Member:
 
-    def __init__ (self, name, surname, age):
-        self.name = name
-        self.surname = surname
-        self.age = age
+    # def __init__ (self, name, surname, age):
+    #     self.name = name
+    #     self.surname = surname
+    #     self.age = age
+
+
+    def __init__(self, *args):
+        print("inside Member: " )
+        print(args)
+        if len(args) > 2:
+            self.name = args[0]
+            self.surname = args[1]
+            self.age = args[2]
+
+        else:
+            self.name = args[0]['name']
+            self.surname = args[0]['surname']
+            self.age = args[0]['age']
+
 
     def toHeader(self):
         return ["name", "surname", "age"]
 
     def toRow(self):
-        return [self.name, self.surname, self.age]
+        return {"name" : self.name, "surname" : self.surname, "age" : self.age}
 
 
 
@@ -18,12 +33,48 @@ class Member:
 
 class Book:
 
-    def __init__ (self, author, title):
-        self.author = author
-        self.title = title
+    def __init__ (self, ID, Author, Title, ISBN):
+        self.author = Author
+        self.title = Title
+        self.ID = ID
+        self.ISBN = ISBN
+
+    def __init__(self, *args):
+        print("inside Book: " )
+        print(args)
+        if len(args) > 2:
+            self.author = args[0]
+            self.title = args[1]
+            self.ID = args[2]
+            self.ISBN = args[3]
+
+        else:
+            self.author = args[0][0]
+            self.title = args[0][1]
+            self.ID = args[0][2]
+            self.ISBN = args[0][3]
+
 
     def toHeader(self):
-        return ["author", "title"]
+        return ["author", "title", "ID", "ISBN"]
 
     def toRow(self):
-        return [self.author, self.title]
+        return {"author" : self.author, "title" : self.title, "ID" : self.ID, "ISBN" : self.ISBN}
+
+
+
+
+class Catalog:
+
+    def __init__ ():
+        return
+
+
+    def addBook() :
+        return
+
+    def UpdateBook() :
+        
+        return
+
+    
