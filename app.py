@@ -31,4 +31,3 @@ DataResolver.Save(resolver, m, TargetFile.Member)
 # print(test[1].toRow())
 
 cv = ControllerView()
-cv.login_form()

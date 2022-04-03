@@ -5,8 +5,6 @@ from datahelpers import DataResolver, JSONDataLayer, TargetFile
 
 class Person:
     def __init__(self, *args):
-        print("inside Member: " )
-        print(args)
         if len(args) > 2:
             self.username = args[0]
             self.surname = args[1]

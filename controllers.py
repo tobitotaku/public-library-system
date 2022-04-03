@@ -4,8 +4,10 @@ from usermodels import *
 class ControllerView:
     def __init__(self, *args):
         self.user = False
+        self.login_form()
+        # self.navigation_options()
+
     def login_form(self):
-        user = False
         inp_username = str(input('Username:'))
         inp_password = str(input('Password:'))
 
@@ -15,4 +17,12 @@ class ControllerView:
             print('Welcome,{username}!'.format(username = _user.username))
         else:
             print('Password or Username is incorrect')
-        return user
+        return self.user
+    # def navigation_options(self):
+    #     menu_options = (
+    #         {""}
+    #     )
+        
+    #     print()
+    # def add_user_form(self):
+    #     print("abc")
