@@ -1,26 +1,29 @@
 
 
 from ast import Pass
+from multiprocessing.spawn import prepare
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
 
 class Person:
+    def __new__(cls, *arg):
+        return super(Person, cls).__new__(cls)
+
     def __init__(self, *args):
         if len(args) > 2:
             self.username = args[0]
             self.surname = args[1]
             self.age = args[2]
             self.password = args[3]
-            self.role = args[4]
 
         else:
             self.username = args[0]['username']
             self.surname = args[0]['surname']
             self.age = args[0]['age']
             self.password = args[0]['password']
-            self.role = args[0]['role']
+        self.role = 'member'
 
     def toHeader(self):
-        return ["username", "surname", "age", "password"]
+        return ["username", "surname", "age", "password", "role"]
 
     def toRow(self):
         return {
@@ -31,11 +34,13 @@ class Person:
             "role": self.role,
         }
 
+    @staticmethod
     def all():
         resolver = DataResolver()
         list = DataResolver.Read(resolver, TargetFile.Member, Person)
         return list
 
+    @staticmethod
     def findbyname(username):
         user = False
         list = Person.all()
@@ -45,20 +50,27 @@ class Person:
                     return item
         return user
     
+    def add(self):
+        list_users = Person.all()
+        DataResolver.Save(resolver, list_users, TargetFile.Member)
+
+    def test(*args):
+        print(123)
     # def validate(self, username):
     #     user = self.findbyname(username)
     #     return user
 
 class Member(Person):
     Pass
-    # def __init__ (self, *args):
-    #     self.role = 'member'
-    #     self.surname = surname
-    #     self.age = age
     
 class LibraryAdmin(Person):
-    Pass
-    # def __init__ (self, *args):
-        # self.username = 'admin'
-        # self.password = 'admin123'
-        # self.role = 'member'
+    def __new__(cls, *arg):
+        return super(LibraryAdmin, cls).__new__(cls)
+
+    def __init__ (self, *args):
+        super().test()
+        self.test()
+        super().__init__(self, *args)
+        self.role = 'admin'
+    def test(*args):
+        print(456)

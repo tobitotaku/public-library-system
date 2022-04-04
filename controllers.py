@@ -4,14 +4,14 @@ from usermodels import *
 class ControllerView:
     def __init__(self, *args):
         self.user = False
-        # self.render_login()
-        self.render_menu_options()
+        self.render_login()
         self.menu_option_list = {
             1:"Add a member",
         }
         self.menu_action_list = {
             1:"render_add_member",
         }
+        self.render_menu_options()
 
     def render_login(self):
         inp_username = str(input('Username:'))
@@ -34,6 +34,7 @@ class ControllerView:
         for item in self.menu_option_list:
             txt = "{number}. {label}".format(number = item, label = self.menu_option_list[item])
             print(txt)
+        
         try:
             inp_option = int(input("Enter a menu option:"))
         except:
@@ -47,11 +48,25 @@ class ControllerView:
                 print("Error: action not found")
         else:
             print("entered number is not a menu options")
+
         return inp_option
 
     def render_add_member(self):
-        print("abc")
-        # resolver = DataResolver()
-        # m = [
-        #     Member("tobi", "roessingh", 33, "test123", "member"),
-        # ]
+        print("Enter member in field:")
+        resolver = DataResolver()
+        username = input("1# username>")
+        surname = input("2# surname>")
+        age = input("3# age>")
+        password = input("4# password>")
+
+        member_record = Member(
+            username,
+            surname,
+            age,
+            password
+        ),
+        # input("confirm? yes[y]/no[n]")
+
+        _user = Person.findbyname(username)
+        print(_user)
+
