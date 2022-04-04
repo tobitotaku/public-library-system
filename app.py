@@ -28,10 +28,10 @@ DataResolver.Save(resolver, m, TargetFile.Member)
 # login, menu navigation, add users
 cv = ControllerView()
 
-booksCatalog = Catalog()
-search = booksCatalog.search("5")
-for s in search:
-    print (s.toRow())
+# booksCatalog = Catalog()
+# search = booksCatalog.search("5")
+# for s in search:
+#     print (s.toRow())
 
 # DataResolver.save(resolver, books, TargetFile.Book)
 

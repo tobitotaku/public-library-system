@@ -47,9 +47,12 @@ class Person:
                     return item
         return user
     
-    def add(self):
+    def save(self):
+        resolver = DataResolver()
         list_users = Person.all()
-        DataResolver.Save(resolver, list_users, TargetFile.Member)
+        list_users.append(self)
+        result = DataResolver.Save(resolver, list_users, TargetFile.Member)
+        return self
 
     # def validate(self, username):
     #     user = self.findbyname(username)
