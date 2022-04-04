@@ -1,1 +1,1 @@
-[{"name": "Jessin", "surname": "rodenburg", "age": 33}, {"name": "JOhnny", "surname": "rodenburg", "age": 33}, {"name": "JOhnny", "surname": "rodenburg", "age": 33}, {"name": "JOhnny", "surname": "rodenburg", "age": 33}, {"name": "Eric", "surname": "rodenburg", "age": 33}]
+[{"username": "Jessin", "surname": "rodenburg", "age": 33, "password": "test123", "role": "member"}, {"username": "tobi", "surname": "roessingh", "age": 33, "password": "test123", "role": "member"}, {"username": "admin", "surname": "admin", "age": 33, "password": "admin123", "role": "admin"}]
