@@ -5,9 +5,6 @@ from multiprocessing.spawn import prepare
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
 
 class Person:
-    def __new__(cls, *arg):
-        return super(Person, cls).__new__(cls)
-
     def __init__(self, *args):
         if len(args) > 2:
             self.username = args[0]
@@ -54,8 +51,6 @@ class Person:
         list_users = Person.all()
         DataResolver.Save(resolver, list_users, TargetFile.Member)
 
-    def test(*args):
-        print(123)
     # def validate(self, username):
     #     user = self.findbyname(username)
     #     return user
@@ -64,13 +59,6 @@ class Member(Person):
     Pass
     
 class LibraryAdmin(Person):
-    def __new__(cls, *arg):
-        return super(LibraryAdmin, cls).__new__(cls)
-
     def __init__ (self, *args):
-        super().test()
-        self.test()
-        super().__init__(self, *args)
+        Person.__init__(self, *args)
         self.role = 'admin'
-    def test(*args):
-        print(456)
