@@ -1,4 +1,3 @@
-from operator import contains
 from models import Book
 from datahelpers import DataResolver, TargetFile
 import re
@@ -17,16 +16,15 @@ class Catalog:
         return
 
     def UpdateBook(self, ID, Author, Title, ISBN ) :
-        
-        return
+        book = self.search(ID)
+        print(book)
+        book.author = Author
+        book.title  = Title
+        book.ISBN = ISBN
+        return book
 
     def search(self, query) :
-        r = re.compile(".*" + query + "*.")
-        listToStr = ' '.join([str(element.toRow()) for element in self.allBooks])
         ret = list()
-        # print(listToStr)
-
-
         for book in  self.allBooks :
             if re.search(query, book.author, re.IGNORECASE) :
                 ret.append(book)
@@ -40,23 +38,4 @@ class Catalog:
             elif re.search(query, book.ISBN, re.IGNORECASE) :
                 ret.append(book)
                 # return book
-
         return ret
-
-            
-
-
-        # print(listToStr)
-        # res = list(filter(r.match, listToStr))
-        # print(res)
-        # if contains(self.allBooks, lambda x: x.n ==):
-        # print(listToStr.find(query))
-        # return -1
-
-
-
-    def contains(list, filter):
-        for x in list:
-            if filter(x):
-                return True
-        return False
