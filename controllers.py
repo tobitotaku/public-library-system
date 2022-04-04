@@ -4,18 +4,14 @@ from usermodels import *
 class ControllerView:
     def __init__(self, *args):
         self.user = False
-        # self.render_login()
+        self.render_login()
         self.menu_option_list = {
             1:"Add a member",
         }
         self.menu_action_list = {
             1:"render_add_member",
         }
-        self.render_test()
-        # self.render_menu_options()
-    def render_test(self):
-        _user = Person.all()
-
+        self.render_menu_options()
 
     def render_login(self):
         inp_username = str(input('Username:'))
@@ -72,14 +68,5 @@ class ControllerView:
         # input("confirm? yes[y]/no[n]")
 
         _user = Person.findbyname(username)
-        if _user:
-            print(_user)
-        else:
-            new_member = Member(
-                username,
-                surname,
-                age,
-                password
-            )
-            new_member.save()
-            print("Member {username} was added succesfully".format(username = username))
+        print(_user)
+
