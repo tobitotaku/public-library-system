@@ -1,4 +1,0 @@
-[DEFAULT]
-backupFileNames = "Backup.json"
-memberDataFileName = "members.csv"
-booksDataFile = "Books.json"

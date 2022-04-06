@@ -1,2 +1,4 @@
-"name","surname","age","password"
-"Jessin","rodenburg","33","test123"
+"username","surname","age","password","role"
+"Jessin","rodenburg","33","test123","Admin"
+"Jessin2","rodenburg2","33","test123","user"
+"Jessin3","rodenburg3","33","test123","user"

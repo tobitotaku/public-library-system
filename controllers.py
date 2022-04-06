@@ -1,6 +1,6 @@
 from models import *
-from usermodels import *
-
+# from usermodels import *
+from userManager import *
 class ControllerView:
     def __init__(self, *args):
         self.user = False

@@ -1,35 +1,106 @@
 from enum import Enum
+from fileinput import filename
+import os.path
+import os
+# from pathlib import Path
+from ast import literal_eval
 
+import string
+import time
+import datetime
 import json;
 import csv
 
-from models import Member
+from numpy import integer
 
-TargetFile = Enum("target", "Member Book Backup")
+from models import Person, Book, BookItem
+# from usermodels import Person
+
+TargetFile = Enum("target", "Member Book Backup LibraryItem")
 
 class DataResolver:
+    def __init__(self):
+        self.jsonResolver : JSONDataLayer = JSONDataLayer()
+        self.csvResolver : CSVDataLayer = CSVDataLayer()
+
+        return
+
     def Save(self, object, target : TargetFile):
-        if(not isinstance(object, list)):
+        if(not isinstance(object, list) & (target != TargetFile.Backup)):
             object = [object]
 
         if(target == TargetFile.Book):
-            return JSONDataLayer.WriteToFile(self, target= target, collection=object)
+            return self.jsonResolver.WriteToFile( target= target, collection=object)
 
         if(target == TargetFile.Member):
-            return JSONDataLayer.WriteToFile(self, target= target, collection=object)
+            return self.jsonResolver.WriteToFile( target= target, collection=object)
 
+        if(target == TargetFile.Backup):
+            return self.jsonResolver.WriteBackupToFile( collection=object)
 
     def Read(self, target : TargetFile, ReturnType):
         if(target == TargetFile.Book):
-            return CSVDataLayer.ReadFromFile(self, target= target, objectType=ReturnType)
+            return self.csvResolver.ReadFromFile( target= target, objectType=ReturnType)
         if(target == TargetFile.Member):
-            return JSONDataLayer.ReadFromFile(self, target= target, objectType=ReturnType)
+            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
+        # if(target == TargetFile.Backup):
+            # return self.jsonResolver.ReadBackup( target= target, objectType=ReturnType)
 
-
+    def ReadBackup(self, file):
+        return self.jsonResolver.ReadBackup(file)
 
 
 
 class JSONDataLayer:
+
+    def __init__(self):
+        return
+
+    #got to love some recursive functions <3
+    def findFileName(self, name : string, extension : string, number : integer) -> string:
+        file = name + '_'+ str(number)+str(extension)
+        if os.path.exists(file):
+            return self.findFileName(name, extension, number+1)
+        else:
+            return str(file)
+
+
+    def WriteBackupToFile(self, collection):
+        ct =  datetime.datetime.now().strftime("%d-%m-%Y")
+        filename = self.findFileName('./data/backups/backup_' + ct, '.json', 0)
+        jString = json.dumps(collection).replace(' ', '')
+
+
+        with open(filename, 'w') as outfile:
+            outfile.write(jString)
+
+
+
+    def ReadBackup(self, filename):
+        members_ret = []
+        books_ret = []
+        with open(filename, 'r') as json_file:
+            input = json_file.read()
+            data = json.loads(input)
+            for row in data[0]['members']:
+                row = json.loads(row)
+                members_ret.append(Person(row))
+            
+            for row in data[0]['books']:
+                row = json.loads(row)
+                books_ret.append(Book(row))
+
+
+        print([b.title for b in books_ret])
+        print([b.username for b in members_ret])
+        return  members_ret, books_ret
+        
+            
+
+
+
+
+
     def WriteToFile(self, target: TargetFile, collection : list()):
         jString = json.dumps([ob.__dict__ for ob in collection])
         with open('./data/' + target.name + '.json', 'w') as outfile:
@@ -46,6 +117,10 @@ class JSONDataLayer:
 
 
 class CSVDataLayer:
+
+    def __init__(self):
+        return
+
 
     def WriteToFile(self, target : TargetFile,  collection :  list() ):
         with open( "./data/" + target.name + ".csv", mode='w') as toFile:
