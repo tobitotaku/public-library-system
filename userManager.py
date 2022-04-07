@@ -12,22 +12,23 @@ class UserManager:
 
     def __init__(self):
         self.__resolver = DataResolver()
-        self.users = self.__resolver.Read(TargetFile.Member, Person )
-        # @staticmethod
+        self.all()
 
     def all(self):
-        list = self.__resolver.Read( TargetFile.Member, Person)
-        return list
+        self.users = self.__resolver.Read( TargetFile.Member, Person)
+        return self.users
 
     def findbyname(self, username):
         user = False
-        list = self.all()
-        if list:
-            for item in list:
+        self.all()
+        if self.users:
+            for item in self.users:
                 if item.username == username:
                     return item
         return user
     
     def add(self):
-        list_users = self.all()
-        self.__resolver.Save(self.__resolver, list_users, TargetFile.Member)
+        self.__resolver.Save(self.__resolver, self.users, TargetFile.Member)
+    
+    def update(self):
+        pass

@@ -66,7 +66,7 @@ class BookItem:
 #TODO can this be removed?
 class Person:
     def __init__(self, *args):
-        print(args)
+        # print(args)
         if len (args) == 0:
             return
         if len(args) > 3:
