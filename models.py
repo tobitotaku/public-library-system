@@ -60,7 +60,32 @@ class BookItem:
         return json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=0)
 
+class LoanItem:
+    def __init__(self, *args):
+        if len(args) > 2:
+            self.bookItemId = args[0][1]
+            self.username = args[0][2]
+            self.issueDate = args[0][3]
+            self.returnDate = args[0][4]
+            self.loanStatus = args[0][5]
 
+        else:
+            self.bookItemId = args[0]['bookItemId']
+            self.username = args[0]['username']
+            self.issueDate = args[0]['issueDate']
+            self.returnDate = args[0]['returnDate']
+            self.loanStatus = args[0]['loanStatus']
+
+    def toHeader(self):
+        return ["bookItemId", "username", "issueDate", "returnDate", "loanStatus"]
+
+    def toRow(self):
+        return {"bookItemId" : self.bookItemId, "username" : self.username, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=0)
+    pass
 
 
 #TODO can this be removed?
