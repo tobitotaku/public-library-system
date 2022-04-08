@@ -74,7 +74,7 @@ class Person:
             self.surname = args[1]
             self.age = args[2]
             self.password = args[3]
-            self.role = args[4] if args[4] else 'member'
+            self.role = args[4] if 4 in args else 'member'
         else:
             self.username = args[0]['username']
             self.surname = args[0]['surname']
