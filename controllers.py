@@ -39,6 +39,7 @@ class UsersCV(ControllerView):
             (self.render_add_member, "Add a member"),
             (self.render_edit_member, "Edit a member"),
             (self.render_delete_member, "Delete a member"),
+            (exit, "Exit application"),
         ]
         self.render_menu()
 
