@@ -14,8 +14,9 @@ class UserManager:
         self.__resolver = DataResolver()
         self.all()
 
-    def all(self):
-        self.users = self.__resolver.Read( TargetFile.Member, Person)
+    def all(self, force = False):
+        if len(self.users) == 0 or force:
+            self.users = self.__resolver.Read( TargetFile.Member, Person)
         return self.users
 
     def findbyname(self, username):
@@ -27,8 +28,25 @@ class UserManager:
                     return item
         return user
     
-    def add(self):
-        self.__resolver.Save(self.__resolver, self.users, TargetFile.Member)
+    def add(self, user):
+        self.users.append(user)
+        self.__resolver.Save(self.users, TargetFile.Member)
+        return user
     
-    def update(self):
-        pass
+    def update(self, username, user):
+        self.all()
+        if self.users:
+            for i,item in enumerate(self.users):
+                if item.username == username:
+                    self.users[i] = user
+                    self.__resolver.Save(self.users, TargetFile.Member)
+                    return user
+    
+    def delete(self, username):
+        self.all()
+        if self.users:
+            for i,item in enumerate(self.users):
+                if item.username == username:
+                    del self.users[i]
+                    self.__resolver.Save(self.users, TargetFile.Member)
+                    return username

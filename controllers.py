@@ -33,6 +33,7 @@ class UsersCV(ControllerView):
         ControllerView.__init__(self, *args)
         # self.user = False
         # self.render_login()
+        # self.render_edit_member()
         self.actions = [
             (self.render_list_member, "List all members"),
             (self.render_add_member, "Add a member"),
@@ -45,7 +46,7 @@ class UsersCV(ControllerView):
         inp_username = str(input('Username:'))
         inp_password = str(input('Password:'))
 
-        user = UserManager.findbyname(inp_username)
+        user = UserManager().findbyname(inp_username)
         if (user and inp_username == user.username and inp_password == user.password):
             self.user = user
             print('Welcome,{username}!'.format(username = user.username))
@@ -58,25 +59,27 @@ class UsersCV(ControllerView):
         ControllerView.render_menu(self)
 
     def render_add_member(self):
-        print("Enter member in field:")
-        username = input("1. username> ")
+        print("Enter member in fields:")
+        username = input("1. username? ")
         # input("confirm? yes[y]/no[n]")
 
-        user = UserManager.findbyname(username)
+        user = UserManager().findbyname(username)
         if user:
             print('Member: {username} already exists'.format(**user.__dict__))
+            is_continue = str(input('Would like to a another Member? [confirm with: y (for yes) or press Enter]'))
+            if is_continue == 'y':
+                self.render_add_member()
         else:
-            surname = input("2. surname> ")
-            age = input("3. age> ")
-            password = input("4. password> ")
-            new_member = Member(
+            new_member = Person(
                 username,
-                surname,
-                age,
-                password
+                input("2. surname? "),
+                input("3. age? "),
+                input("4. password? ")
             )
-            new_member.add()
+            user = UserManager().add(new_member)
             print("Member {username} was added succesfully".format(**user.__dict__))
+        
+        self.render_menu()
 
     def render_list_member(self):
         print('list of active members')
@@ -89,24 +92,41 @@ class UsersCV(ControllerView):
         return list
 
     def render_edit_member(self):
-        list = self.render_list_member()
-        username = str(input("Select member to edit by typing username> "))
-        user = UserManager.findbyname(username, list)
+        username = str(input("Select & Edit member by typing their username: "))
+        user = UserManager().findbyname(username)
         if user:
-            surname = input("2. surname> ")
-            age = input("3. age> ")
-            password = input("4. password> ")
-            user = Member(
+            user = Person(
                 username,
-                surname,
-                age,
-                password
+                input("2. surname? "),
+                input("3. age? "),
+                input("4. password? ")
             )
-            user.update()
+            UserManager().update(username, user)
+            print("Member {username} was changed succesfully".format(**user.__dict__))
         else:
             print('Member not found')
+            is_continue = str(input('Would like to edit another Member? [confirm with: y (for yes) or press Enter]'))
+            if is_continue == 'y':
+                self.render_edit_member()
 
-    def render_delete_member():
-        pass
+        self.render_menu()
+
+    def render_delete_member(self):
+        username = str(input("Select & Delete member by typing their username: "))
+        user = UserManager().findbyname(username)
+        if user:
+            is_confirm = input("confirm delete? [confirm with: y (for yes) or press Enter]")
+            if is_confirm == 'y':
+                UserManager().delete(username)
+                print("Member {username} was deleted succesfully".format(**user.__dict__))
+            else:
+                print("Member {username} was NOT deleted".format(**user.__dict__))
+        else:
+            print('Member not found')
+            is_continue = str(input('Would like to Delete another Member? [confirm with: y (for yes) or press Enter]'))
+            if is_continue == 'y':
+                self.render_delete_member()
+
+        self.render_menu()
 
 
