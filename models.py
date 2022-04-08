@@ -1,6 +1,6 @@
 import json
 from enum import Enum
-
+from utils import getNewId
 from ast import Pass
 import json
 from multiprocessing.spawn import prepare
@@ -12,23 +12,25 @@ class Book:
         # print("inside Book: " )
         # print(args)
         if len(args) > 2:
-            self.author = args[0]
-            self.title = args[1]
-            self.ID = args[2]
+            self.id = args[0]
+            self.author = args[1]
+            self.title = args[2]
             self.ISBN = args[3]
 
         else:
             self.author = args[0]['author']
             self.title = args[0]['title']
-            self.ID = args[0]['ID']
+            self.id = args[0]['id']
             self.ISBN = args[0]['ISBN']
 
+    def getId(self):
+        return self.id
 
     def toHeader(self):
-        return ["author", "title", "ID", "ISBN"]
+        return ["id","author", "title",  "ISBN"]
 
     def toRow(self):
-        return {"author" : self.author, "title" : self.title, "ID" : self.ID, "ISBN" : self.ISBN}
+        return { "id" : self.id, "author" : self.author, "title" : self.title, "ISBN" : self.ISBN}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -41,20 +43,25 @@ class BookItem:
         # print("inside Book: " )
         # print(args)
         if len(args) > 2:
-            self.book = args[0][1]
-            self.itemId = args[0][2]
-            self.itemType = args[0][3]
+            self.id = args[0][1]
+            self.book = args[0][2]
+            self.itemId = args[0][3]
+            self.itemType = args[0][4]
 
         else:
+            self.id = args[0]['id']
             self.book = args[0]['book']
             self.itemId = args[0]['itemId']
             self.itemType = args[0]['itemType']
+    
+    def getId(self):
+        return self.id
 
     def toHeader(self):
-        return ["book", "itemId", "itemType"]
+        return ["id","book", "itemId", "itemType"]
 
     def toRow(self):
-        return {"book" : self.book, "itemId" : self.itemId, "itemType" : self.itemType}
+        return {"id" : self.id, "book" : self.book, "itemId" : self.itemId, "itemType" : self.itemType}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -63,29 +70,36 @@ class BookItem:
 class LoanItem:
     def __init__(self, *args):
         if len(args) > 2:
-            self.bookItemId = args[0][1]
-            self.username = args[0][2]
-            self.issueDate = args[0][3]
-            self.returnDate = args[0][4]
-            self.loanStatus = args[0][5]
+            self.id = args[0][1]
+            self.bookItemId = args[0][2]
+            self.username = args[0][3]
+            self.issueDate = args[0][4]
+            self.returnDate = args[0][5]
+            self.loanStatus = args[0][6]
 
         else:
+            self.id = args[0]['id']
             self.bookItemId = args[0]['bookItemId']
             self.username = args[0]['username']
             self.issueDate = args[0]['issueDate']
             self.returnDate = args[0]['returnDate']
             self.loanStatus = args[0]['loanStatus']
+    
+    def getId(self):
+        return self.id
 
     def toHeader(self):
-        return ["bookItemId", "username", "issueDate", "returnDate", "loanStatus"]
+        return ["id", "bookItemId", "username", "issueDate", "returnDate", "loanStatus"]
 
     def toRow(self):
-        return {"bookItemId" : self.bookItemId, "username" : self.username, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
+        return { "id" : self.id, "bookItemId" : self.bookItemId, "username" : self.username, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=0)
-    pass
+    
+        
+
 
 
 #TODO can this be removed?
@@ -95,12 +109,14 @@ class Person:
         if len (args) == 0:
             return
         if len(args) > 3:
-            self.username = args[0]
-            self.surname = args[1]
-            self.age = args[2]
-            self.password = args[3]
-            self.role = args[4] if 4 in args else 'member'
+            self.id = args[0]
+            self.username = args[1]
+            self.surname = args[2]
+            self.age = args[3]
+            self.password = args[4]
+            self.role = args[5] if 5 in args else 'member'
         else:
+            self.id = args[0]['id']
             self.username = args[0]['username']
             self.surname = args[0]['surname']
             self.age = args[0]['age']
@@ -108,11 +124,15 @@ class Person:
             self.role = args[0]['role'] if args[0]['role'] else 'member'
         # self.role = 'member'
 
+    def getId(self):
+        return self.id
+
     def toHeader(self):
-        return ["username", "surname", "age", "password", "role"]
+        return ["id", "username", "surname", "age", "password", "role"]
 
     def toRow(self):
         return {
+            "id" : self.id,
             "username" : self.username,
             "surname" : self.surname,
             "age" : self.age,

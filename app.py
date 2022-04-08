@@ -1,7 +1,7 @@
 # entrypoint of the application
 # from config import configurationhelper
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
-
+from utils import getNewId
 from models import Book, LibraryAdmin, Person, Member
 from catalog import Catalog
 # from usermodels import LibraryAdmin, Person, Member
@@ -40,9 +40,10 @@ from backup import Backup
 
 # login, menu navigation, add users
 # cv = ControllerView()
-cv = UsersCV()
+# cv = UsersCV()
 
-# booksCatalog = Catalog()
+booksCatalog = Catalog()
+print(getNewId(booksCatalog.getBooks()))
 # search = booksCatalog.search("5")
 # for s in search:
 #     print (s.toRow())

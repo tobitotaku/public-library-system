@@ -16,7 +16,7 @@ from numpy import integer
 from models import Person, Book, BookItem
 # from usermodels import Person
 
-TargetFile = Enum("target", "Member Book Backup LibraryItem")
+TargetFile = Enum("target", "Member Book Backup LibraryItem LoanItem")
 
 class DataResolver:
     def __init__(self):
@@ -95,11 +95,8 @@ class JSONDataLayer:
         print([b.username for b in members_ret])
         return  members_ret, books_ret
         
-            
 
-
-
-
+        
 
     def WriteToFile(self, target: TargetFile, collection : list()):
         jString = json.dumps([ob.__dict__ for ob in collection])

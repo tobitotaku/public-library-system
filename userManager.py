@@ -1,3 +1,4 @@
+import string
 from datahelpers import DataResolver, TargetFile
 from ast import Pass
 import json
@@ -31,7 +32,7 @@ class UserManager:
     def add(self, user):
         self.users.append(user)
         self.__resolver.Save(self.users, TargetFile.Member)
-        return user
+        return user    
     
     def update(self, username, user):
         self.all()

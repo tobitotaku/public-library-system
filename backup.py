@@ -8,14 +8,10 @@ import os
 
 class Backup:
 
-    # def __init__ (self, name, surname, age):
-    #     self.name = name
-    #     self.surname = surname
-    #     self.age = age
-
-
+    ## TODO do this on startup
     def __init__(self):
         self.helper : DataResolver = DataResolver()
+        
 
 
     # data consists of:
