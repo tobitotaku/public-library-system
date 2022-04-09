@@ -1,5 +1,7 @@
+from gettext import Catalog
 from models import *
 from userManager import *
+from catalog import *
 
 class ControllerView:
     user = False
@@ -10,6 +12,7 @@ class ControllerView:
         self.stop = False
         self.initialized = True
         self.usermanager = UserManager()
+        self.catalog = Catalog()
 
     def render_login(self):
         if not self.user:

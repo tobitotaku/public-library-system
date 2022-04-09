@@ -1,73 +1,72 @@
 from controllers import *
+from catalog import *
 
 class CatalogCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
-        # self.user = False
-        # self.render_login()
-        # self.render_edit()
         self.actions = [
             (self.render_list, "List"),
             (self.render_add, "Add"),
             (self.render_edit, "Edit"),
             (self.render_delete, "Delete"),
+            (self.render_search, "Search"),
+            (self.render_import, "Import JSON"),
             (exit, "Exit application"),
         ]
         self.render_menu() # for tests only
 
     def render_menu(self):
-        print("Members management options:")
+        print("Catalog management options:")
         ControllerView.render_menu(self)
 
     def render_add(self):
-        print("Enter member in fields:")
-        username = input("1. username? ")
+        print("Enter book information in fields:")
+        name = input("1. Title? ")
         # input("confirm? yes[y]/no[n]")
 
-        user = self.usermanager.findbyname(username)
-        if user:
-            print('Member: {username} already exists'.format(**user.__dict__))
-            is_continue = str(input('Would like to a another Member? [confirm with: y (for yes) or press Enter]'))
+        book = self.catalog.findbyname(name)
+        if book:
+            print('Book: {title} already exists'.format(**book.__dict__))
+            is_continue = str(input('Would like to a another Book? [confirm with: y (for yes) or press Enter]'))
             if is_continue == 'y':
                 self.render_add()
         else:
-            user = self.usermanager.add(
-                username,
-                input("2. surname? "),
-                input("3. age? "),
-                input("4. password? ")
+            book = self.catalog.addBook(
+                input("2. Author? "),
+                name,
+                input("3. ISBN? "),
             )
-            print("Member {username} was added succesfully".format(**user.__dict__))
+            print("Book {title} was added succesfully".format(**book.__dict__))
         
         self.render_menu()
 
     def render_list(self):
-        print('list of active members')
-        print('- ID - username - surname - age -')
-        list = self.usermanager.users
-        for item in list:
-            print('- {id} - {username} - {surname} - {age} -'.format(**item.__dict__))
-        return list
+        print('Catalog list')
+        print('- ID - Author - Title - ISBN -')
+        if len(self.catalog.allBooks) == 0:
+            print('Empty list.')
+        for item in self.catalog.allBooks:
+            print('- {id} - {author} - {title} - {ISBN} -'.format(**item.__dict__))
+        return self.usermanager.users
 
     def render_edit(self):
         self.render_list()
         try:
-            id = int(input("Select & Edit member by typing their ID: "))
+            id = int(input("Select & Edit book by typing their ID: "))
         except:
             print("Invalid option entered. Enter an ID")
             self.render_edit()
 
-        user = self.usermanager.findbyid(id)
-        if user:
-            user.username = input("1. username? ")
-            user.surname = input("2. surname? ")
-            user.age = input("3. age? ")
-            user.password = input("4. password? ")
-            self.usermanager.update(id, user)
-            print("Member {username} was changed succesfully".format(**user.__dict__))
+        book = self.catalog.findbyid(id)
+        if book:
+            book.title = input("1. Title? ")
+            book.author = input("2. Author? ")
+            book.ISBN = input("3. ISBN? ")
+            self.catalog.UpdateBook(id, book)
+            print("Book {title} was changed succesfully".format(**book.__dict__))
         else:
-            print('Member not found')
-            is_continue = str(input('Would like to edit another Member? [confirm with: y (for yes) or press Enter]'))
+            print('Book not found')
+            is_continue = str(input('Would like to edit another Book? [confirm with: y (for yes) or press Enter]'))
             if is_continue == 'y':
                 self.render_edit()
 
@@ -76,22 +75,30 @@ class CatalogCV(ControllerView):
     def render_delete(self):
         self.render_list()
         try:
-            id = int(input("Select & Delete member by typing their ID: "))
+            id = int(input("Select & Delete a book by typing their ID: "))
         except:
             print("Invalid ID entered. Enter an ID")
             self.render_delete()
-        user = self.usermanager.findbyid(id)
-        if user:
+        book = self.catalog.findbyid(id)
+        if book:
             is_confirm = input("confirm delete? [confirm with: y (for yes) or press Enter]")
             if is_confirm == 'y':
-                self.usermanager.delete(id)
-                print("Member {username} was deleted succesfully".format(**user.__dict__))
+                self.catalog.delete(id)
+                print("Book {title} was deleted succesfully".format(**book.__dict__))
             else:
-                print("Member {username} was NOT deleted".format(**user.__dict__))
+                print("Book {title} was NOT deleted".format(**book.__dict__))
         else:
-            print('Member not found')
-            is_continue = str(input('Would like to Delete another Member? [confirm with: y (for yes) or press Enter]'))
+            print('Book not found')
+            is_continue = str(input('Would like to Delete another Book? [confirm with: y (for yes) or press Enter]'))
             if is_continue == 'y':
                 self.render_delete()
 
         self.render_menu()
+    
+    def render_search(self):
+        pass
+        
+    def render_import(self):
+        pass
+
+CatalogCV()
