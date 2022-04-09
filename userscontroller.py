@@ -44,10 +44,11 @@ class MembersCV(ControllerView):
     def render_list(self):
         print('list of active members')
         print('- ID - username - surname - age -')
-        list = self.usermanager.users
-        for item in list:
+        if len(self.usermanager.users) == 0:
+            print('Empty list.')
+        for item in self.usermanager.users:
             print('- {id} - {username} - {surname} - {age} -'.format(**item.__dict__))
-        return list
+        return self.usermanager.users
 
     def render_edit(self):
         self.render_list()
