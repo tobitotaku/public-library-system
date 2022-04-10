@@ -13,13 +13,14 @@ class CatalogCV(ControllerView):
             (self.render_import, "Import JSON"),
             (exit, "Exit application"),
         ]
-        self.render_menu() # for tests only
 
     def render_menu(self):
+        self.line()
         print("Catalog management options:")
         ControllerView.render_menu(self)
 
     def render_add(self):
+        self.line()
         print("Enter book information in fields:")
         name = input("1. Title? ")
         # input("confirm? yes[y]/no[n]")
@@ -41,6 +42,7 @@ class CatalogCV(ControllerView):
         self.render_menu()
 
     def render_list(self):
+        self.line()
         print('Catalog list')
         print('- ID - Author - Title - ISBN -')
         if len(self.catalog.allBooks) == 0:
@@ -73,6 +75,7 @@ class CatalogCV(ControllerView):
         self.render_menu()
 
     def render_delete(self):
+        self.line()
         self.render_list()
         try:
             id = int(input("Select & Delete a book by typing their ID: "))
@@ -101,4 +104,4 @@ class CatalogCV(ControllerView):
     def render_import(self):
         pass
 
-CatalogCV()
+# CatalogCV().render_menu()

@@ -6,6 +6,7 @@ from catalog import *
 class ControllerView:
     user = False
     initialized = False
+    breadcrumbs = []
     def __init__(self, *args):
         # self.user = self.render_login()
         self.actions = []
@@ -14,18 +15,8 @@ class ControllerView:
         self.usermanager = UserManager()
         self.catalog = Catalog()
 
-    def render_login(self):
-        if not self.user:
-            inp_username = str(input('Username:'))
-            inp_password = str(input('Password:'))
-
-            user = self.usermanager.findbyname(inp_username)
-            if (user and inp_username == user.username and inp_password == user.password):
-                self.user = user
-                print('Welcome,{username}!'.format(username = user.username))
-            else:
-                print('Password or Username is incorrect')
-        return self.user
+    def line(self):
+        print('\n'+'-'*40)
 
     def render_menu(self): 
         if self.stop:

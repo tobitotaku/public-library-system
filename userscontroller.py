@@ -3,23 +3,28 @@ from controllers import *
 class MembersCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
-        # self.user = False
-        # self.render_login()
-        # self.render_edit()
         self.actions = [
             (self.render_list, "List"),
             (self.render_add, "Add"),
             (self.render_edit, "Edit"),
             (self.render_delete, "Delete"),
+            (self.render_main, "Back to main menu"),
             (exit, "Exit application"),
         ]
-        self.render_menu() # for tests only
 
+    def render_main(self):
+        if len(self.breadcrumbs)>0:
+            self.breadcrumbs[0].render_menu()
+        else:
+            print('Main menu not found')
+ 
     def render_menu(self):
+        self.line()
         print("Members management options:")
         ControllerView.render_menu(self)
 
     def render_add(self):
+        self.line()
         print("Enter member in fields:")
         username = input("1. username? ")
         # input("confirm? yes[y]/no[n]")
@@ -42,13 +47,13 @@ class MembersCV(ControllerView):
         self.render_menu()
 
     def render_list(self):
+        self.line()
         print('list of active members')
         print('- ID - username - surname - age -')
         if len(self.usermanager.users) == 0:
             print('Empty list.')
         for item in self.usermanager.users:
             print('- {id} - {username} - {surname} - {age} -'.format(**item.__dict__))
-        return self.usermanager.users
 
     def render_edit(self):
         self.render_list()
@@ -75,6 +80,7 @@ class MembersCV(ControllerView):
         self.render_menu()
 
     def render_delete(self):
+        self.line()
         self.render_list()
         try:
             id = int(input("Select & Delete member by typing their ID: "))
@@ -97,4 +103,4 @@ class MembersCV(ControllerView):
 
         self.render_menu()
 
-# cv = MembersCV() # for testing
+# MembersCV().render_menu() # for testing
