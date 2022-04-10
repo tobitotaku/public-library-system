@@ -8,9 +8,11 @@ class MainCV(ControllerView):
 
         self.render_login()
         self.usercv = MembersCV(ControllerView)
-        self.catalogcv = CatalogCV(ControllerView)
+
         self.breadcrumbs.append(self)
+        self.catalogcv = CatalogMemberCV(ControllerView)
         if self.user and self.user.role == 'admin':
+            self.catalogcv = CatalogAdminCV(CatalogMemberCV)
             self.actions = [
                 (self.usercv.render_menu, "Manage Members"),
                 (self.catalogcv.render_menu, "Manage Catalog"),
@@ -18,7 +20,7 @@ class MainCV(ControllerView):
             ]
         else:
             self.actions = [
-                (self.catalogcv.render_menu, "Manage Catalog"),
+                (self.catalogcv.render_menu, "Catalog"),
                 (exit, "Exit application"),
             ]
     def render_menu(self):
@@ -40,4 +42,3 @@ class MainCV(ControllerView):
                 self.render_login()
 
 MainCV().render_menu()
-print()
