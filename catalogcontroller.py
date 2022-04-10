@@ -24,7 +24,7 @@ class CatalogCV(ControllerView):
         name = input("1. Title? ")
         # input("confirm? yes[y]/no[n]")
 
-        book = self.catalog.findbyname(name)
+        book = self.catalog.getBookByName(name)
         if book:
             print('Book: {title} already exists'.format(**book.__dict__))
             is_continue = str(input('Would like to a another Book? [confirm with: y (for yes) or press Enter]'))
@@ -57,7 +57,7 @@ class CatalogCV(ControllerView):
             print("Invalid option entered. Enter an ID")
             self.render_edit()
 
-        book = self.catalog.findbyid(id)
+        book = self.catalog.getBookById(id)
         if book:
             book.title = input("1. Title? ")
             book.author = input("2. Author? ")
@@ -79,7 +79,7 @@ class CatalogCV(ControllerView):
         except:
             print("Invalid ID entered. Enter an ID")
             self.render_delete()
-        book = self.catalog.findbyid(id)
+        book = self.catalog.getBookById(id)
         if book:
             is_confirm = input("confirm delete? [confirm with: y (for yes) or press Enter]")
             if is_confirm == 'y':

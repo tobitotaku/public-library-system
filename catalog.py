@@ -26,7 +26,7 @@ class Catalog:
     def getBookItems(self):
         return self.allItems
 
-    def findbyid(self, id):
+    def getBookById(self, id):
         self.getBooks()
         if self.allBooks:
             for item in self.allBooks:
@@ -34,7 +34,7 @@ class Catalog:
                     return item
         return False
 
-    def findbyname(self, name):
+    def getBookByName(self, name):
         self.getBooks()
         if self.allBooks:
             for item in self.allBooks:
