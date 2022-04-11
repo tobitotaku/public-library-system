@@ -80,7 +80,7 @@ class LoanItem:
         else:
             self.id = args[0]['id']
             self.bookItemId = args[0]['bookItemId']
-            self.username = args[0]['username']
+            self.username = args[0]['userId']
             self.issueDate = args[0]['issueDate']
             self.returnDate = args[0]['returnDate']
             self.loanStatus = args[0]['loanStatus']
@@ -89,10 +89,10 @@ class LoanItem:
         return self.id
 
     def toHeader(self):
-        return ["id", "bookItemId", "username", "issueDate", "returnDate", "loanStatus"]
+        return ["id", "bookItemId", "userId", "issueDate", "returnDate", "loanStatus"]
 
     def toRow(self):
-        return { "id" : self.id, "bookItemId" : self.bookItemId, "username" : self.username, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
+        return { "id" : self.id, "bookItemId" : self.bookItemId, "userId" : self.username, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
