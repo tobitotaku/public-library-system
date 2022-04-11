@@ -31,12 +31,29 @@ class Catalog:
 
     def getBookItems(self):
         return self.allItems
-    
+
+    def getBookById(self, id):
+        self.getBooks()
+        if self.allBooks:
+            for item in self.allBooks:
+                if item.id == id:
+                    return item
+        return False
+
+    def getBookByName(self, name):
+        self.getBooks()
+        if self.allBooks:
+            for item in self.allBooks:
+                if item.title == name:
+                    return item
+        return False
 
     def addBook(self, Author, Title, ISBN) :
         id = getNewId(self.allBooks)
-        self.allBooks.append(Book(id, Author, Title, ISBN))
-        return
+        book = Book(id, Author, Title, ISBN)
+        self.allBooks.append(book)
+        self.resolver.Save(self.allBooks, TargetFile.Book)
+        return book
 
 
     def addBookItem(self, id, Author, Title, ISBN) :
@@ -45,13 +62,22 @@ class Catalog:
 
 
     # TODO test and improve this
-    def UpdateBook(self, id, Author, Title, ISBN ) :
-        book = self.get(id)
-        print(book)
-        book.author = Author
-        book.title  = Title
-        book.ISBN = ISBN
-        return book
+    def UpdateBook(self, id, book ) :
+        if self.allBooks:
+            for i,item in enumerate(self.allBooks):
+                if item.id == id:
+                    self.allBooks[i] = book
+                    self.resolver.Save(self.allBooks, TargetFile.Book)
+                    return book
+        return False
+    
+    def delete(self, id):
+        if self.allBooks:
+            for i,item in enumerate(self.allBooks):
+                if item.id == id:
+                    del self.allBooks[i]
+                    self.resolver.Save(self.allBooks, TargetFile.Book)
+                    return id
 
     def listAllBooks(self):
         return self.allBooks

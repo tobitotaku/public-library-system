@@ -4,8 +4,7 @@ from ast import Pass
 import json
 from models import Person
 from multiprocessing.spawn import prepare
-
-
+from utils import getNewId
 
 class UserManager:
 
@@ -20,6 +19,15 @@ class UserManager:
             self.users = self.__resolver.Read( TargetFile.Member, Person)
         return self.users
 
+    def findbyid(self, id):
+        user = False
+        self.all()
+        if self.users:
+            for item in self.users:
+                if item.id == id:
+                    return item
+        return user
+    
     def findbyname(self, username):
         user = False
         self.all()
@@ -29,25 +37,27 @@ class UserManager:
                     return item
         return user
     
-    def add(self, user):
+    def add(self, *args):
+        id = getNewId(self.users)
+        user = Person(id, *args)
         self.users.append(user)
         self.__resolver.Save(self.users, TargetFile.Member)
         return user    
     
-    def update(self, username, user):
+    def update(self, id, user):
         self.all()
         if self.users:
             for i,item in enumerate(self.users):
-                if item.username == username:
+                if item.id == id:
                     self.users[i] = user
                     self.__resolver.Save(self.users, TargetFile.Member)
                     return user
     
-    def delete(self, username):
+    def delete(self, id):
         self.all()
         if self.users:
             for i,item in enumerate(self.users):
-                if item.username == username:
+                if item.id == id:
                     del self.users[i]
                     self.__resolver.Save(self.users, TargetFile.Member)
-                    return username
+                    return id

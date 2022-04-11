@@ -40,7 +40,7 @@ class DataResolver:
 
     def Read(self, target : TargetFile, ReturnType):
         if(target == TargetFile.Book):
-            return self.csvResolver.ReadFromFile( target= target, objectType=ReturnType)
+            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         if(target == TargetFile.Member):
             return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         # if(target == TargetFile.Backup):
