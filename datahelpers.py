@@ -112,7 +112,16 @@ class JSONDataLayer:
                 ret.append(objectType(row))
         return ret
 
+    def ReadFromFileName(self, targetfile, objectType) :
+        ret = []        
+        with open(targetfile, newline='') as f:
+            reader = csv.DictReader(f, delimiter=',')
+            for row in reader:
+                ret.append(objectType(row))
+        return ret
 
+
+        
 class CSVDataLayer:
 
     def __init__(self):
@@ -127,9 +136,17 @@ class CSVDataLayer:
                 writer.writerow(obj.toRow())
 
 
-    def ReadFromFile(self, target : TargetFile, objectType) :
+    def ReadFromFile(self, target, objectType) :
         ret = []        
         with open("./data/" + target.name + '.csv', newline='') as f:
+            reader = csv.DictReader(f, delimiter=',')
+            for row in reader:
+                ret.append(objectType(row))
+        return ret
+
+    def ReadFromFileName(self, targetfile, objectType) :
+        ret = []        
+        with open(targetfile, newline='') as f:
             reader = csv.DictReader(f, delimiter=',')
             for row in reader:
                 ret.append(objectType(row))

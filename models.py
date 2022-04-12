@@ -40,8 +40,6 @@ class Book:
 class BookItem:
 
     def __init__(self, *args):
-        # print("inside Book: " )
-        # print(args)
         if len(args) > 2:
             self.id = args[0][1]
             self.book = args[0][2]
@@ -72,7 +70,7 @@ class LoanItem:
         if len(args) > 2:
             self.id = args[0][1]
             self.bookItemId = args[0][2]
-            self.username = args[0][3]
+            self.userId = args[0][3]
             self.issueDate = args[0][4]
             self.returnDate = args[0][5]
             self.loanStatus = args[0][6]
@@ -80,7 +78,7 @@ class LoanItem:
         else:
             self.id = args[0]['id']
             self.bookItemId = args[0]['bookItemId']
-            self.username = args[0]['userId']
+            self.userId = args[0]['userId']
             self.issueDate = args[0]['issueDate']
             self.returnDate = args[0]['returnDate']
             self.loanStatus = args[0]['loanStatus']
@@ -92,7 +90,7 @@ class LoanItem:
         return ["id", "bookItemId", "userId", "issueDate", "returnDate", "loanStatus"]
 
     def toRow(self):
-        return { "id" : self.id, "bookItemId" : self.bookItemId, "userId" : self.username, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
+        return { "id" : self.id, "bookItemId" : self.bookItemId, "userId" : self.userId, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -101,11 +99,8 @@ class LoanItem:
         
 
 
-
-#TODO can this be removed?
 class Person:
     def __init__(self, *args):
-        # print(args)
         if len (args) == 0:
             return
         if len(args) > 3:
@@ -122,7 +117,6 @@ class Person:
             self.age = args[0]['age']
             self.password = args[0]['password']
             self.role = args[0]['role'] if args[0]['role'] else 'member'
-        # self.role = 'member'
 
     def getId(self):
         return self.id

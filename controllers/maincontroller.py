@@ -1,6 +1,7 @@
 from controllers import *
 from userscontroller import *
-from catalogcontroller import *
+from controllers.catalogcontroller import *
+from controllers import ControllerView
 
 class MainCV(ControllerView):
     def __init__(self, *args):

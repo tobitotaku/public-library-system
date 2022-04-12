@@ -1,54 +1,29 @@
 from controllers import *
 from catalog import *
+from controllers import ControllerView
 
-class CatalogMemberCV(ControllerView):
+class BookItemCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
         self.actions = [
             (self.render_list, "List"),
+            (self.render_add, "Add"),
+            (self.render_edit, "Edit"),
+            (self.render_delete, "Delete"),
             (self.render_search, "Search"),
-            (self.render_main, "Back to main menu"),
+            (self.render_import, "Import JSON"),
             (exit, "Exit application"),
         ]
-
     def render_main(self):
         if len(self.breadcrumbs)>0:
             self.breadcrumbs[0].render_menu()
         else:
             print('Main menu not found')
 
-    def render_list(self):
-        self.line()
-        print('Catalog list')
-        print('- ID - Author - Title - ISBN -')
-        if len(self.catalog.allBooks) == 0:
-            print('Empty list.')
-        for item in self.catalog.allBooks:
-            print('- {id} - {author} - {title} - {ISBN} -'.format(**item.__dict__))
-        return self.usermanager.users
-    
-    def render_search(self):
-        self.line()
-        query = str(input('Search by Title, Author, ISBN: '))
-        res = self.catalog.search(query)
-        if len(res) > 0:
-            print(res)
-        else:
-            print('No Books found')
     def render_menu(self):
         self.line()
         print("Catalog management options:")
         ControllerView.render_menu(self)
-
-class CatalogAdminCV(CatalogMemberCV):
-    def __init__(self, *args):
-        not self.initialized if CatalogMemberCV.__init__(self, *args) else self.initialized
-        self.actions = [
-            (self.render_add, "Add"),
-            (self.render_edit, "Edit"),
-            (self.render_delete, "Delete"),
-            (self.render_import, "Import JSON"),
-        ] + self.actions
 
     def render_add(self):
         self.line()
@@ -71,6 +46,16 @@ class CatalogAdminCV(CatalogMemberCV):
             print("Book {title} was added succesfully".format(**book.__dict__))
         
         self.render_menu()
+
+    def render_list(self):
+        self.line()
+        print('Catalog list')
+        print('- ID - Author - Title - ISBN -')
+        if len(self.catalog.allBooks) == 0:
+            print('Empty list.')
+        for item in self.catalog.allBooks:
+            print('- {id} - {author} - {title} - {ISBN} -'.format(**item.__dict__))
+        return self.usermanager.users
 
     def render_edit(self):
         self.render_list()
@@ -118,8 +103,17 @@ class CatalogAdminCV(CatalogMemberCV):
                 self.render_delete()
 
         self.render_menu()
+    
+    def render_search(self):
+        self.line()
+        query = str(input('Search by Title, Author, ISBN: '))
+        res = self.catalog.search(query)
+        if len(res) > 0:
+            print(res)
+        else:
+            print('No Books found')
 
     def render_import(self):
         pass
 
-# CatalogAdminCV().render_menu()
+# CatalogCV().render_menu()

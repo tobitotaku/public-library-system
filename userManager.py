@@ -61,3 +61,8 @@ class UserManager:
                     del self.users[i]
                     self.__resolver.Save(self.users, TargetFile.Member)
                     return id
+
+    def bulkInsert(self, filename ):
+        data = self.all()
+        data.extend(self.__resolver.csvResolver.ReadFromFileName(filename, Person))
+        self.__resolver.Save(data, TargetFile.Member)

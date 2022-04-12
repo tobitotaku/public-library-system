@@ -1,4 +1,5 @@
-from controllers import *
+from controllers import * 
+from controllers import ControllerView
 
 class MembersCV(ControllerView):
     def __init__(self, *args):

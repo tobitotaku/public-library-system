@@ -6,7 +6,6 @@ import re
 import json
 from utils import getNewId
 from enum import Enum
-
 BookStatus = Enum("loanStatus", "Available Loaned")
 
 
@@ -14,13 +13,11 @@ class Catalog:
     
     allBooks = list()
     allItems = list()
-    allLoanedItems = list()
 
     def __init__ (self):
         self.resolver = DataResolver()
         self.allBooks = self.resolver.Read( TargetFile.Book, Book)
         self.allItems = self.resolver.Read( TargetFile.LibraryItem, BookItem)
-        self.allLoanedItems = self.resolver.Read( TargetFile.LoanItem, LoanItem)
         # return
 
 
@@ -33,7 +30,7 @@ class Catalog:
         return self.allItems
 
     def getBookById(self, id):
-        self.getBooks()
+
         if self.allBooks:
             for item in self.allBooks:
                 if item.id == id:
@@ -90,10 +87,24 @@ class Catalog:
         self.resolver.Save(self, self.allItems, TargetFile.LibraryItem)
 
 
-    def get(self, id):
+    def getBook(self, id):
         for book in  self.allBooks :
             if re.search(id, book.id, re.IGNORECASE) :
                 return book
+
+    def getBookItem(self, id):
+        for item in  self.allItems :
+            if re.search(id, item.id, re.IGNORECASE) :
+                return item
+
+    def getBookItemByBook(self, bookId):
+        
+        for item in  self.allItems :
+            item : BookItem
+            if re.search(bookId, item.book, re.IGNORECASE) :
+                return item
+
+
 
     def search(self, query) :
         ret = list()
@@ -112,38 +123,11 @@ class Catalog:
                 # return book
         return ret
 
-    # TODO lend book item functionality
-
-    def loanItemToMember(self, member : Person, itemToLoan : BookItem):
-        #add checks for permitting member to borrow the item
-        #if (get amount of books currently borrowed >= 3 do not lend):
-        returnDate = date.today() + relativedelta(month=+1)
-        item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.id, member.id, date.today(), returnDate, BookStatus.Loaned)
-        
+    def bulkAddBooks(self, filename):
+        toAdd = self.resolver.jsonResolver.ReadFromFileName(filename, Book)
+        self.allBooks.extend(toAdd)
+        self.resolver.Save(self.allBooks, TargetFile.Book)
     
-    # TODO All BookItems functionliatieo
 
-
-
-    # TODO To search a book item and its availability in the catalog
-    # create objects that hold the full range: Books - Loanitems - BookItems - Books
-    def searchLoanItems(self, query) :
-        ret = list()
-        for book in  self.allLoanedItems :
-            if re.search(query, book.author, re.IGNORECASE) :
-                ret.append(book)
-                # return book
-            elif re.search(query, book.id, re.IGNORECASE) :
-                ret.append(book)
-                # return book
-            elif re.search(query, book.title, re.IGNORECASE) :
-                ret.append(book)
-                # return book
-            elif re.search(query, book.ISBN, re.IGNORECASE) :
-                ret.append(book)
-                # return book
-        return ret
-
-    # TODO To lend a book item to a member
 
     # TODO Return a loaned item
