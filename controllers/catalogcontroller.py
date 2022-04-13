@@ -1,6 +1,4 @@
-from controllers import *
-from catalog import *
-from controllers import ControllerView
+from controllers.controllers import ControllerView
 
 
 class CatalogMemberCV(ControllerView):

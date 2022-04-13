@@ -1,4 +1,3 @@
-from gettext import Catalog
 from models import *
 from userManager import *
 from catalog import *
