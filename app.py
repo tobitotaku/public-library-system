@@ -5,7 +5,7 @@ from utils import getNewId
 from models import Book, LibraryAdmin, Person, Member
 from catalog import Catalog
 # from usermodels import LibraryAdmin, Person, Member
-from controllers import *
+from controllers.maincontroller import *
 from backup import Backup
 
 # resolver = DataResolver()
@@ -39,8 +39,7 @@ from backup import Backup
 # DataResolver.Save(resolver, m, TargetFile.Member)
 
 # login, menu navigation, add users
-# cv = ControllerView()
-# cv = UsersCV()
+# MainCV().render_menu()
 
 booksCatalog = Catalog()
 print(getNewId(booksCatalog.getBooks()))
