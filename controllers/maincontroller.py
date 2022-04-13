@@ -1,7 +1,6 @@
-from controllers import *
-from userscontroller import *
+from controllers.userscontroller import *
 from controllers.catalogcontroller import *
-from controllers import ControllerView
+from controllers.controllers import ControllerView
 
 class MainCV(ControllerView):
     def __init__(self, *args):
@@ -42,4 +41,4 @@ class MainCV(ControllerView):
                 print('Password or Username is incorrect')
                 self.render_login()
 
-MainCV().render_menu()
+# MainCV().render_menu()
