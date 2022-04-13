@@ -39,11 +39,7 @@ from backup import Backup
 # DataResolver.Save(resolver, m, TargetFile.Member)
 
 # login, menu navigation, add users
-<<<<<<< HEAD
 # MainCV().render_menu()
-=======
-MainCV().render_menu()
->>>>>>> users
 
 booksCatalog = Catalog()
 print(getNewId(booksCatalog.getBooks()))
