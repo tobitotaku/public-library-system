@@ -43,6 +43,10 @@ class DataResolver:
             return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         if(target == TargetFile.Member):
             return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
+        if(target == TargetFile.LibraryItem):
+            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
+        if(target == TargetFile.LoanItem):
+            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         # if(target == TargetFile.Backup):
             # return self.jsonResolver.ReadBackup( target= target, objectType=ReturnType)
 

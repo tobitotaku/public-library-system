@@ -20,7 +20,6 @@ class Catalog:
         self.allItems = self.resolver.Read( TargetFile.LibraryItem, BookItem)
         # return
 
-
     def getBooks(self):
         # print(self.allBooks.)
         return self.allBooks
@@ -53,12 +52,13 @@ class Catalog:
         return book
 
 
-    def addBookItem(self, id, Author, Title, ISBN) :
-        self.allBooks.append(Book(id, Author, Title, ISBN))
-        return
+    def addBookItem(self, BookId):
+        id = getNewId(self.allItems)
+        bookitem = BookItem(id, BookId)
+        self.allItems.append(bookitem)
+        self.resolver.Save(self.allItems, TargetFile.LibraryItem)
+        return bookitem
 
-
-    # TODO test and improve this
     def UpdateBook(self, id, book ) :
         if self.allBooks:
             for i,item in enumerate(self.allBooks):

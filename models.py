@@ -6,11 +6,10 @@ import json
 from multiprocessing.spawn import prepare
 
 # itemType = Enum("itemType", "book magazine")
+# itemStatus = Enum("itemStatus", "available loaned")
 class Book:
 
     def __init__(self, *args):
-        # print("inside Book: " )
-        # print(args)
         if len(args) > 2:
             self.id = args[0]
             self.author = args[1]
@@ -40,26 +39,26 @@ class Book:
 class BookItem:
 
     def __init__(self, *args):
-        if len(args) > 2:
-            self.id = args[0][1]
-            self.book = args[0][2]
-            self.itemId = args[0][3]
-            self.itemType = args[0][4]
+        if len (args) == 0:
+            return
+        if len(args) > 1:
+            self.id = args[0]
+            self.bookid = args[1]
+            self.itemStatus = args[2] if 2 in args else 'available'
 
         else:
             self.id = args[0]['id']
-            self.book = args[0]['book']
-            self.itemId = args[0]['itemId']
-            self.itemType = args[0]['itemType']
+            self.bookid = args[0]['bookid']
+            self.itemStatus = args[0]['itemStatus']
     
     def getId(self):
         return self.id
 
     def toHeader(self):
-        return ["id","book", "itemId", "itemType"]
+        return ["id","bookid", "itemStatus"]
 
     def toRow(self):
-        return {"id" : self.id, "book" : self.book, "itemId" : self.itemId, "itemType" : self.itemType}
+        return {"id" : self.id, "bookid" : self.book, "itemStatus" : self.itemStatus}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
