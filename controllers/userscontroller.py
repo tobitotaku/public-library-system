@@ -26,7 +26,7 @@ class MembersCV(ControllerView):
     def render_add(self):
         self.line()
         print("Enter member in fields:")
-        username = input("1. username? ")
+        username = input("[0] username? ")
         # input("confirm? yes[y]/no[n]")
 
         user = self.usermanager.findbyname(username)
@@ -35,9 +35,9 @@ class MembersCV(ControllerView):
         else:
             user = self.usermanager.add(
                 username,
-                input("2. surname? "),
-                input("3. age? "),
-                input("4. password? ")
+                input("[1] surname? "),
+                input("[2] age? "),
+                input("[3] password? ")
             )
             print(f"Member {user.username} was added succesfully")
         

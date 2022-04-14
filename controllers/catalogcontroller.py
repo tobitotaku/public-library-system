@@ -26,7 +26,7 @@ class CatalogMemberCV(ControllerView):
         if len(allBooks) == 0:
             print('Empty list.')
         for item in allBooks:
-            print('- {id} - {author} - {title} - {ISBN} -'.format(**item.__dict__))
+            print(f'- {item.id} - {item.author} - {item.title} - {item.ISBN} -')
         return self.usermanager.users
     
     def render_search(self):
@@ -53,19 +53,21 @@ class CatalogAdminCV(CatalogMemberCV):
     def render_add(self):
         self.line()
         print("Enter book information in fields:")
-        name = input("1. Title? ")
+        name = input("[0] Title? ")
         # input("confirm? yes[y]/no[n]")
 
         book = self.catalog.getBookByName(name)
         if book:
-            print('Book: {title} already exists'.format(**book.__dict__))
+            print(f'Book: {book.title} already exists')
         else:
             book = self.catalog.addBook(
-                input("2. Author? "),
+                input("[1] Author? "),
                 name,
-                input("3. ISBN? "),
+                input("[2] ISBN? "),
             )
-            print("Book {title} was added succesfully".format(**book.__dict__))
+            for i in range(3):
+                self.catalog.addBookItem(book.id)
+            print(f"Book {book.title} was added succesfully")
         
     def render_edit(self):
         self.render_list()
@@ -77,11 +79,10 @@ class CatalogAdminCV(CatalogMemberCV):
 
         book = self.catalog.getBookById(id)
         if book:
-            book.title = input("1. Title? ")
-            book.author = input("2. Author? ")
-            book.ISBN = input("3. ISBN? ")
-            self.catalog.UpdateBook(id, book)
-            print("Book {title} was changed succesfully".format(**book.__dict__))
+            confirm, book = self.edit_form(book)
+            if confirm:
+                self.catalog.UpdateBook(id, book)
+            print(f"Book {book.title} was changed succesfully")
         else:
             print('Book not found')
 
@@ -98,9 +99,9 @@ class CatalogAdminCV(CatalogMemberCV):
             is_confirm = input("confirm delete? (y/Enter) ")
             if is_confirm == 'y':
                 self.catalog.delete(id)
-                print("Book {title} was deleted succesfully".format(**book.__dict__))
+                print(f"Book {book.title} was deleted succesfully")
             else:
-                print("Book {title} was NOT deleted".format(**book.__dict__))
+                print(f"Book {book.title} was NOT deleted")
         else:
             print('Book not found')
 
