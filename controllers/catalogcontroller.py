@@ -17,13 +17,15 @@ class CatalogMemberCV(ControllerView):
         else:
             print('Main menu not found')
 
-    def render_list(self):
+    def render_list(self, allBooks = None):
         self.line()
         print('Catalog list')
         print('- ID - Author - Title - ISBN -')
-        if len(self.catalog.allBooks) == 0:
+        if not allBooks:
+            allBooks = self.catalog.allBooks
+        if len(allBooks) == 0:
             print('Empty list.')
-        for item in self.catalog.allBooks:
+        for item in allBooks:
             print('- {id} - {author} - {title} - {ISBN} -'.format(**item.__dict__))
         return self.usermanager.users
     
@@ -31,10 +33,8 @@ class CatalogMemberCV(ControllerView):
         self.line()
         query = str(input('Search by Title, Author, ISBN: '))
         res = self.catalog.search(query)
-        if len(res) > 0:
-            print(res)
-        else:
-            print('No Books found')
+        self.render_list(res)
+
     def render_menu(self):
         self.line()
         print("Catalog management options:")

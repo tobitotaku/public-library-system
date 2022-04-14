@@ -112,7 +112,7 @@ class Catalog:
             if re.search(query, book.author, re.IGNORECASE) :
                 ret.append(book)
                 # return book
-            elif re.search(query, book.id, re.IGNORECASE) :
+            elif re.search(query, str(book.id), re.IGNORECASE) :
                 ret.append(book)
                 # return book
             elif re.search(query, book.title, re.IGNORECASE) :
