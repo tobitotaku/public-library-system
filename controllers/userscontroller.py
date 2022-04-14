@@ -31,10 +31,7 @@ class MembersCV(ControllerView):
 
         user = self.usermanager.findbyname(username)
         if user:
-            print('Member: {username} already exists'.format(**user.__dict__))
-            is_continue = str(input('Would like to a another Member? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_add()
+            print(f'Member: {user.username} already exists')
         else:
             user = self.usermanager.add(
                 username,
@@ -42,10 +39,8 @@ class MembersCV(ControllerView):
                 input("3. age? "),
                 input("4. password? ")
             )
-            print("Member {username} was added succesfully".format(**user.__dict__))
+            print(f"Member {user.username} was added succesfully")
         
-        self.render_menu()
-
     def render_list(self):
         self.line()
         print('list of active members')
@@ -53,54 +48,42 @@ class MembersCV(ControllerView):
         if len(self.usermanager.users) == 0:
             print('Empty list.')
         for item in self.usermanager.users:
-            print('- {id} - {username} - {surname} - {age} -'.format(**item.__dict__))
+            print(f'- {item.id} - {item.username} - {item.surname} - {item.age} -')
 
     def render_edit(self):
         self.render_list()
         try:
-            id = int(input("Select & Edit member by typing their ID: "))
+            id = int(input("Enter ID: "))
         except:
-            print("Invalid option entered. Enter an ID")
+            print("Invalid option entered. Retry.")
             self.render_edit()
 
         user = self.usermanager.findbyid(id)
         if user:
-            user.username = input("1. username? ")
-            user.surname = input("2. surname? ")
-            user.age = input("3. age? ")
-            user.password = input("4. password? ")
-            self.usermanager.update(id, user)
-            print("Member {username} was changed succesfully".format(**user.__dict__))
+            confirm, user = self.edit_form(user)
+            if confirm:
+                self.usermanager.update(id, user)
+                print(f"Member {user.username} was changed succesfully")
         else:
             print('Member not found')
-            is_continue = str(input('Would like to edit another Member? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_edit()
-
-        self.render_menu()
 
     def render_delete(self):
         self.line()
         self.render_list()
         try:
-            id = int(input("Select & Delete member by typing their ID: "))
+            id = int(input("Enter ID: "))
         except:
-            print("Invalid ID entered. Enter an ID")
+            print("Invalid ID entered. Retry.")
             self.render_delete()
         user = self.usermanager.findbyid(id)
         if user:
-            is_confirm = input("confirm delete? [confirm with: y (for yes) or press Enter]")
+            is_confirm = input("Confirm delete?  (y/Enter) ")
             if is_confirm == 'y':
                 self.usermanager.delete(id)
-                print("Member {username} was deleted succesfully".format(**user.__dict__))
+                print(f"Member {user.username} was deleted succesfully")
             else:
-                print("Member {username} was NOT deleted".format(**user.__dict__))
+                print(f"Member {user.username} was NOT deleted")
         else:
             print('Member not found')
-            is_continue = str(input('Would like to Delete another Member? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_delete()
-
-        self.render_menu()
 
 # MembersCV().render_menu() # for testing

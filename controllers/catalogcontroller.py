@@ -59,9 +59,6 @@ class CatalogAdminCV(CatalogMemberCV):
         book = self.catalog.getBookByName(name)
         if book:
             print('Book: {title} already exists'.format(**book.__dict__))
-            is_continue = str(input('Would like to a another Book? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_add()
         else:
             book = self.catalog.addBook(
                 input("2. Author? "),
@@ -70,14 +67,12 @@ class CatalogAdminCV(CatalogMemberCV):
             )
             print("Book {title} was added succesfully".format(**book.__dict__))
         
-        self.render_menu()
-
     def render_edit(self):
         self.render_list()
         try:
-            id = int(input("Select & Edit book by typing their ID: "))
+            id = int(input("Enter ID: "))
         except:
-            print("Invalid option entered. Enter an ID")
+            print("Invalid option entered. Retry.")
             self.render_edit()
 
         book = self.catalog.getBookById(id)
@@ -89,23 +84,18 @@ class CatalogAdminCV(CatalogMemberCV):
             print("Book {title} was changed succesfully".format(**book.__dict__))
         else:
             print('Book not found')
-            is_continue = str(input('Would like to edit another Book? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_edit()
-
-        self.render_menu()
 
     def render_delete(self):
         self.line()
         self.render_list()
         try:
-            id = int(input("Select & Delete a book by typing their ID: "))
+            id = int(input("Enter ID: "))
         except:
-            print("Invalid ID entered. Enter an ID")
+            print("Invalid ID entered. Retry.")
             self.render_delete()
         book = self.catalog.getBookById(id)
         if book:
-            is_confirm = input("confirm delete? [confirm with: y (for yes) or press Enter]")
+            is_confirm = input("confirm delete? (y/Enter) ")
             if is_confirm == 'y':
                 self.catalog.delete(id)
                 print("Book {title} was deleted succesfully".format(**book.__dict__))
@@ -113,11 +103,6 @@ class CatalogAdminCV(CatalogMemberCV):
                 print("Book {title} was NOT deleted".format(**book.__dict__))
         else:
             print('Book not found')
-            is_continue = str(input('Would like to Delete another Book? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_delete()
-
-        self.render_menu()
 
     def render_import(self):
         pass
