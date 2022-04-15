@@ -1,6 +1,7 @@
 from models import *
 from userManager import *
 from catalog import *
+from backup import *
 
 class ControllerView:
     user = False
@@ -13,6 +14,7 @@ class ControllerView:
         self.initialized = True
         self.usermanager = UserManager()
         self.catalog = Catalog()
+        self.backup = Backup()
 
     def line(self):
         print('\n'+'-'*40)
