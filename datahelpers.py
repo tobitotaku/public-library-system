@@ -2,6 +2,7 @@ from enum import Enum
 from fileinput import filename
 import os.path
 import os
+from os.path import exists
 # from pathlib import Path
 from ast import literal_eval
 
@@ -77,6 +78,9 @@ class JSONDataLayer:
 
 
     def ReadBackup(self, filename):
+        if not exists(filename):
+            print("Please enter a file that exists.")
+            return [], []
         members_ret = []
         books_ret = []
         with open(filename, 'r') as json_file:
@@ -105,6 +109,9 @@ class JSONDataLayer:
 
 
     def ReadFromFile(self, target : TargetFile, objectType):
+        if not exists('./data/' + target.name + '.json'):
+            with open('./data/' + target.name + '.json', 'w'): pass
+
         ret = []
         with open('./data/' + target.name + '.json') as json_file:
             data = json.load(json_file)
