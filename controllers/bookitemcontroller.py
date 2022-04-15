@@ -10,7 +10,6 @@ class BookItemCV(ControllerView):
             (self.render_edit, "Edit"),
             (self.render_delete, "Delete"),
             (self.render_search, "Search"),
-            (self.render_import, "Import JSON"),
             (exit, "Exit application"),
         ]
     def render_main(self):
