@@ -37,6 +37,8 @@ class DataResolver:
 
         if(target == TargetFile.Backup):
             return self.jsonResolver.WriteBackupToFile( collection=object)
+        if(target == TargetFile.LibraryItem):
+            return self.jsonResolver.WriteToFile( target= target, collection=object)
 
     def Read(self, target : TargetFile, ReturnType):
         if(target == TargetFile.Book):

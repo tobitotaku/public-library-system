@@ -39,12 +39,10 @@ class Book:
 class BookItem:
 
     def __init__(self, *args):
-        if len (args) == 0:
-            return
         if len(args) > 1:
             self.id = args[0]
             self.bookid = args[1]
-            self.itemStatus = args[2] if 2 in args else 'available'
+            self.itemStatus = args[2] if len(args) > 2 else 'available'
 
         else:
             self.id = args[0]['id']
@@ -58,7 +56,7 @@ class BookItem:
         return ["id","bookid", "itemStatus"]
 
     def toRow(self):
-        return {"id" : self.id, "bookid" : self.book, "itemStatus" : self.itemStatus}
+        return {"id" : self.id, "bookid" : self.bookid, "itemStatus" : self.itemStatus}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 

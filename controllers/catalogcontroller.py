@@ -65,8 +65,6 @@ class CatalogAdminCV(CatalogMemberCV):
                 name,
                 input("[2] ISBN? "),
             )
-            for i in range(3):
-                self.catalog.addBookItem(book.id)
             print(f"Book {book.title} was added succesfully")
         
     def render_edit(self):

@@ -1,4 +1,5 @@
 from controllers.controllers import ControllerView
+from controllers.catalogcontroller import CatalogMemberCV
 
 class BookItemCV(ControllerView):
     def __init__(self, *args):
@@ -25,30 +26,27 @@ class BookItemCV(ControllerView):
 
     def render_add(self):
         self.line()
-        print("Enter Bookitem in fields:")
-        username = input("[0] username? ")
-        # input("confirm? yes[y]/no[n]")
+        self.render_list_catalog()        
+        id = input("[0] bookid? ")
 
-        user = self.usermanager.findbyname(username)
-        if user:
-            print(f'Member: {user.username} already exists')
+        book = self.catalog.getBookById(id)
+        if book:
+            self.catalog.addBookItem(id)
         else:
-            user = self.usermanager.add(
-                username,
-                input("[1] surname? "),
-                input("[2] age? "),
-                input("[3] password? ")
-            )
-            print(f"Member {user.username} was added succesfully")
-        
+            print('Book not found')
+    
+    def render_list_catalog(self):
+        CatalogMemberCV(ControllerView).render_list()
+
     def render_list(self):
         self.line()
         print('list of active members')
-        print('- ID - username - surname - age -')
+        print('- ID - bookid - Author - Title - ISBN -')
         if len(self.catalog.allItems) == 0:
             print('Empty list.')
         for item in self.catalog.allItems:
-            print(f'- {item.id} - {item.username} - {item.surname} - {item.age} -')
+            book = self.catalog.getBookById(item.bookid)
+            print(f'- {item.id} - {item.bookid} - {book.author} - {book.title} - {book.ISBN} -')
 
     def render_edit(self):
         self.render_list()
@@ -58,14 +56,14 @@ class BookItemCV(ControllerView):
             print("Invalid option entered. Retry.")
             self.render_edit()
 
-        user = self.usermanager.findbyid(id)
-        if user:
-            confirm, user = self.edit_form(user)
+        book = self.catalog.getBookItem(id)
+        if book:
+            confirm, book = self.edit_form(book)
             if confirm:
-                self.usermanager.update(id, user)
-                print(f"Member {user.username} was changed succesfully")
+                self.catalog.update(id, book)
+                print(f"Bookitem {book.id} was changed succesfully")
         else:
-            print('Member not found')
+            print('Bookitem not found')
 
     def render_delete(self):
         self.line()
@@ -75,16 +73,16 @@ class BookItemCV(ControllerView):
         except:
             print("Invalid ID entered. Retry.")
             self.render_delete()
-        user = self.usermanager.findbyid(id)
-        if user:
+        bookitem = self.catalog.getBookItem(id)
+        if bookitem:
             is_confirm = input("Confirm delete?  (y/Enter) ")
             if is_confirm == 'y':
                 self.usermanager.delete(id)
-                print(f"Member {user.username} was deleted succesfully")
+                print(f"Bookitem {bookitem.id} was deleted succesfully")
             else:
-                print(f"Member {user.username} was NOT deleted")
+                print(f"Bookitem {bookitem.id} was NOT deleted")
         else:
-            print('Member not found')
+            print('Bookitem not found')
     
     def render_search(self):
         self.line()
@@ -95,7 +93,5 @@ class BookItemCV(ControllerView):
         else:
             print('No Books found')
 
-    def render_import(self):
+    def render_loan(self):
         pass
-
-# CatalogCV().render_menu()

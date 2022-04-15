@@ -13,7 +13,6 @@ class Catalog:
     
     allBooks = list()
     allItems = list()
-
     def __init__ (self):
         self.resolver = DataResolver()
         self.allBooks = self.resolver.Read( TargetFile.Book, Book)
@@ -29,7 +28,6 @@ class Catalog:
         return self.allItems
 
     def getBookById(self, id):
-
         if self.allBooks:
             for item in self.allBooks:
                 if item.id == id:
@@ -37,7 +35,6 @@ class Catalog:
         return False
 
     def getBookByName(self, name):
-        self.getBooks()
         if self.allBooks:
             for item in self.allBooks:
                 if item.title == name:
@@ -48,7 +45,10 @@ class Catalog:
         id = getNewId(self.allBooks)
         book = Book(id, Author, Title, ISBN)
         self.allBooks.append(book)
-        self.resolver.Save(self.allBooks, TargetFile.Book)
+        self.save()
+        # initially every Book has 3 Bookitems
+        for i in range(3):
+            self.addBookItem(book.id)
         return book
 
 
@@ -56,7 +56,7 @@ class Catalog:
         id = getNewId(self.allItems)
         bookitem = BookItem(id, BookId)
         self.allItems.append(bookitem)
-        self.resolver.Save(self.allItems, TargetFile.LibraryItem)
+        self.save()
         return bookitem
 
     def UpdateBook(self, id, book ) :
@@ -83,8 +83,8 @@ class Catalog:
         return self.allItems
 
     def save(self):
-        self.resolver.Save(self, self.allBooks, TargetFile.Book)
-        self.resolver.Save(self, self.allItems, TargetFile.LibraryItem)
+        self.resolver.Save(self.allBooks, TargetFile.Book)
+        self.resolver.Save(self.allItems, TargetFile.LibraryItem)
 
 
     def getBook(self, id):
@@ -94,7 +94,7 @@ class Catalog:
 
     def getBookItem(self, id):
         for item in  self.allItems :
-            if re.search(id, item.id, re.IGNORECASE) :
+            if re.search(str(id), str(item.id), re.IGNORECASE) :
                 return item
 
     def getBookItemByBook(self, bookId):
