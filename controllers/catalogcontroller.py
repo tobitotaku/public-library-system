@@ -17,24 +17,24 @@ class CatalogMemberCV(ControllerView):
         else:
             print('Main menu not found')
 
-    def render_list(self):
+    def render_list(self, allBooks = None):
         self.line()
         print('Catalog list')
         print('- ID - Author - Title - ISBN -')
-        if len(self.catalog.allBooks) == 0:
+        if not allBooks:
+            allBooks = self.catalog.allBooks
+        if len(allBooks) == 0:
             print('Empty list.')
-        for item in self.catalog.allBooks:
-            print('- {id} - {author} - {title} - {ISBN} -'.format(**item.__dict__))
+        for item in allBooks:
+            print(f'- {item.id} - {item.author} - {item.title} - {item.ISBN} -')
         return self.usermanager.users
     
     def render_search(self):
         self.line()
         query = str(input('Search by Title, Author, ISBN: '))
         res = self.catalog.search(query)
-        if len(res) > 0:
-            print(res)
-        else:
-            print('No Books found')
+        self.render_list(res)
+
     def render_menu(self):
         self.line()
         print("Catalog management options:")
@@ -53,71 +53,55 @@ class CatalogAdminCV(CatalogMemberCV):
     def render_add(self):
         self.line()
         print("Enter book information in fields:")
-        name = input("1. Title? ")
+        name = input("[0] Title? ")
         # input("confirm? yes[y]/no[n]")
 
         book = self.catalog.getBookByName(name)
         if book:
-            print('Book: {title} already exists'.format(**book.__dict__))
-            is_continue = str(input('Would like to a another Book? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_add()
+            print(f'Book: {book.title} already exists')
         else:
             book = self.catalog.addBook(
-                input("2. Author? "),
+                input("[1] Author? "),
                 name,
-                input("3. ISBN? "),
+                input("[2] ISBN? "),
             )
-            print("Book {title} was added succesfully".format(**book.__dict__))
+            print(f"Book {book.title} was added succesfully")
         
-        self.render_menu()
-
     def render_edit(self):
         self.render_list()
         try:
-            id = int(input("Select & Edit book by typing their ID: "))
+            id = int(input("Enter ID: "))
         except:
-            print("Invalid option entered. Enter an ID")
+            print("Invalid option entered. Retry.")
             self.render_edit()
 
         book = self.catalog.getBookById(id)
         if book:
-            book.title = input("1. Title? ")
-            book.author = input("2. Author? ")
-            book.ISBN = input("3. ISBN? ")
-            self.catalog.UpdateBook(id, book)
-            print("Book {title} was changed succesfully".format(**book.__dict__))
+            confirm, book = self.edit_form(book)
+            if confirm:
+                self.catalog.UpdateBook(id, book)
+            print(f"Book {book.title} was changed succesfully")
         else:
             print('Book not found')
-            is_continue = str(input('Would like to edit another Book? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_edit()
-
-        self.render_menu()
 
     def render_delete(self):
         self.line()
         self.render_list()
         try:
-            id = int(input("Select & Delete a book by typing their ID: "))
+            id = int(input("Enter ID: "))
         except:
-            print("Invalid ID entered. Enter an ID")
+            print("Invalid ID entered. Retry.")
             self.render_delete()
         book = self.catalog.getBookById(id)
         if book:
-            is_confirm = input("confirm delete? [confirm with: y (for yes) or press Enter]")
+            is_confirm = input("confirm delete? (y/Enter) ")
             if is_confirm == 'y':
                 self.catalog.delete(id)
-                print("Book {title} was deleted succesfully".format(**book.__dict__))
+                print(f"Book {book.title} was deleted succesfully")
             else:
-                print("Book {title} was NOT deleted".format(**book.__dict__))
+                print(f"Book {book.title} was NOT deleted")
         else:
             print('Book not found')
-            is_continue = str(input('Would like to Delete another Book? [confirm with: y (for yes) or press Enter]'))
-            if is_continue == 'y':
-                self.render_delete()
-
-        self.render_menu()
 
     def render_import(self):
         pass

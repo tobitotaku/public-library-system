@@ -38,11 +38,17 @@ class DataResolver:
 
         if(target == TargetFile.Backup):
             return self.jsonResolver.WriteBackupToFile( collection=object)
+        if(target == TargetFile.LibraryItem):
+            return self.jsonResolver.WriteToFile( target= target, collection=object)
 
     def Read(self, target : TargetFile, ReturnType):
         if(target == TargetFile.Book):
             return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         if(target == TargetFile.Member):
+            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
+        if(target == TargetFile.LibraryItem):
+            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
+        if(target == TargetFile.LoanItem):
             return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         # if(target == TargetFile.Backup):
             # return self.jsonResolver.ReadBackup( target= target, objectType=ReturnType)

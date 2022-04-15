@@ -1,6 +1,8 @@
+from controllers.controllers import ControllerView
 from controllers.userscontroller import *
 from controllers.catalogcontroller import *
-from controllers.controllers import ControllerView
+from controllers.bookitemcontroller import *
+from controllers.backupcontroller import *
 
 class MainCV(ControllerView):
     def __init__(self, *args):
@@ -11,11 +13,15 @@ class MainCV(ControllerView):
 
         self.breadcrumbs.append(self)
         self.catalogcv = CatalogMemberCV(ControllerView)
+        self.bookitemcv = BookItemCV(ControllerView)
+        self.backupcv = BackupCV(ControllerView)
         if self.user and self.user.role == 'admin':
             self.catalogcv = CatalogAdminCV(CatalogMemberCV)
             self.actions = [
                 (self.usercv.render_menu, "Manage Members"),
                 (self.catalogcv.render_menu, "Manage Catalog"),
+                (self.bookitemcv.render_menu, "Manage Library"),
+                (self.backupcv.render_menu, "Manage Backup"),
                 (exit, "Exit application"),
             ]
         else:

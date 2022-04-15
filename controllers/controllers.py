@@ -1,6 +1,7 @@
 from models import *
 from userManager import *
 from catalog import *
+from backup import *
 
 class ControllerView:
     user = False
@@ -13,6 +14,7 @@ class ControllerView:
         self.initialized = True
         self.usermanager = UserManager()
         self.catalog = Catalog()
+        self.backup = Backup()
 
     def line(self):
         print('\n'+'-'*40)
@@ -23,10 +25,8 @@ class ControllerView:
 
         inp_option = False
         # _options.key should match _actions.key
-        i = 0
-        for item in self.actions:
-            print("{i}. {1}".format(i = i,*item))
-            i += 1
+        for i,item in enumerate(self.actions):
+            print(f"{i}. {item[1]}")
         try:
             inp_option = int(input("Enter a menu option:"))
             callback = self.actions[inp_option][0]
@@ -38,3 +38,22 @@ class ControllerView:
         self.render_menu()
         return inp_option
 
+    def edit_form(self, dataModel, skip = ['id', 'role']):
+        fields = dataModel.__dict__
+        print('[fieldid]  [fieldname: fieldvalue] ')
+        hide_value = ['password']
+        for i, item in enumerate(fields.items()):
+            if item[0] in skip:
+                continue
+            fvalue = '*'*8 if item[0] in hide_value else item[1]
+            confirm_field = input(f"[{i}] [{item[0]}: {fvalue}] | edit field or skip? (y/Enter) ")
+            if confirm_field == 'y':
+                fields[item[0]] = input(f'[{i}] {item[0]}: ')
+
+        confirm_save = input('Save changes or skip? (y/Enter) ')
+        if confirm_save == 'y':
+            dataModelClass = dataModel.__class__
+            dataModel = dataModelClass(fields)
+            return True, dataModel
+        
+        return False, dataModel
