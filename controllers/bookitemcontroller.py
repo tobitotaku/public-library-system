@@ -76,7 +76,7 @@ class BookItemMemberCV(ControllerView):
         for item in res:
             book = item[0]
             bookitem = item[1]
-            print(f" - {bookitem.id} - {bookitem.bookid} - {book.title} - {book.author} - {book.ISBN} - {item[3]} - ")
+            print(f" - {bookitem.id} - {bookitem.bookid} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
     def render_list(self):
         self.line()
         print('Bookitems in Library.')
@@ -85,7 +85,6 @@ class BookItemMemberCV(ControllerView):
         if len(bookitems) == 0:
             print('Empty list.')
         for item in bookitems:
-            print(item)
             book = item[0]
             bookitem = item[1]
             print(f" - {bookitem.id} - {bookitem.bookid} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")

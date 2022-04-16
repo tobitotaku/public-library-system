@@ -99,8 +99,8 @@ class Catalog:
         return self.allItems
 
     def save(self):
-        self.resolver.Save(self, self.allBooks, TargetFile.Book)
-        self.resolver.Save(self, self.allItems, TargetFile.LibraryItem)
+        self.resolver.Save(self.allBooks, TargetFile.Book)
+        self.resolver.Save(self.allItems, TargetFile.LibraryItem)
 
 
     def getBook(self, id):

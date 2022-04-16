@@ -1,16 +1,62 @@
 [
-    {"id": 6, "bookid": 0, "itemStatus": "available"}, 
-    
-    {"id": 7, "bookid": 0, "itemStatus": "available"}, 
-    
-    {"id": 8, "bookid": 0, "itemStatus": "available"}, 
-    {"id": 9, "bookid": 1, "itemStatus": "available"}, 
-    {"id": 10, "bookid": 1, "itemStatus": "available"}, 
-    {"id": 11, "bookid": 1, "itemStatus": "available"}, 
-    {"id": 12, "bookid": 2, "itemStatus": "available"}, 
-    {"id": 13, "bookid": 2, "itemStatus": "available"}, 
-    {"id": 14, "bookid": 2, "itemStatus": "available"}, 
-    {"id": 15, "bookid": 3, "itemStatus": "available"},
-    {"id": 16, "bookid": 3, "itemStatus": "available"},
-    {"id": 17, "bookid": 3, "itemStatus": "available"}
+    {
+        "id": 6,
+        "bookid": 0,
+        "itemStatus": "available"
+    },
+    {
+        "id": 7,
+        "bookid": 0,
+        "itemStatus": "available"
+    },
+    {
+        "id": 8,
+        "bookid": 0,
+        "itemStatus": "available"
+    },
+    {
+        "id": 9,
+        "bookid": 1,
+        "itemStatus": "available"
+    },
+    {
+        "id": 10,
+        "bookid": 1,
+        "itemStatus": "available"
+    },
+    {
+        "id": 11,
+        "bookid": 1,
+        "itemStatus": "available"
+    },
+    {
+        "id": 12,
+        "bookid": 2,
+        "itemStatus": "available"
+    },
+    {
+        "id": 13,
+        "bookid": 2,
+        "itemStatus": "available"
+    },
+    {
+        "id": 14,
+        "bookid": 2,
+        "itemStatus": "available"
+    },
+    {
+        "id": 15,
+        "bookid": 3,
+        "itemStatus": "available"
+    },
+    {
+        "id": 16,
+        "bookid": 3,
+        "itemStatus": "available"
+    },
+    {
+        "id": 17,
+        "bookid": 3,
+        "itemStatus": "available"
+    }
 ]
