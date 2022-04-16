@@ -16,9 +16,9 @@ class Catalog:
 
     def __init__ (self):
         self.resolver = DataResolver()
-        self.allBooks = self.resolver.Read( TargetFile.Book, Book)
-        self.allItems = self.resolver.Read( TargetFile.LibraryItem, BookItem)
-
+        self.listAllBooks()
+        self.listAllBookItems()
+    
     def getBooks(self):
         # print(self.allBooks.)
         return self.allBooks
@@ -64,7 +64,7 @@ class Catalog:
             for i,item in enumerate(self.allBooks):
                 if item.id == id:
                     self.allBooks[i] = book
-                    self.resolver.Save(self.allBooks, TargetFile.Book)
+                    self.save()
                     return book
         return False
     
@@ -84,10 +84,19 @@ class Catalog:
                     self.resolver.Save(self.allItems, TargetFile.LibraryItem)
                     return id
 
+    def updateBookitem(self, id, bookitem):
+        for i,item in enumerate(self.allItems):
+            if item.id == id:
+                self.allItems[i] = bookitem
+                self.resolver.Save(self.allItems, TargetFile.LibraryItem)
+                return bookitem
+
     def listAllBooks(self):
+        self.allBooks = self.resolver.Read( TargetFile.Book, Book)
         return self.allBooks
 
     def listAllBookItems(self):
+        self.allItems = self.resolver.Read( TargetFile.LibraryItem, BookItem)
         return self.allItems
 
     def save(self):
