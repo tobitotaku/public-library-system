@@ -66,8 +66,12 @@ class UserManager:
                     return id
 
     def bulkInsert(self, filename ):
-        importlist = self.__resolver.csvResolver.ReadFromFileName(filename, Person)
         notadded = []
+        try:
+            importlist = self.__resolver.csvResolver.ReadFromFileName(filename, Person)
+        except:
+            print('Incorrect JSON Format in importfile!')
+            return notadded
         for i,item in enumerate(importlist):
             user = self.findbyname(item.username)
             if user:

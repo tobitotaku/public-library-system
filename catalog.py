@@ -139,8 +139,12 @@ class Catalog:
         return ret
 
     def bulkAddBooks(self, filename):
-        importlist = self.resolver.jsonResolver.ReadFromFileName(filename, Book)
         notadded = []
+        try:
+            importlist = self.resolver.jsonResolver.ReadFromFileName(filename, Book)
+        except:
+            print('Incorrect JSON Format in importfile!')
+            return notadded
         for i,item in enumerate(importlist):
             book = self.getBookByName(item.title)
             if book:
