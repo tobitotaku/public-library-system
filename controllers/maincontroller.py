@@ -8,7 +8,7 @@ from controllers.loancontroller import *
 class MainCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
-
+        self.user = False
         self.render_login()
         self.usercv = MembersCV(ControllerView)
         self.breadcrumbs.append(self)
@@ -44,9 +44,9 @@ class MainCV(ControllerView):
             user = self.usermanager.findbyname(inp_username)
             if (user and inp_username == user.username and inp_password == user.password):
                 self.user = user
-                print(f'Welcome,{user.username}!')
+                print(f'Welcome, {user.username}!')
             else:
-                print('Password or Username is incorrect')
+                print('Password or Username is incorrect. Retry')
                 self.render_login()
 
 # MainCV().render_menu()

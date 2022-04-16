@@ -16,8 +16,7 @@ class BookItemMemberCV(ControllerView):
         ]
         self.catalogcv = CatalogAdminCV(CatalogMemberCV)
         self.usercv = MembersCV(ControllerView)
-        # self.user = self.breadcrumbs[0].user
-        print(self.user)
+        self.user = self.breadcrumbs[0].user
 
     def render_main(self):
         if len(self.breadcrumbs)>0:
