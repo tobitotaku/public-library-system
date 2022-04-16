@@ -109,9 +109,9 @@ class LoanManager:
                 print(loanItem)
                 print(bookItem)
                 if loanItem:
-                    ret.append((book, bookItem, "unavailable"))
+                    ret.append((book, item, "unavailable"))
                 else:
-                    ret.append((book, bookItem, "available"))
+                    ret.append((book, item, "available"))
 
         return ret
 
@@ -161,7 +161,7 @@ class LoanManager:
             print("user has too many books!")
             return
         else:
-            print(date.today())
+            # print(date.today())
             dateObject = date.today()
             # today = dateObject
             returnDate = dateObject +relativedelta(days=+30)

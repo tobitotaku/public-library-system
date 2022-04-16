@@ -30,7 +30,7 @@ loanManger = LoanManager(catalog)
 userManager = UserManager()
 user : Person = userManager.findbyname("jessin")
 print(user.toRow())
-print("-----------------------------------------")
+# print("-----------------------------------------")
 # print(userManager.all())
 # for u in userManager.all():
 #     us : Person = u
@@ -40,8 +40,8 @@ print("-----------------------------------------")
 allItems = catalog.listAllBookItems()
 # loanManger.loanItemToMember(user, allItems[0])
 # loanManger.setLoanedItemsReceivedById(3)
-print("-----------------------------------------")
-print("Loaned items!")
+# print("-----------------------------------------")
+# print("Loaned items!")
 
 # loanManger.loanItemToMember(user, allItems[2])
 itemsLoaned = loanManger.getCompleteBookItemLoanedByUserId(user.getId())
@@ -60,11 +60,11 @@ searchRes = loanManger.searchBookItemWithAvailability("harry")
 #     print(book)
 #     print(book.toRow())
 
-print("-----------------------------------------")
+# print("-----------------------------------------")
 # print(itemsLoaned)
 for item in searchRes:
     # item : BookItem 
-    print(item[0].title, [m.id for m in item[1]], item[2])
+    print(item[0].title, item[1].toRow(), item[2])
 
 
     # bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
