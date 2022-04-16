@@ -180,10 +180,10 @@ class BookItemAdminCV(BookItemMemberCV):
         if len(allLoanedItems) == 0:
             print('Empty list.')
         for item in allLoanedItems:
-            loanitem = item[0]
+            loanitem = item['item']
             # bookitem = item[1]
-            book = item[2]
-            person = item[3]
+            book = item['book']
+            person = item['user']
             print(f" - {loanitem.id} - {loanitem.bookItemId} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
 
     def render_loan(self):
