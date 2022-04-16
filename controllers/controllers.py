@@ -67,4 +67,5 @@ class ControllerView:
             return id
         except:
             print("Invalid ID entered. Retry.")
-            self.select_field_id(label)
+            id = self.select_field_id(label)
+            return id
