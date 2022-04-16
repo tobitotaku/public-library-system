@@ -1,7 +1,8 @@
 from datahelpers import DataResolver, TargetFile
-from models import Book, Person
+from models import Book, Person, LoanItem, BookItem
 from catalog import Catalog
 from userManager import UserManager
+from loanManager import LoanManager
 # from usermodels import Person
 
 import os
@@ -18,11 +19,14 @@ class Backup:
     def StoreBackup(self):
         books : Catalog = Catalog()
         allUsers : list() = UserManager().all()
+        allLoanItems : list() = LoanManager(books).allLoanedItems
+
         
         to_store = {
-            "books" : [b.toJSON() for b in books.allBooks],
-            "libraryItems": [m.toJSON() for m in books.allItems],
-            "members" : [m.toJSON() for m in allUsers]
+            "books" : [b.toRow() for b in books.allBooks],
+            "libraryItems": [m.toRow() for m in books.allItems],
+            "members" : [m.toRow() for m in allUsers],
+            "loanitems" : [m.toRow() for m in allLoanItems]
         }
         
         self.helper.Save( object= to_store,target= TargetFile.Backup)

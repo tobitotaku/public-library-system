@@ -45,7 +45,7 @@ class DataResolver:
 
     def Read(self, target : TargetFile, ReturnType):
         if(target == TargetFile.Book):
-            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
+            return self.csvResolver.ReadFromFile( target= target, objectType=ReturnType)
         if(target == TargetFile.Member):
             return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         if(target == TargetFile.LibraryItem):
@@ -77,7 +77,7 @@ class JSONDataLayer:
     def WriteBackupToFile(self, collection):
         ct =  datetime.datetime.now().strftime("%d-%m-%Y")
         filename = self.findFileName('./data/backups/backup_' + ct, '.json', 0)
-        jString = json.dumps(collection).replace(' ', '')
+        jString = json.dumps(collection, indent=4)
 
 
         with open(filename, 'w') as outfile:
@@ -99,6 +99,10 @@ class JSONDataLayer:
                     row = json.loads(row)
                     members_ret.append(Person(row))
                 
+                for row in data[0]['books']:
+                    row = json.loads(row)
+                    books_ret.append(Book(row))
+
                 for row in data[0]['books']:
                     row = json.loads(row)
                     books_ret.append(Book(row))

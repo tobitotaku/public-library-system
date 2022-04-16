@@ -23,8 +23,6 @@ from backup import Backup
 # x = Member("Dirk", "De vries", 17)
 # books = Book("J.K. Rowling", "harry potter 1")
 
-# backupController = Backup()
-# # backupController.StoreBackup()
 
 catalog = Catalog()
 
@@ -45,21 +43,28 @@ allItems = catalog.listAllBookItems()
 print("-----------------------------------------")
 print("Loaned items!")
 
-loanManger.loanItemToMember(user, allItems[2])
+# loanManger.loanItemToMember(user, allItems[2])
 itemsLoaned = loanManger.getCompleteBookItemLoanedByUserId(user.getId())
 
-for item in allItems:
-    item : BookItem 
-    print(item.toRow())
-    bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
-    book : Book = catalog.getBookById(bookitem.bookid)
-    print(book.toRow())
+
+searchRes = loanManger.searchBookItemWithAvailability("harry")
+
+# searchRes = catalog.search("dune")
+
+# for item in allItems:
+#     item : BookItem 
+#     print(item.toRow())
+#     bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
+
+#     book : Book = catalog.getBookById(bookitem.bookid)
+#     print(book)
+#     print(book.toRow())
 
 print("-----------------------------------------")
 # print(itemsLoaned)
-for item in itemsLoaned:
+for item in searchRes:
     # item : BookItem 
-    print(item)
+    print(item[0].title, [m.id for m in item[1]], item[2])
 
 
     # bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
@@ -74,6 +79,10 @@ for item in itemsLoaned:
 
 # backupOptions = backupController.readBackupsAvailable()
 # print(backupOptions)
+
+
+# backupController = Backup()
+# backupController.StoreBackup()
 
 
 # backupController.listBackupsAvailableForUser()
