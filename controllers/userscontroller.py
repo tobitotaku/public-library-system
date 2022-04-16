@@ -30,7 +30,12 @@ class MembersCV(ControllerView):
         print("Enter member in fields:")
         username = input("[0] username? ")
         # input("confirm? yes[y]/no[n]")
-
+        if username:
+            for l in username:
+                if l.isupper():
+                    print(f'Username:{username} should only contain lowercase')
+                    self.render_add()
+                    return
         user = self.usermanager.findbyname(username)
         if user:
             print(f'Member: {user.username} already exists')
