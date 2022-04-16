@@ -93,7 +93,7 @@ class LoanItem:
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=4)
+            sort_keys=True, indent=0)
 
     
         
@@ -136,7 +136,7 @@ class Person:
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=4)
+            sort_keys=True, indent=0)
 
 
 

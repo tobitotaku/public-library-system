@@ -40,7 +40,7 @@ print("-----------------------------------------")
 
 # print(catalog.listAllBookItems())
 allItems = catalog.listAllBookItems()
-loanManger.loanItemToMember(user, allItems[0])
+# loanManger.loanItemToMember(user, allItems[0])
 itemsLoaned = loanManger.getCompleteBookItemLoanedByUserId(user.getId())
 
 for item in allItems:
@@ -77,7 +77,7 @@ for item in itemsLoaned:
 # DataResolver.Save(resolver, m, TargetFile.Member)
 
 # login, menu navigation, add users
-MainCV().render_menu()
+# MainCV().render_menu()
 
 # print(getNewId(booksCatalog.getBooks()))
 # search = booksCatalog.search("5")

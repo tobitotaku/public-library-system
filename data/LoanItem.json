@@ -1,1 +1,10 @@
-[{"id": 0, "bookItemId": 6, "userId": 2, "issueDate": "16/04/2022", "returnDate": "16/01/2022", "loanStatus": 2}]
+[
+    {
+        "id": 0,
+        "bookItemId": 6,
+        "userId": 1,
+        "issueDate": "16-04-2022",
+        "returnDate": "16-05-2022",
+        "loanStatus": "Loaned"
+    }
+]
