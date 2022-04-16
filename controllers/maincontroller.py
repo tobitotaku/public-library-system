@@ -13,24 +13,22 @@ class MainCV(ControllerView):
         self.usercv = MembersCV(ControllerView)
         self.breadcrumbs.append(self)
         self.catalogcv = CatalogMemberCV(ControllerView)
-        self.bookitemcv = BookItemCV(ControllerView)
+        self.bookitemcv = BookItemMemberCV(ControllerView)
         self.backupcv = BackupCV(ControllerView)
-        self.loanitemcv = LoanItemMemberCV(ControllerView)
         if self.user and self.user.role == 'admin':
             self.catalogcv = CatalogAdminCV(CatalogMemberCV) 
-            self.loanitemcv = LoanItemAdminCV(LoanItemMemberCV)
+            self.bookitemcv = BookItemAdminCV(BookItemMemberCV)
             self.actions = [
                 (self.usercv.render_menu, "Manage Members"),
                 (self.catalogcv.render_menu, "Manage Catalog"),
                 (self.bookitemcv.render_menu, "Manage Library"),
                 (self.backupcv.render_menu, "Manage Backup"),
-                (self.loanitemcv.render_menu, "Manage Loan"),
                 (exit, "Exit application"),
             ]
         else:
             self.actions = [
                 (self.catalogcv.render_menu, "Catalog"),
-                (self.loanitemcv.render_menu, "Library"),
+                (self.bookitemcv.render_menu, "Library"),
                 (exit, "Exit application"),
             ]
     def render_menu(self):

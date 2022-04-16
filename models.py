@@ -6,7 +6,7 @@ import json
 from multiprocessing.spawn import prepare
 
 # itemType = Enum("itemType", "book magazine")
-# itemStatus = Enum("itemStatus", "available loaned")
+itemStatus = Enum("itemStatus", "available loaned")
 class Book:
 
     def __init__(self, *args):
@@ -42,7 +42,7 @@ class BookItem:
         if len(args) > 1:
             self.id = args[0]
             self.bookid = args[1]
-            self.itemStatus = args[2] if len(args) > 2 else 'available'
+            self.itemStatus = args[2] if len(args) > 2 else itemStatus.available.value
 
         else:
             self.id = args[0]['id']
@@ -65,12 +65,12 @@ class BookItem:
 class LoanItem:
     def __init__(self, *args):
         if len(args) > 2:
-            self.id = args[0][1]
-            self.bookItemId = args[0][2]
-            self.userId = args[0][3]
-            self.issueDate = args[0][4]
-            self.returnDate = args[0][5]
-            self.loanStatus = args[0][6]
+            self.id = args[0]
+            self.bookItemId = args[1]
+            self.userId = args[2]
+            self.issueDate = args[3]
+            self.returnDate = args[4]
+            self.loanStatus = args[5]
 
         else:
             self.id = args[0]['id']

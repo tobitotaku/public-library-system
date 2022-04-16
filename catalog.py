@@ -118,7 +118,7 @@ class Catalog:
         
         for item in  self.allItems :
             item : BookItem
-            if re.search(bookId, item.book, re.IGNORECASE) :
+            if re.search(bookId, item.bookid, re.IGNORECASE) :
                 return item
 
 

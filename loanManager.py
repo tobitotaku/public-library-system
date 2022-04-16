@@ -31,7 +31,7 @@ class LoanManager:
             currentItem = loanItem
             currentItem.bookItemId
             bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
-            book = self.catalog.getBook(bookItem.book)
+            book = self.catalog.getBookById(bookItem.bookid)
             loaner : Person = self.userManager.findbyid(currentItem.userId)
             ret.append({currentItem, bookItem, book, loaner})
         return ret
@@ -40,7 +40,7 @@ class LoanManager:
         ret = list()
         currentItem = self.getLoanItemById(id)
         bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
-        book = self.catalog.getBook(bookItem.book)
+        book = self.catalog.getBookById(bookItem.bookid)
         loaner : Person = self.userManager.findbyid(currentItem.userId)
         ret.append({currentItem, bookItem, book, loaner})
         return ret
@@ -60,7 +60,7 @@ class LoanManager:
                 if loanItem.loanStatus == BookStatus.Available:
                     return True
                 return False
-        return True
+        return False
         
     def getCompleteBookItemLoanedByUserId(self, user) :
         ret = list()
@@ -68,7 +68,7 @@ class LoanManager:
         for item in items:
             t : LoanItem = item
             bookItem : BookItem = self.catalog.getBookItem(t.bookItemId)
-            book = self.catalog.getBook(bookItem.book)
+            book = self.catalog.getBookById(bookItem.bookid)
             ret.append({items, bookItem, book, user})
         return ret
     
@@ -77,7 +77,7 @@ class LoanManager:
         ret = list()
         for book in searchRes:
             book : Book
-            bookItem : BookItem = self.catalog.getBookItemByBook(book.id)
+            bookItem : BookItem = self.catalog.getBookItem(book.id)
             # book = self.catalog.getBook(bookItem.book)
             loanItem : LoanItem = self.getCompleteBookItemLoanedById(bookItem.id)            
             if loanItem:
@@ -118,7 +118,10 @@ class LoanManager:
         #add checks for permitting member to borrow the item
         #if (get amount of books currently borrowed >= 3 do not lend):
         returnDate = date.today() + relativedelta(month=+1)
-        item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.id, member.id, date.today(), returnDate, BookStatus.Loaned)
+        returnDateStr = returnDate.strftime("%d/%m/%Y")
+        todayStr = date.today().strftime("%d/%m/%Y")
+        newid = getNewId(self.allLoanedItems)
+        item : LoanItem = LoanItem(newid, itemToLoan.id, member.id, todayStr, returnDateStr, BookStatus.Loaned.value)
         return item
 
     def add(self, member : Person, itemToLoan : BookItem):
