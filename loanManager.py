@@ -114,8 +114,13 @@ class LoanManager:
     def getBookItemWithAvailability(self):
         ret = list()
         for item in self.catalog.allItems:
+            print(item)
             loanItem : LoanItem = self.getLoanItemsByBookItemId(item.id)   
+            print(loanItem)
             book : Book = self.catalog.getBookById(item.bookid)   
+            if not book:
+                ret.append(Book(-1, "unknown", "unknown", "000"))
+            print(book)
             if loanItem:
                 ret.append((book, item, "unavailable"))
             else:
