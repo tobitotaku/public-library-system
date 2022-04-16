@@ -40,7 +40,12 @@ print("-----------------------------------------")
 
 # print(catalog.listAllBookItems())
 allItems = catalog.listAllBookItems()
-loanManger.loanItemToMember(user, allItems[0])
+# loanManger.loanItemToMember(user, allItems[0])
+# loanManger.setLoanedItemsReceivedById(3)
+print("-----------------------------------------")
+print("Loaned items!")
+
+loanManger.loanItemToMember(user, allItems[2])
 itemsLoaned = loanManger.getCompleteBookItemLoanedByUserId(user.getId())
 
 for item in allItems:
@@ -51,14 +56,17 @@ for item in allItems:
     print(book.toRow())
 
 print("-----------------------------------------")
-print(itemsLoaned)
+# print(itemsLoaned)
 for item in itemsLoaned:
     # item : BookItem 
     print(item)
+
+
     # bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
     # book : Book = catalog.getBookById(bookitem.bookid)
     # print(book.toRow())
 
+# loanManger.setLoanedItemsReceivedById(0)
 
 # loanManger.loanItemToMember(user, )
 
@@ -77,7 +85,7 @@ for item in itemsLoaned:
 # DataResolver.Save(resolver, m, TargetFile.Member)
 
 # login, menu navigation, add users
-MainCV().render_menu()
+# MainCV().render_menu()
 
 # print(getNewId(booksCatalog.getBooks()))
 # search = booksCatalog.search("5")

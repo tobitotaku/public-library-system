@@ -47,6 +47,7 @@ class LoanManager:
 
     def getLoanItemsByUserId(self, userId) :
         ret = list()
+        
         if self.allLoanedItems:
             for item in self.allLoanedItems:
                 item :LoanItem
@@ -114,6 +115,9 @@ class LoanManager:
 
 
     def setLoanedItemsReceived(self, loanItems ) :
+        if not isinstance(loanItems, list):
+            loanItems = [loanItems]
+
         if self.allLoanedItems:
             for L in loanItems:
                 for i,item in enumerate(self.allLoanedItems):
@@ -123,6 +127,20 @@ class LoanManager:
                         self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
                         return item.id
         return False
+
+    def setLoanedItemsReceivedById(self, loanItems ) :
+        if not isinstance(loanItems, list):
+            loanItems = [loanItems]
+
+        if self.allLoanedItems:
+            for L in loanItems:
+                for i,item in enumerate(self.allLoanedItems):
+                    if item.id == L :
+                        del self.allLoanedItems[i]
+                        self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
+                        
+        return False
+
 
 
     def getLoanItemById(self, id):
@@ -136,15 +154,17 @@ class LoanManager:
     def loanItemToMember(self, member : Person, itemToLoan : BookItem):
         # TODO add checks for permitting member to borrow the item
         alreadyLoanedItems = self.getLoanItemsByUserId(member.getId())
+        print(alreadyLoanedItems)
         if len(alreadyLoanedItems) > 3:
+            print("user has too many books!")
             return
         #if (get amount of books currently borrowed >= 3 do not lend):
         
         print(date.today())
         dateObject = date.today()
-        today = date.strftime(date.today(),"%d-%m-%Y")
+        # today = dateObject
         returnDate = dateObject +relativedelta(days=+30)
-        item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.getId(), member.id, today, date.strftime(returnDate,"%d-%m-%Y") , BookStatus.Loaned.name)
+        item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.getId(), member.id, dateObject, returnDate , BookStatus.Loaned.name)
         self.allLoanedItems.append(item)
         print(self.allLoanedItems[0].returnDate)
         self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
