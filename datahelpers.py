@@ -10,7 +10,7 @@ import time
 import datetime
 import json;
 import csv
-
+from utils import *
 from numpy import integer
 
 from models import Person, Book, BookItem
@@ -123,7 +123,7 @@ class JSONDataLayer:
     def ReadFromFileName(self, targetfile, objectType) :
         ret = []        
         with open(targetfile, newline='') as f:
-            reader = csv.DictReader(f, delimiter=',')
+            reader = json.load(f)
             for row in reader:
                 ret.append(objectType(row))
         return ret

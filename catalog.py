@@ -6,6 +6,7 @@ import re
 import json
 from utils import getNewId
 from enum import Enum
+import os
 BookStatus = Enum("loanStatus", "Available Loaned")
 
 
@@ -37,7 +38,7 @@ class Catalog:
     def getBookByName(self, name):
         if self.allBooks:
             for item in self.allBooks:
-                if item.title == name:
+                if re.search(name, item.title, re.IGNORECASE):
                     return item
         return False
 
@@ -138,10 +139,22 @@ class Catalog:
         return ret
 
     def bulkAddBooks(self, filename):
-        toAdd = self.resolver.jsonResolver.ReadFromFileName(filename, Book)
-        self.allBooks.extend(toAdd)
+        importlist = self.resolver.jsonResolver.ReadFromFileName(filename, Book)
+        notadded = []
+        for i,item in enumerate(importlist):
+            book = self.getBookByName(item.title)
+            if book:
+                notadded.append(item)
+            else:
+                importlist[i].id = getNewId(self.allBooks)
+                self.allBooks.append(item)
         self.resolver.Save(self.allBooks, TargetFile.Book)
-    
-
-
-    # TODO Return a loaned item
+        return notadded
+        
+    def readImportAvailable(self):
+        options = []
+        for file in os.listdir("./data/import"):
+            # options.append(file)
+            if re.search('.json$', file, re.IGNORECASE):
+                options.append(os.path.join("./data/import/", file))
+        return options

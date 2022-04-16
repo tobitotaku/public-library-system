@@ -47,6 +47,7 @@ class CatalogAdminCV(CatalogMemberCV):
             (self.render_add, "Add"),
             (self.render_edit, "Edit"),
             (self.render_delete, "Delete"),
+            (self.render_import_list, "List Imports"),
             (self.render_import, "Import JSON"),
         ] + self.actions
 
@@ -103,5 +104,27 @@ class CatalogAdminCV(CatalogMemberCV):
         else:
             print('Book not found')
 
+    def render_import_list(self):
+        print('Catalog Available Import Files.')
+        importfiles = self.catalog.readImportAvailable()
+        print('- ID - Files -')
+        if len(importfiles) == 0:
+            print('Empty list.')
+        for i,item in enumerate(importfiles):
+            print(f'- {i} - {item} -')
+        return importfiles
+
     def render_import(self):
-        pass
+        importlist = self.render_import_list()
+        importid = self.select_field_id('Selected Import ID? ')
+        if len(importlist) > importid:
+            loadimport = importlist[importid]
+            print(f'Importfile [{importid}] {loadimport} selected')
+            confirm = input('Confirm loading import? (y/Enter)')
+            if confirm == 'y':
+                notadded = self.catalog.bulkAddBooks(loadimport)
+                print(f'Import [{importid}] {loadimport} loaded')
+                for item in notadded:
+                    print(f'Book {item.title} Skipped. Already exists ')
+        else:
+            print('Import not found')
