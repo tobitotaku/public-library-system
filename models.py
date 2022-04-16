@@ -4,7 +4,8 @@ from utils import getNewId
 from ast import Pass
 import json
 # import datetime
-from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date
 from multiprocessing.spawn import prepare
 
 # itemType = Enum("itemType", "book magazine")
@@ -89,9 +90,15 @@ class LoanItem:
         return ["id", "bookItemId", "userId", "issueDate", "returnDate", "loanStatus"]
 
     def toRow(self):
-        return { "id" : self.id, "bookItemId" : self.bookItemId, "userId" : self.userId, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
+        # dateObject = date.today()
+        # today = date.strftime(date.today(),"%d-%m-%Y")
+        # return { "id" : self.id, "bookItemId" : self.bookItemId, "userId" : self.userId, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
+        today = date.strftime(self.issueDate,"%d-%m-%Y")
+        returnDate =  date.strftime(self.returnDate,"%d-%m-%Y")
+        return { "id" : self.id, "bookItemId" : self.bookItemId, "userId" : self.userId, "issueDate" : today, "returnDate" : returnDate, "loanStatus" : self.loanStatus}
 
     def toJSON(self):
+
         return json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=0)
 
