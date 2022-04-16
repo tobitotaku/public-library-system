@@ -105,5 +105,3 @@ class CatalogAdminCV(CatalogMemberCV):
 
     def render_import(self):
         pass
-
-# CatalogAdminCV().render_menu()

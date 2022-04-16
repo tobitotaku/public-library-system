@@ -86,4 +86,3 @@ class MembersCV(ControllerView):
         else:
             print('Member not found')
 
-# MembersCV().render_menu() # for testing

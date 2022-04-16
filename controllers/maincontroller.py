@@ -3,7 +3,6 @@ from controllers.userscontroller import *
 from controllers.catalogcontroller import *
 from controllers.bookitemcontroller import *
 from controllers.backupcontroller import *
-from controllers.loancontroller import *
 
 class MainCV(ControllerView):
     def __init__(self, *args):
@@ -48,5 +47,3 @@ class MainCV(ControllerView):
             else:
                 print('Password or Username is incorrect. Retry')
                 self.render_login()
-
-# MainCV().render_menu()
