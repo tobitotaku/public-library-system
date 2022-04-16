@@ -6,11 +6,11 @@ class BackupCV(ControllerView):
         self.actions = [
             (self.render_list, "List"),
             (self.render_add, "Add"),
-            (self.render_edit, "Edit"),
-            (self.render_delete, "Delete"),
+            (self.render_load_backup, "Edit"),
             (self.render_main, "Back to main menu"),
             (exit, "Exit application"),
         ]
+        self.backups = self.backup.readBackupsAvailable()
 
     def render_main(self):
         if len(self.breadcrumbs)>0:
@@ -31,48 +31,20 @@ class BackupCV(ControllerView):
 
     def render_list(self):
         self.line()
-        print('list of active members')
+        print('Backups Available')
         print('- ID - backup -')
-        backups = self.backup.readBackupsAvailable()
-        if len(backups) == 0:
+        if len(self.backups) == 0:
             print('Empty list.')
-        for i,item in enumerate(backups):
+        for i,item in enumerate(self.backups):
             print(f'- {i} - {item} -')
 
-    def render_edit(self):
+    def render_load_backup(self):
         self.render_list()
-        try:
-            id = int(input("Enter ID: "))
-        except:
-            print("Invalid option entered. Retry.")
-            self.render_edit()
-
-        user = self.usermanager.findbyid(id)
-        if user:
-            confirm, user = self.edit_form(user)
-            if confirm:
-                self.usermanager.update(id, user)
-                print(f"Member {user.username} was changed succesfully")
-        else:
-            print('Member not found')
-
-    def render_delete(self):
-        self.line()
-        self.render_list()
-        try:
-            id = int(input("Enter ID: "))
-        except:
-            print("Invalid ID entered. Retry.")
-            self.render_delete()
-        user = self.usermanager.findbyid(id)
-        if user:
-            is_confirm = input("Confirm delete? (y/Enter) ")
-            if is_confirm == 'y':
-                self.usermanager.delete(id)
-                print(f"Member {user.username} was deleted succesfully")
-            else:
-                print(f"Member {user.username} was NOT deleted")
-        else:
-            print('Member not found')
-
-# MembersCV().render_menu() # for testing
+        backupid = self.select_field_id('Select backup ID? ')
+        if backupid in self.backups:
+            loadbackup = self.backups[backupid]
+            print(f'Backup {backupid}.{loadbackup} selected')
+            confirm = input('Confirm loading backup? (y/Enter)')
+            if confirm == 'y':
+                self.backup.loadBackup()
+                print(f'Backup {backupid}.{loadbackup} loaded')
