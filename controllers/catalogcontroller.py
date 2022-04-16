@@ -47,7 +47,7 @@ class CatalogAdminCV(CatalogMemberCV):
             (self.render_add, "Add"),
             (self.render_edit, "Edit"),
             (self.render_delete, "Delete"),
-            (self.render_import_list, "List Imports(CSV)"),
+            (self.render_import_list, "List Imports(JSON)"),
             (self.render_import, "Import Bulk Books(JSON)"),
         ] + self.actions
 
