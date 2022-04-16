@@ -115,13 +115,10 @@ class Catalog:
                 return item
 
     def getBookItemByBook(self, bookId):
-        
         for item in  self.allItems :
             item : BookItem
-            if re.search(bookId, item.bookid, re.IGNORECASE) :
+            if re.search(str(bookId), str(item.bookid), re.IGNORECASE) :
                 return item
-
-
 
     def search(self, query) :
         ret = list()
