@@ -111,7 +111,7 @@ class JSONDataLayer:
                     loanItems_ret.append(LoanItem(row))
 
             except:
-                print("Something went wrong, please check if all files are setup correcty or contact the system administrator")
+                print("Something went wrong with loading backup, please check if all files are setup correcty or contact the system administrator")
 
 
 
@@ -145,7 +145,7 @@ class JSONDataLayer:
                 for row in data:
                     ret.append(objectType(row))
             except:
-                print("Something went wrong, please check if all files are setup correcty or contact the system administrator")
+                print("Something went wrong with loading " + target.name + ".json, please check if all files are setup correcty or contact the system administrator")
         return ret
 
     def ReadFromFileName(self, targetfile, objectType) :
