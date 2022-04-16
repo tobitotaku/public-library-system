@@ -8,6 +8,8 @@ class MembersCV(ControllerView):
             (self.render_add, "Add"),
             (self.render_edit, "Edit"),
             (self.render_delete, "Delete"),
+            (self.render_import_list, "List Imports(CSV)"),
+            (self.render_import, "Import Bulk Members(CSV)"),
             (self.render_main, "Back to main menu"),
             (exit, "Exit application"),
         ]
@@ -28,7 +30,12 @@ class MembersCV(ControllerView):
         print("Enter member in fields:")
         username = input("[0] username? ")
         # input("confirm? yes[y]/no[n]")
-
+        if username:
+            for l in username:
+                if l.isupper():
+                    print(f'Username:{username} should only contain lowercase')
+                    self.render_add()
+                    return
         user = self.usermanager.findbyname(username)
         if user:
             print(f'Member: {user.username} already exists')
@@ -86,4 +93,27 @@ class MembersCV(ControllerView):
         else:
             print('Member not found')
 
-# MembersCV().render_menu() # for testing
+    def render_import_list(self):
+        print('Available Members Import Files')
+        importfiles = self.usermanager.readImportAvailable()
+        print('- ID - Files -')
+        if len(importfiles) == 0:
+            print('Empty list.')
+        for i,item in enumerate(importfiles):
+            print(f'- {i} - {item} -')
+        return importfiles
+
+    def render_import(self):
+        importlist = self.render_import_list()
+        importid = self.select_field_id('Selected Import ID? ')
+        if len(importlist) > importid:
+            loadimport = importlist[importid]
+            print(f'Importfile [{importid}] {loadimport} selected')
+            confirm = input('Confirm loading import? (y/Enter)')
+            if confirm == 'y':
+                notadded = self.usermanager.bulkInsert(loadimport)
+                print(f'Import [{importid}] {loadimport} loaded')
+                for item in notadded:
+                    print(f'Member {item.username} Skipped. Already exists ')
+        else:
+            print('Import not found')

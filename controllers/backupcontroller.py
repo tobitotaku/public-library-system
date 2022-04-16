@@ -41,10 +41,12 @@ class BackupCV(ControllerView):
     def render_load_backup(self):
         self.render_list()
         backupid = self.select_field_id('Select backup ID? ')
-        if backupid in self.backups:
+        if len(self.backups) > backupid:
             loadbackup = self.backups[backupid]
-            print(f'Backup {backupid}.{loadbackup} selected')
+            print(f'Backup [{backupid}] {loadbackup} selected')
             confirm = input('Confirm loading backup? (y/Enter)')
             if confirm == 'y':
-                self.backup.loadBackup()
-                print(f'Backup {backupid}.{loadbackup} loaded')
+                self.backup.loadBackup(loadbackup)
+                print(f'Backup [{backupid}] {loadbackup} loaded')
+        else:
+            print('Backup not found')
