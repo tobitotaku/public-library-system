@@ -4,9 +4,9 @@ class BackupCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
         self.actions = [
-            (self.render_list, "List"),
-            (self.render_add, "Add"),
-            (self.render_load_backup, "Edit"),
+            (self.render_list, "List backups"),
+            (self.render_add, "Save backup"),
+            (self.render_load_backup, "Load backup"),
             (self.render_main, "Back to main menu"),
             (exit, "Exit application"),
         ]
