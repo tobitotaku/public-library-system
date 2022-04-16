@@ -1,8 +1,10 @@
 # entrypoint of the application
 # from config import configurationhelper
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
+from loanManager import LoanManager
+from userManager import UserManager
 from utils import getNewId
-from models import Book, LibraryAdmin, Person, Member
+from models import Book, BookItem, LibraryAdmin, Person, Member
 from catalog import Catalog
 # from usermodels import LibraryAdmin, Person, Member
 from controllers.maincontroller import *
@@ -24,7 +26,43 @@ from backup import Backup
 # backupController = Backup()
 # # backupController.StoreBackup()
 
+catalog = Catalog()
 
+loanManger = LoanManager(catalog)
+userManager = UserManager()
+user : Person = userManager.findbyname("jessin")
+print(user.toRow())
+print("-----------------------------------------")
+# print(userManager.all())
+# for u in userManager.all():
+#     us : Person = u
+#     print(us.username)
+
+# print(catalog.listAllBookItems())
+allItems = catalog.listAllBookItems()
+loanManger.loanItemToMember(user, allItems[0])
+itemsLoaned = loanManger.getCompleteBookItemLoanedByUserId(user.getId())
+
+for item in allItems:
+    item : BookItem 
+    print(item.toRow())
+    bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
+    book : Book = catalog.getBookById(bookitem.bookid)
+    print(book.toRow())
+
+print("-----------------------------------------")
+print(itemsLoaned)
+for item in itemsLoaned:
+    # item : BookItem 
+    print(item)
+    # bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
+    # book : Book = catalog.getBookById(bookitem.bookid)
+    # print(book.toRow())
+
+
+# loanManger.loanItemToMember(user, )
+
+# print(user.surname)
 
 # backupOptions = backupController.readBackupsAvailable()
 # print(backupOptions)
