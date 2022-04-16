@@ -154,7 +154,6 @@ class Catalog:
     def readImportAvailable(self):
         options = []
         for file in os.listdir("./data/import"):
-            # options.append(file)
             if re.search('.json$', file, re.IGNORECASE):
                 options.append(os.path.join("./data/import/", file))
         return options

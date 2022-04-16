@@ -5,6 +5,8 @@ import json
 from models import Person
 from multiprocessing.spawn import prepare
 from utils import getNewId
+import re
+import os
 
 class UserManager:
 
@@ -28,12 +30,12 @@ class UserManager:
                     return item
         return user
     
-    def findbyname(self, username):
+    def findbyname(self, name):
         user = False
         self.all()
         if self.users:
             for item in self.users:
-                if item.username == username:
+                if re.search(name, item.username, re.IGNORECASE):
                     return item
         return user
     
@@ -63,6 +65,21 @@ class UserManager:
                     return id
 
     def bulkInsert(self, filename ):
-        data = self.all()
-        data.extend(self.__resolver.csvResolver.ReadFromFileName(filename, Person))
-        self.__resolver.Save(data, TargetFile.Member)
+        importlist = self.__resolver.csvResolver.ReadFromFileName(filename, Person)
+        notadded = []
+        for i,item in enumerate(importlist):
+            user = self.findbyname(item.username)
+            if user:
+                notadded.append(item)
+            else:
+                importlist[i].id = getNewId(self.users)
+                self.users.append(item)
+        self.__resolver.Save(self.users, TargetFile.Member)
+        return notadded
+
+    def readImportAvailable(self):
+        options = []
+        for file in os.listdir("./data/import"):
+            if re.search('.csv$', file, re.IGNORECASE):
+                options.append(os.path.join("./data/import/", file))
+        return options
