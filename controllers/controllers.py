@@ -36,7 +36,7 @@ class ControllerView:
         self.render_menu()
         return inp_option
 
-    def edit_form(self, dataModel, skip = ['id', 'role']):
+    def edit_form(self, dataModel, skip = ['id', 'role', ]):
         fields = dataModel.__dict__
         print('[fieldid]  [fieldname: fieldvalue] ')
         hide_value = ['password']
@@ -47,7 +47,12 @@ class ControllerView:
             confirm_field = input(f"[{i}] [{item[0]}: {fvalue}] | edit field or skip? (y/Enter) ")
             if confirm_field == 'y':
                 fields[item[0]] = input(f'[{i}] {item[0]}: ')
-
+            if item[0] == 'username':
+                for l in fields[item[0]]:
+                    if l.isupper():
+                        print(f'Username:{fields[item[0]]} should only contain lowercase')
+                        confirm, user = self.edit_form(dataModel)
+                        return confirm, user
         confirm_save = input('Save changes or skip? (y/Enter) ')
         if confirm_save == 'y':
             dataModelClass = dataModel.__class__
