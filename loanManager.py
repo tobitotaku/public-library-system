@@ -89,7 +89,6 @@ class LoanManager:
         ret = list()
         if self.allLoanedItems:
             for item in self.allLoanedItems:
-                print(item)
                 if item.bookItemId == bookItemId:
                     ret.append(item)
         return ret
@@ -106,8 +105,6 @@ class LoanManager:
             # book = self.catalog.getBook(bookItem.book)
             for item in bookItem:
                 loanItem : LoanItem = self.getLoanItemsByBookItemId(item.getId())   
-                print(loanItem)
-                print(bookItem)
                 if loanItem:
                     ret.append((book, item, "unavailable"))
                 else:
@@ -143,7 +140,6 @@ class LoanManager:
 
     def loanItemToMember(self, member : Person, itemToLoan : BookItem):
         alreadyLoanedItems = self.getLoanItemsByUserId(member.getId())
-        print(alreadyLoanedItems)
         if len(alreadyLoanedItems) >= 3:
             print("user has too many books!")
             return
@@ -154,7 +150,6 @@ class LoanManager:
             returnDate = dateObject +relativedelta(days=+30)
             item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.getId(), member.id, dateObject, returnDate , BookStatus.Loaned.name)
             self.allLoanedItems.append(item)
-            print(self.allLoanedItems[0].returnDate)
             self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
 
 

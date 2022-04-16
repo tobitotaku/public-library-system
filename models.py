@@ -67,7 +67,6 @@ class BookItem:
 
 class LoanItem:
     def __init__(self, *args):
-        print(args)
         if len(args) > 2:
             self.id = args[0]
             self.bookItemId = args[1]
