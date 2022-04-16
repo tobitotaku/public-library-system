@@ -121,7 +121,11 @@ class LoanManager:
         item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.id, member.id, date.today(), returnDate, BookStatus.Loaned)
         return item
 
-    
+    def add(self, member : Person, itemToLoan : BookItem):
+        item = self.loanItemToMember(member, itemToLoan)
+        self.allLoanedItems.append(item)
+        self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
+        return item
 
     # TODO To search a book item and its availability in the catalog
     def searchLoanItems(self, query) :

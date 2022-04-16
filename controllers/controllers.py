@@ -1,5 +1,6 @@
 from models import *
 from userManager import *
+from loanManager import *
 from catalog import *
 from backup import *
 
@@ -15,6 +16,7 @@ class ControllerView:
         self.usermanager = UserManager()
         self.catalog = Catalog()
         self.backup = Backup()
+        self.loanmanager = LoanManager(self.catalog)
 
     def line(self):
         print('\n'+'-'*40)
