@@ -3,6 +3,8 @@ from enum import Enum
 from utils import getNewId
 from ast import Pass
 import json
+# import datetime
+from datetime import datetime
 from multiprocessing.spawn import prepare
 
 # itemType = Enum("itemType", "book magazine")
@@ -64,22 +66,22 @@ class BookItem:
 
 class LoanItem:
     def __init__(self, *args):
+        print(args)
         if len(args) > 2:
-            self.id = args[0][1]
-            self.bookItemId = args[0][2]
-            self.userId = args[0][3]
-            self.issueDate = args[0][4]
-            self.returnDate = args[0][5]
-            self.loanStatus = args[0][6]
+            self.id = args[0]
+            self.bookItemId = args[1]
+            self.userId = args[2]
+            self.issueDate = args[3]
+            self.returnDate = args[4]
+            self.loanStatus = args[5]
 
         else:
             self.id = args[0]['id']
             self.bookItemId = args[0]['bookItemId']
             self.userId = args[0]['userId']
-            self.issueDate = args[0]['issueDate']
-            self.returnDate = args[0]['returnDate']
-            self.loanStatus = args[0]['loanStatus']
-    
+            self.issueDate = datetime.strptime(args[0]['issueDate'], "%d-%m-%Y")
+            self.returnDate = datetime.strptime(args[0]['returnDate'], "%d-%m-%Y")
+            self.loanStatus = "Loaned"
     def getId(self):
         return self.id
 
@@ -91,7 +93,8 @@ class LoanItem:
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=0)
+            sort_keys=True, indent=4)
+
     
         
 

@@ -40,6 +40,8 @@ class DataResolver:
             return self.jsonResolver.WriteBackupToFile( collection=object)
         if(target == TargetFile.LibraryItem):
             return self.jsonResolver.WriteToFile( target= target, collection=object)
+        if(target == TargetFile.LoanItem):
+            return self.jsonResolver.WriteToFile( target= target, collection=object)
 
     def Read(self, target : TargetFile, ReturnType):
         if(target == TargetFile.Book):
@@ -90,15 +92,19 @@ class JSONDataLayer:
         members_ret = []
         books_ret = []
         with open(filename, 'r') as json_file:
-            input = json_file.read()
-            data = json.loads(input)
-            for row in data[0]['members']:
-                row = json.loads(row)
-                members_ret.append(Person(row))
-            
-            for row in data[0]['books']:
-                row = json.loads(row)
-                books_ret.append(Book(row))
+            try:
+                input = json_file.read()
+                data = json.loads(input)
+                for row in data[0]['members']:
+                    row = json.loads(row)
+                    members_ret.append(Person(row))
+                
+                for row in data[0]['books']:
+                    row = json.loads(row)
+                    books_ret.append(Book(row))
+            except:
+                print("Something went wrong, please check if all files are setup correcty or contact the system administrator")
+
 
 
         print([b.title for b in books_ret])
@@ -109,7 +115,11 @@ class JSONDataLayer:
         
 
     def WriteToFile(self, target: TargetFile, collection : list()):
-        jString = json.dumps([ob.__dict__ for ob in collection])
+        print(collection)
+        toStore = [ob.toJSON() for ob in collection]
+        jString = json.dumps(toStore).replace(' ', '')
+        # jString = json.dumps(collection)
+        print(jString)
         with open('./data/' + target.name + '.json', 'w') as outfile:
             outfile.write(jString)
 
@@ -120,9 +130,13 @@ class JSONDataLayer:
 
         ret = []
         with open('./data/' + target.name + '.json') as json_file:
-            data = json.load(json_file)
-            for row in data:
-                ret.append(objectType(row))
+            try:
+                data = json.load(json_file)
+                for row in data:
+                    print(row)
+                    ret.append(objectType(row))
+            except:
+                print("Something went wrong, please check if all files are setup correcty or contact the system administrator")
         return ret
 
     def ReadFromFileName(self, targetfile, objectType) :
@@ -150,6 +164,9 @@ class CSVDataLayer:
 
 
     def ReadFromFile(self, target, objectType) :
+        if not exists('./data/' + target.name + '.json'):
+            with open('./data/' + target.name + '.json', 'w'): pass
+
         ret = []        
         with open("./data/" + target.name + '.csv', newline='') as f:
             reader = csv.DictReader(f, delimiter=',')
@@ -158,6 +175,8 @@ class CSVDataLayer:
         return ret
 
     def ReadFromFileName(self, targetfile, objectType) :
+        if not exists(targetfile):
+            with open(targetfile, 'w'): pass
         ret = []        
         with open(targetfile, newline='') as f:
             reader = csv.DictReader(f, delimiter=',')

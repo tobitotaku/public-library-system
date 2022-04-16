@@ -2,6 +2,7 @@ import string
 from datahelpers import DataResolver, TargetFile
 from ast import Pass
 import json
+import re
 from models import Person
 from multiprocessing.spawn import prepare
 from utils import getNewId
@@ -33,7 +34,7 @@ class UserManager:
         self.all()
         if self.users:
             for item in self.users:
-                if item.username == username:
+                if re.search(username, item.username, re.IGNORECASE):
                     return item
         return user
     
