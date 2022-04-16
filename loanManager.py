@@ -117,19 +117,6 @@ class LoanManager:
 
 
 
-    def setLoanedItemsReceived(self, loanItems ) :
-        if not isinstance(loanItems, list):
-            loanItems = [loanItems]
-
-        if self.allLoanedItems:
-            for L in loanItems:
-                for i,item in enumerate(self.allLoanedItems):
-                    L : LoanItem
-                    if item.id == L.id :
-                        del self.allLoanedItems[i]
-                        self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
-                        return item.id
-        return False
 
     def setLoanedItemsReceivedById(self, loanItems ) :
         if not isinstance(loanItems, list):
