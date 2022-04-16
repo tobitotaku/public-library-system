@@ -23,7 +23,6 @@ class LoanManager:
         self.allLoanedItems = self.resolver.Read( TargetFile.LoanItem, LoanItem)
         self.catalog = catalog
 
-    # TODO All BookItems functionliatieo
     def listAllBookItemsLoaned(self) :
         currentItem : LoanItem
         ret = list()
@@ -89,43 +88,34 @@ class LoanManager:
         ret = list()
         if self.allLoanedItems:
             for item in self.allLoanedItems:
+                print(item)
                 if item.bookItemId == bookItemId:
                     ret.append(item)
         return ret
 
     def searchBookItemWithAvailability(self, query):
         searchRes = self.catalog.search(query)
+        # print(searchRes)
         ret = list()
         for book in searchRes:
+            # print(book.toRow())
             book : Book
-            bookItem : BookItem = self.catalog.getBookItemByBook(book.id)
+            bookItem = self.catalog.getBookItemByBook(book.getId())
+            # print(bookItem)
             # book = self.catalog.getBook(bookItem.book)
-            loanItem : LoanItem = self.getCompleteBookItemLoanedByBookItemId(bookItem.id)            
-            if loanItem:
-                if loanItem.loanStatus == BookStatus.Available:
-                    ret.append({book, bookItem, "available"})
+            for item in bookItem:
+                loanItem : LoanItem = self.getLoanItemsByBookItemId(item.getId())   
+                print(loanItem)
+                print(bookItem)
+                if loanItem:
+                    ret.append((book, item, "unavailable"))
                 else:
-                    ret.append({book, bookItem, "unavailable"})
-            else:
-                ret.append({book, bookItem, "available"})
+                    ret.append((book, item, "available"))
 
         return ret
 
 
 
-    def setLoanedItemsReceived(self, loanItems ) :
-        if not isinstance(loanItems, list):
-            loanItems = [loanItems]
-
-        if self.allLoanedItems:
-            for L in loanItems:
-                for i,item in enumerate(self.allLoanedItems):
-                    L : LoanItem
-                    if item.id == L.id :
-                        del self.allLoanedItems[i]
-                        self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
-                        return item.id
-        return False
 
     def setLoanedItemsReceivedById(self, loanItems ) :
         if not isinstance(loanItems, list):
@@ -148,7 +138,6 @@ class LoanManager:
 
 
     def loanItemToMember(self, member : Person, itemToLoan : BookItem):
-        # TODO add checks for permitting member to borrow the item
         alreadyLoanedItems = self.getLoanItemsByUserId(member.getId())
         if len(alreadyLoanedItems) > 3:
             print("user has too many books!")
@@ -174,7 +163,6 @@ class LoanManager:
                 ret.append(book)
             elif re.search(query, book.ISBN, re.IGNORECASE) :
                 ret.append(book)
-        return ret
 
-
+        # for b in ret
 

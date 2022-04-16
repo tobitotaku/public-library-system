@@ -23,8 +23,6 @@ from backup import Backup
 # x = Member("Dirk", "De vries", 17)
 # books = Book("J.K. Rowling", "harry potter 1")
 
-# backupController = Backup()
-# # backupController.StoreBackup()
 
 catalog = Catalog()
 
@@ -32,7 +30,7 @@ loanManger = LoanManager(catalog)
 userManager = UserManager()
 user : Person = userManager.findbyname("jessin")
 print(user.toRow())
-print("-----------------------------------------")
+# print("-----------------------------------------")
 # print(userManager.all())
 # for u in userManager.all():
 #     us : Person = u
@@ -42,24 +40,31 @@ print("-----------------------------------------")
 allItems = catalog.listAllBookItems()
 # loanManger.loanItemToMember(user, allItems[0])
 # loanManger.setLoanedItemsReceivedById(3)
-print("-----------------------------------------")
-print("Loaned items!")
+# print("-----------------------------------------")
+# print("Loaned items!")
 
-loanManger.loanItemToMember(user, allItems[2])
+# loanManger.loanItemToMember(user, allItems[2])
 itemsLoaned = loanManger.getCompleteBookItemLoanedByUserId(user.getId())
 
-for item in allItems:
-    item : BookItem 
-    print(item.toRow())
-    bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
-    book : Book = catalog.getBookById(bookitem.bookid)
-    print(book.toRow())
 
-print("-----------------------------------------")
+searchRes = loanManger.searchBookItemWithAvailability("harry")
+
+# searchRes = catalog.search("dune")
+
+# for item in allItems:
+#     item : BookItem 
+#     print(item.toRow())
+#     bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
+
+#     book : Book = catalog.getBookById(bookitem.bookid)
+#     print(book)
+#     print(book.toRow())
+
+# print("-----------------------------------------")
 # print(itemsLoaned)
-for item in itemsLoaned:
+for item in searchRes:
     # item : BookItem 
-    print(item)
+    print(item[0].title, item[1].toRow(), item[2])
 
 
     # bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
@@ -74,6 +79,10 @@ for item in itemsLoaned:
 
 # backupOptions = backupController.readBackupsAvailable()
 # print(backupOptions)
+
+
+# backupController = Backup()
+# backupController.StoreBackup()
 
 
 # backupController.listBackupsAvailableForUser()

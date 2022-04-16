@@ -116,10 +116,14 @@ class Catalog:
                 return item
 
     def getBookItemByBook(self, bookId):
+        ret = []
         for item in  self.allItems :
-            item : BookItem
-            if item.bookid == bookId:
-                return item
+            if int(item.bookid) ==  int(bookId):
+                # print(item.bookid, bookId)
+                ret.append(item)
+
+        # print(ret)
+        return ret
 
     def search(self, query) :
         ret = list()
@@ -127,8 +131,8 @@ class Catalog:
             if re.search(query, book.author, re.IGNORECASE) :
                 ret.append(book)
                 # return book
-            elif re.search(query, book.id, re.IGNORECASE) :
-                ret.append(book)
+            # elif re.search(query, book.id, re.IGNORECASE) :
+                # ret.append(book)
                 # return book
             elif re.search(query, book.title, re.IGNORECASE) :
                 ret.append(book)
