@@ -52,9 +52,12 @@ class Catalog:
         return book
 
 
-    def addBookItem(self, id, Author, Title, ISBN) :
-        self.allBooks.append(Book(id, Author, Title, ISBN))
-        return
+    def addBookItem(self, bookid) :
+        id = getNewId(self.allItems)
+        bookitem = BookItem(id, bookid)
+        self.allItems.append(bookitem)
+        self.save()
+        return bookitem
 
 
     # TODO test and improve this
