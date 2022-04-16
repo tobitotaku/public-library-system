@@ -37,24 +37,37 @@ class BookItemMemberCV(ControllerView):
         if bookitem:
             book = self.catalog.getBookById(bookitem.bookid)
             print(f'Book selected: {bookitem.id} - {book.title}')
-            self.loanmanager.add(self.user, bookitem)
+            self.loanmanager.loanItemToMember(self.user, bookitem)
             print(f'Book: {bookitem.id}.{book.title} loaned to Member {self.user.id}.{self.user.username}')
         else:
             print(f"Bookitem not found")
     
     def render_loan_list(self):
         self.line()
-        loanlist = self.loanmanager.getLoanItemsByUserId(self.user.id)
+        loanlist = self.loanmanager.getCompleteBookItemLoanedByUserId(self.user.id)
         print('Bookitems in Library.')
-        print('- ID - bookitemid - Title - Author -')
+        # print('- ID - bookitemid - Title - Author -')
+        print('- ID - bookitemid - member - Title - Author - ISBN - IssueDate - ReturnDate')
         if len(loanlist) == 0:
             print('Empty list.')
         for item in loanlist:
-            loanItem = self.loanmanager.getCompleteBookItemLoanedById(item.id)
-            print(item)
-            print(loanItem)
+            # loanitem = self.loanmanager.getCompleteBookItemLoanedByUserId(item.id)
+            loanitem = item['item']
+            # bookitem = item[1]
+            book = item['book']
+            person = self.user
+            print(f" - {loanitem.id} - {loanitem.bookItemId} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
             # print(f"- {item.id} - {loanItem[1].id} - {loanItem[2].title} - {loanItem[2].author} -")
-    # def render_return_loan(self):
+    def render_return_loan(self):
+        self.render_loan_list()
+        idsstr = str(input('Select LoanItem IDS'))
+        idslist = ids.split(' ')
+        ids = []
+        for id in idslist:
+            if id.isdigit():
+                ids.append(id)
+        self.loanmanager.setLoanedItemsReceivedById(ids)
+        self.render_loan_list()
         
 class BookItemAdminCV(BookItemMemberCV):
     def __init__(self, *args):
@@ -65,7 +78,10 @@ class BookItemAdminCV(BookItemMemberCV):
             (self.render_edit, "Edit"),
             (self.render_delete, "Delete"),
             (self.render_loan, "Loan a Book to Member"),
-        ] + self.actions
+            (self.render_loan_list, "Loaned Books"),
+            (self.render_main, "Back to main menu"),
+            (exit, "Exit application"),
+        ]
         self.catalogcv = CatalogAdminCV(ControllerView)
 
     def render_add(self):
@@ -147,12 +163,16 @@ class BookItemAdminCV(BookItemMemberCV):
     def render_loan_list(self):
         self.line()
         print('Bookitems in Library.')
-        print('- ID - bookid - Author - Title - ISBN -')
-        if len(self.loanmanager.allLoanedItems) == 0:
+        print('- ID - bookitemid - member - Title - Author - ISBN - IssueDate - ReturnDate')
+        allLoanedItems = self.loanmanager.listAllBookItemsLoaned()
+        if len(allLoanedItems) == 0:
             print('Empty list.')
-        for item in self.catalog.allItems:
-            book = self.catalog.getBookById(item.bookid)
-            print(f"- {item.id} - {item.bookid} - {book.author} - {book.title} - {book.ISBN} -")
+        for item in allLoanedItems:
+            loanitem = item[0]
+            # bookitem = item[1]
+            book = item[2]
+            person = item[3]
+            print(f" - {loanitem.id} - {loanitem.bookItemId} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
 
     def render_loan(self):
         self.line()
@@ -167,7 +187,7 @@ class BookItemAdminCV(BookItemMemberCV):
             user = self.usermanager.findbyid(userid)
             if user:
                 print(f'User selected: {user.id} - {user.username}')
-                self.loanmanager.add(user, bookitem)
+                self.loanmanager.loanItemToMember(user, bookitem)
                 print(f'Book: {bookitem.id}.{book.title} loaned to Member {userid}.{user.username}')
             else:
                 print(f"User not found")

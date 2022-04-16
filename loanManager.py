@@ -33,7 +33,7 @@ class LoanManager:
             bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
             book = self.catalog.getBookById(bookItem.bookid)
             loaner : Person = self.userManager.findbyid(currentItem.userId)
-            ret.append({currentItem, bookItem, book, loaner})
+            ret.append({"item": currentItem,"bookItem" : bookItem, "book":  book,"user": loaner})
         return ret
 
     def getCompleteBookItemLoanedById(self, id : int) :
@@ -67,12 +67,11 @@ class LoanManager:
     def getCompleteBookItemLoanedByUserId(self, user) :
         ret = list()
         items = self.getLoanItemsByUserId(user)
-        # print(items)
         for item in items:
             t : LoanItem = item
             bookItem : BookItem = self.catalog.getBookItem(t.bookItemId)
             book = self.catalog.getBook(bookItem.bookid)
-            ret.append({"items": items,"bookItem" : bookItem, "book":  book,"user": user})
+            ret.append({"item": item,"bookItem" : bookItem, "book":  book,"user": user})
         return ret
     
     def getCompleteBookItemLoanedByBookItemId(self, bookItemId) :
@@ -139,9 +138,6 @@ class LoanManager:
                         del self.allLoanedItems[i]
                         self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
                         
-        return False
-
-
 
     def getLoanItemById(self, id):
         if self.allLoanedItems:
@@ -154,32 +150,17 @@ class LoanManager:
     def loanItemToMember(self, member : Person, itemToLoan : BookItem):
         # TODO add checks for permitting member to borrow the item
         alreadyLoanedItems = self.getLoanItemsByUserId(member.getId())
-        print(alreadyLoanedItems)
         if len(alreadyLoanedItems) > 3:
             print("user has too many books!")
             return
         #if (get amount of books currently borrowed >= 3 do not lend):
         
-        print(date.today())
         dateObject = date.today()
         # today = dateObject
         returnDate = dateObject +relativedelta(days=+30)
         item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.getId(), member.id, dateObject, returnDate , BookStatus.Loaned.name)
         self.allLoanedItems.append(item)
-        print(self.allLoanedItems[0].returnDate)
         self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
-
-
-    def add(self, member : Person, itemToLoan : BookItem):
-        item = self.loanItemToMember(member, itemToLoan)
-        self.allLoanedItems.append(item)
-        self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
-        return item
-
-
-        
-
-    
 
     # TODO To search a book item and its availability in the catalog
     def searchLoanItems(self, query) :

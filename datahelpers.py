@@ -107,20 +107,15 @@ class JSONDataLayer:
 
 
 
-        print([b.title for b in books_ret])
-        print([b.username for b in members_ret])
         return  members_ret, books_ret
         
 
         
 
     def WriteToFile(self, target: TargetFile, collection : list()):
-        print(collection)
         toStore = [ob.toRow() for ob in collection]
         jString = json.dumps(toStore, indent=4)#.replace(' ', '').replace('\n', '')
         # jString = json.dumps(collection)
-        print("output:")
-        print(jString)
         with open('./data/' + target.name + '.json', 'w') as outfile:
             outfile.write(jString)
 
@@ -134,7 +129,6 @@ class JSONDataLayer:
             try:
                 data = json.load(json_file)
                 for row in data:
-                    print(row)
                     ret.append(objectType(row))
             except:
                 print("Something went wrong, please check if all files are setup correcty or contact the system administrator")
