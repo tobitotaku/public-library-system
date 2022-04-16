@@ -41,10 +41,11 @@ class BookItemCV(ControllerView):
         self.line()
         print('list of active members')
         print('- ID - bookid - Author - Title - ISBN -')
-        if len(self.catalog.allbooksitems) == 0:
+        if len(self.catalog.allItems) == 0:
             print('Empty list.')
-        for item in self.catalog.allbooksitems:
-            print(f"- {item['id']} - {item['bookid']} - {item['author']} - {item['title']} - {item['ISBN']} -")
+        for item in self.catalog.allItems:
+            book = self.catalog.getBookById(item.id)
+            print(f"- {item.id} - {item.bookid} - {item.author} - {item.title} - {item.ISBN} -")
 
     def render_edit(self):
         self.render_list()
@@ -75,7 +76,7 @@ class BookItemCV(ControllerView):
         if bookitem:
             is_confirm = input("Confirm delete?  (y/Enter) ")
             if is_confirm == 'y':
-                self.usermanager.delete(id)
+                self.catalog.deleteBookitem(id)
                 print(f"Bookitem {bookitem.id} was deleted succesfully")
             else:
                 print(f"Bookitem {bookitem.id} was NOT deleted")

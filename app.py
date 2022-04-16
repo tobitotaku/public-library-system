@@ -39,10 +39,9 @@ from backup import Backup
 # DataResolver.Save(resolver, m, TargetFile.Member)
 
 # login, menu navigation, add users
-# MainCV().render_menu()
+MainCV().render_menu()
 
-booksCatalog = Catalog()
-print(getNewId(booksCatalog.getBooks()))
+# print(getNewId(booksCatalog.getBooks()))
 # search = booksCatalog.search("5")
 # for s in search:
 #     print (s.toRow())
