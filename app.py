@@ -77,7 +77,7 @@ for item in itemsLoaned:
 # DataResolver.Save(resolver, m, TargetFile.Member)
 
 # login, menu navigation, add users
-# MainCV().render_menu()
+MainCV().render_menu()
 
 # print(getNewId(booksCatalog.getBooks()))
 # search = booksCatalog.search("5")

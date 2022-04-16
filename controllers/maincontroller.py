@@ -3,6 +3,7 @@ from controllers.userscontroller import *
 from controllers.catalogcontroller import *
 from controllers.bookitemcontroller import *
 from controllers.backupcontroller import *
+from controllers.loancontroller import *
 
 class MainCV(ControllerView):
     def __init__(self, *args):
@@ -10,13 +11,13 @@ class MainCV(ControllerView):
 
         self.render_login()
         self.usercv = MembersCV(ControllerView)
-
         self.breadcrumbs.append(self)
         self.catalogcv = CatalogMemberCV(ControllerView)
-        self.bookitemcv = BookItemCV(ControllerView)
+        self.bookitemcv = BookItemMemberCV(ControllerView)
         self.backupcv = BackupCV(ControllerView)
         if self.user and self.user.role == 'admin':
-            self.catalogcv = CatalogAdminCV(CatalogMemberCV)
+            self.catalogcv = CatalogAdminCV(CatalogMemberCV) 
+            self.bookitemcv = BookItemAdminCV(BookItemMemberCV)
             self.actions = [
                 (self.usercv.render_menu, "Manage Members"),
                 (self.catalogcv.render_menu, "Manage Catalog"),
@@ -27,6 +28,7 @@ class MainCV(ControllerView):
         else:
             self.actions = [
                 (self.catalogcv.render_menu, "Catalog"),
+                (self.bookitemcv.render_menu, "Library"),
                 (exit, "Exit application"),
             ]
     def render_menu(self):
@@ -42,7 +44,7 @@ class MainCV(ControllerView):
             user = self.usermanager.findbyname(inp_username)
             if (user and inp_username == user.username and inp_password == user.password):
                 self.user = user
-                print('Welcome,{username}!'.format(**user.__dict__))
+                print(f'Welcome,{user.username}!')
             else:
                 print('Password or Username is incorrect')
                 self.render_login()

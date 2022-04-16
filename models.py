@@ -8,7 +8,7 @@ from datetime import datetime
 from multiprocessing.spawn import prepare
 
 # itemType = Enum("itemType", "book magazine")
-# itemStatus = Enum("itemStatus", "available loaned")
+itemStatus = Enum("itemStatus", "available loaned")
 class Book:
 
     def __init__(self, *args):
@@ -19,9 +19,9 @@ class Book:
             self.ISBN = args[3]
 
         else:
+            self.id = args[0]['id']
             self.author = args[0]['author']
             self.title = args[0]['title']
-            self.id = args[0]['id']
             self.ISBN = args[0]['ISBN']
 
     def getId(self):
@@ -44,7 +44,7 @@ class BookItem:
         if len(args) > 1:
             self.id = args[0]
             self.bookid = args[1]
-            self.itemStatus = args[2] if len(args) > 2 else 'available'
+            self.itemStatus = args[2] if len(args) > 2 else itemStatus.available.value
 
         else:
             self.id = args[0]['id']

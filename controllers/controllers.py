@@ -1,10 +1,10 @@
 from models import *
 from userManager import *
+from loanManager import *
 from catalog import *
 from backup import *
 
 class ControllerView:
-    user = False
     initialized = False
     breadcrumbs = []
     def __init__(self, *args):
@@ -15,14 +15,12 @@ class ControllerView:
         self.usermanager = UserManager()
         self.catalog = Catalog()
         self.backup = Backup()
+        self.loanmanager = LoanManager(self.catalog)
 
     def line(self):
         print('\n'+'-'*40)
 
     def render_menu(self): 
-        if self.stop:
-            return 0
-
         inp_option = False
         # _options.key should match _actions.key
         for i,item in enumerate(self.actions):
@@ -57,3 +55,11 @@ class ControllerView:
             return True, dataModel
         
         return False, dataModel
+
+    def select_field_id(self, label = "[0] Selected ID? "):
+        try:
+            id = int(input(label))
+            return id
+        except:
+            print("Invalid ID entered. Retry.")
+            self.select_field_id(label)

@@ -1,5 +1,5 @@
 from matplotlib.style import available
-from models import Book, BookItem, LoanItem, Person
+from models import Book, BookItem, LoanItem, Member, Person
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from catalog import Catalog
@@ -31,7 +31,7 @@ class LoanManager:
             currentItem = loanItem
             currentItem.bookItemId
             bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
-            book = self.catalog.getBook(bookItem.book)
+            book = self.catalog.getBookById(bookItem.bookid)
             loaner : Person = self.userManager.findbyid(currentItem.userId)
             ret.append({currentItem, bookItem, book, loaner})
         return ret
@@ -40,7 +40,7 @@ class LoanManager:
         ret = list()
         currentItem = self.getLoanItemById(id)
         bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
-        book = self.catalog.getBook(bookItem.book)
+        book = self.catalog.getBookById(bookItem.bookid)
         loaner : Person = self.userManager.findbyid(currentItem.userId)
         ret.append({currentItem, bookItem, book, loaner})
         return ret
@@ -61,7 +61,7 @@ class LoanManager:
                 if loanItem.loanStatus == BookStatus.Available:
                     return True
                 return False
-        return True
+        return False
         
     def getCompleteBookItemLoanedByUserId(self, user) :
         ret = list()
@@ -74,6 +74,25 @@ class LoanManager:
             ret.append({"items": items,"bookItem" : bookItem, "book":  book,"user": user})
         return ret
     
+    def getCompleteBookItemLoanedByBookItemId(self, bookItemId) :
+        ret = list()
+        items = self.getLoanItemsByBookItemId(bookItemId)
+        for item in items:
+            t : LoanItem = item
+            bookItem : BookItem = self.catalog.getBookItem(t.bookItemId)
+            book : Book = self.catalog.getBookById(bookItem.bookid)
+            user : Member = self.userManager.findbyid(t.userId)
+            ret.append({t, bookItem, book, user})
+        return ret
+
+    def getLoanItemsByBookItemId(self, bookItemId) :
+        ret = list()
+        if self.allLoanedItems:
+            for item in self.allLoanedItems:
+                if item.bookItemId == bookItemId:
+                    ret.append(item)
+        return ret
+
     def searchBookItemWithAvailability(self, query):
         searchRes = self.catalog.search(query)
         ret = list()
@@ -81,7 +100,7 @@ class LoanManager:
             book : Book
             bookItem : BookItem = self.catalog.getBookItemByBook(book.id)
             # book = self.catalog.getBook(bookItem.book)
-            loanItem : LoanItem = self.getCompleteBookItemLoanedById(bookItem.id)            
+            loanItem : LoanItem = self.getCompleteBookItemLoanedByBookItemId(bookItem.id)            
             if loanItem:
                 if loanItem.loanStatus == BookStatus.Available:
                     ret.append({book, bookItem, "available"})
@@ -130,6 +149,11 @@ class LoanManager:
         print(self.allLoanedItems[0].returnDate)
         self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
 
+
+    def add(self, member : Person, itemToLoan : BookItem):
+        item = self.loanItemToMember(member, itemToLoan)
+        self.allLoanedItems.append(item)
+        self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
         return item
 
 
