@@ -9,8 +9,11 @@ class BookItemMemberCV(ControllerView):
             # (self.render_list, "List"),
             # (self.render_add, "Add"),
             # (self.render_edit, "Edit"),
+            (self.render_list, "All Availible Bookitems"),
+            (self.render_search, "Search Availible Bookitems"),
             (self.render_loan, "Loan a Book"),
             (self.render_loan_list, "Loaned Books"),
+            (self.render_return_loan, "Return loaned Books"),
             (self.render_main, "Back to main menu"),
             (exit, "Exit application"),
         ]
@@ -54,25 +57,48 @@ class BookItemMemberCV(ControllerView):
             book = item['book']
             person = self.user
             print(f" - {loanitem.id} - {loanitem.bookItemId} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
+
     def render_return_loan(self):
         self.render_loan_list()
-        idsstr = str(input('Select LoanItem IDS'))
-        idslist = ids.split(' ')
+        idsstr = str(input('Selected LoanItem IDS? '))
+        idslist = idsstr.split(' ')
         ids = []
         for id in idslist:
             if id.isdigit():
-                ids.append(id)
+                ids.append(int(id))
         self.loanmanager.setLoanedItemsReceivedById(ids)
         self.render_loan_list()
-        
+    
+    def render_search(self):
+        self.line()
+        query = str(input('Search by Title, Author, ISBN: '))
+        res = self.loanmanager.searchBookItemWithAvailability(query)
+        for item in res:
+            book = item[0]
+            bookitem = item[1]
+            print(f" - {bookitem.id} - {bookitem.bookid} - {book.title} - {book.author} - {book.ISBN} - {item[3]} - ")
+    def render_list(self):
+        self.line()
+        print('Bookitems in Library.')
+        bookitems = self.loanmanager.getBookItemWithAvailability()
+        print('- ID - bookid - Author - Title - ISBN -')
+        if len(bookitems) == 0:
+            print('Empty list.')
+        for item in bookitems:
+            print(item)
+            book = item[0]
+            bookitem = item[1]
+            print(f" - {bookitem.id} - {bookitem.bookid} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
+
 class BookItemAdminCV(BookItemMemberCV):
     def __init__(self, *args):
         not self.initialized if BookItemMemberCV.__init__(self, *args) else self.initialized
         self.actions = [
-            (self.render_list, "List"),
-            (self.render_add, "Add"),
-            (self.render_edit, "Edit"),
-            (self.render_delete, "Delete"),
+            (self.render_list, "All Availible Bookitems"),
+            (self.render_list, "Search Availible Bookitems"),
+            (self.render_add, "Add Bookitem"),
+            (self.render_edit, "Edit Bookitem"),
+            (self.render_delete, "Delete Bookitem"),
             (self.render_loan, "Loan a Book to Member"),
             (self.render_loan_list, "Loaned Books"),
             (self.render_main, "Back to main menu"),
@@ -98,15 +124,6 @@ class BookItemAdminCV(BookItemMemberCV):
         else:
             print('Book not found')
     
-    def render_list(self):
-        self.line()
-        print('Bookitems in Library.')
-        print('- ID - bookid - Author - Title - ISBN -')
-        if len(self.catalog.allItems) == 0:
-            print('Empty list.')
-        for item in self.catalog.allItems:
-            book = self.catalog.getBookById(item.bookid)
-            print(f"- {item.id} - {item.bookid} - {book.author} - {book.title} - {book.ISBN} -")
 
     def render_edit(self):
         self.render_list()
@@ -190,5 +207,3 @@ class BookItemAdminCV(BookItemMemberCV):
         else:
             print(f"Bookitem not found")
 
-    def render_search(self):
-        pass

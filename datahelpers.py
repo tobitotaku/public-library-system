@@ -136,7 +136,8 @@ class JSONDataLayer:
 
     def ReadFromFile(self, target : TargetFile, objectType):
         if not exists('./data/' + target.name + '.json'):
-            with open('./data/' + target.name + '.json', 'w'): pass
+            with open('./data/' + target.name + '.json', 'w') as outfile: 
+                outfile.write('[]')
 
         ret = []
         with open('./data/' + target.name + '.json') as json_file:
