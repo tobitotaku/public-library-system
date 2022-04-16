@@ -89,7 +89,6 @@ class LoanManager:
         ret = list()
         if self.allLoanedItems:
             for item in self.allLoanedItems:
-                print(item)
                 if item.bookItemId == bookItemId:
                     ret.append(item)
         return ret
@@ -106,8 +105,6 @@ class LoanManager:
             # book = self.catalog.getBook(bookItem.book)
             for item in bookItem:
                 loanItem : LoanItem = self.getLoanItemsByBookItemId(item.getId())   
-                print(loanItem)
-                print(bookItem)
                 if loanItem:
                     ret.append((book, item, "unavailable"))
                 else:

@@ -62,9 +62,9 @@ searchRes = loanManger.searchBookItemWithAvailability("harry")
 
 # print("-----------------------------------------")
 # print(itemsLoaned)
-for item in searchRes:
+# for item in searchRes:
     # item : BookItem 
-    print(item[0].title, item[1].toRow(), item[2])
+    # print(item[0].title, item[1].toRow(), item[2])
 
 
     # bookitem : BookItem = catalog.getBookItemByBook(item.bookid)
@@ -81,15 +81,17 @@ for item in searchRes:
 # print(backupOptions)
 
 
-# backupController = Backup()
+backupController = Backup()
 # backupController.StoreBackup()
 
 
-# backupController.listBackupsAvailableForUser()
-# listed = backupController.readBackupsAvailable()
+backupController.listBackupsAvailableForUser()
+listed = backupController.readBackupsAvailable()
 # # listed
-# data = backupController.loadBackup(listed[7])
-# print(data[0])
+data = backupController.loadBackup(listed[16])
+print(data[3])
+
+
 
 # DataResolver.Save(resolver, m, TargetFile.Member)
 

@@ -14,7 +14,7 @@ import csv
 from utils import *
 from numpy import integer
 
-from models import Person, Book, BookItem
+from models import LoanItem, Person, Book, BookItem
 # from usermodels import Person
 
 TargetFile = Enum("target", "Member Book Backup LibraryItem LoanItem")
@@ -91,27 +91,33 @@ class JSONDataLayer:
             return [], []
         members_ret = []
         books_ret = []
+        booksItems_ret = []
+        loanItems_ret = []
         with open(filename, 'r') as json_file:
             try:
                 input = json_file.read()
                 data = json.loads(input)
+
                 for row in data[0]['members']:
-                    row = json.loads(row)
                     members_ret.append(Person(row))
                 
                 for row in data[0]['books']:
-                    row = json.loads(row)
                     books_ret.append(Book(row))
 
-                for row in data[0]['books']:
-                    row = json.loads(row)
-                    books_ret.append(Book(row))
+                for row in data[0]['libraryItems']:
+                    booksItems_ret.append(BookItem(row))
+
+                for row in data[0]['loanitems']:
+                    loanItems_ret.append(LoanItem(row))
+
             except:
-                print("Something went wrong, please check if all files are setup correcty or contact the system administrator")
+                print("Something went wrong with loading backup, please check if all files are setup correcty or contact the system administrator")
 
 
 
-        return  members_ret, books_ret
+        # print([b.userId for b in loanItems_ret])
+        # print([b.username for b in members_ret])
+        return  members_ret, books_ret, booksItems_ret, loanItems_ret
         
 
         
@@ -121,7 +127,11 @@ class JSONDataLayer:
         jString = json.dumps(toStore, indent=4)#.replace(' ', '').replace('\n', '')
         # jString = json.dumps(collection)
         with open('./data/' + target.name + '.json', 'w') as outfile:
-            outfile.write(jString)
+            try:
+                outfile.write(jString)
+            except:
+                return False
+            
 
 
     def ReadFromFile(self, target : TargetFile, objectType):
@@ -135,7 +145,7 @@ class JSONDataLayer:
                 for row in data:
                     ret.append(objectType(row))
             except:
-                print("Something went wrong, please check if all files are setup correcty or contact the system administrator")
+                print("Something went wrong with loading " + target.name + ".json, please check if all files are setup correcty or contact the system administrator")
         return ret
 
     def ReadFromFileName(self, targetfile, objectType) :

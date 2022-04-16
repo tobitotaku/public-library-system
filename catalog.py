@@ -32,7 +32,7 @@ class Catalog:
 
         if self.allBooks:
             for item in self.allBooks:
-                if item.id == id:
+                if int(item.id) == int(id):
                     return item
         return False
 
