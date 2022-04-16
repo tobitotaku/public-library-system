@@ -46,18 +46,14 @@ class BookItemMemberCV(ControllerView):
         self.line()
         loanlist = self.loanmanager.getCompleteBookItemLoanedByUserId(self.user.id)
         print('Bookitems in Library.')
-        # print('- ID - bookitemid - Title - Author -')
         print('- ID - bookitemid - member - Title - Author - ISBN - IssueDate - ReturnDate')
         if len(loanlist) == 0:
             print('Empty list.')
         for item in loanlist:
-            # loanitem = self.loanmanager.getCompleteBookItemLoanedByUserId(item.id)
             loanitem = item['item']
-            # bookitem = item[1]
             book = item['book']
             person = self.user
             print(f" - {loanitem.id} - {loanitem.bookItemId} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
-            # print(f"- {item.id} - {loanItem[1].id} - {loanItem[2].title} - {loanItem[2].author} -")
     def render_return_loan(self):
         self.render_loan_list()
         idsstr = str(input('Select LoanItem IDS'))

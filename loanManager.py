@@ -69,7 +69,8 @@ class LoanManager:
         for item in items:
             t : LoanItem = item
             bookItem : BookItem = self.catalog.getBookItem(t.bookItemId)
-            book = self.catalog.getBook(bookItem.bookid)
+            book = self.catalog.getBookById(bookItem.bookid)
+            user : Member = self.userManager.findbyid(t.userId)
             ret.append({"item": item,"bookItem" : bookItem, "book":  book,"user": user})
         return ret
     
