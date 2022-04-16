@@ -17,9 +17,9 @@ class Book:
             self.ISBN = args[3]
 
         else:
+            self.id = args[0]['id']
             self.author = args[0]['author']
             self.title = args[0]['title']
-            self.id = args[0]['id']
             self.ISBN = args[0]['ISBN']
 
     def getId(self):

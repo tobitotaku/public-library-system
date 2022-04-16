@@ -20,7 +20,7 @@ class BookItemCV(ControllerView):
 
     def render_menu(self):
         self.line()
-        print("Bookitem management options:")
+        print("Library management options:")
         ControllerView.render_menu(self)
 
     def render_add(self):
@@ -41,11 +41,10 @@ class BookItemCV(ControllerView):
         self.line()
         print('list of active members')
         print('- ID - bookid - Author - Title - ISBN -')
-        if len(self.catalog.allItems) == 0:
+        if len(self.catalog.allbooksitems) == 0:
             print('Empty list.')
-        for item in self.catalog.allItems:
-            book = self.catalog.getBookById(item.bookid)
-            print(f'- {item.id} - {item.bookid} - {book.author} - {book.title} - {book.ISBN} -')
+        for item in self.catalog.allbooksitems:
+            print(f"- {item['id']} - {item['bookid']} - {item['author']} - {item['title']} - {item['ISBN']} -")
 
     def render_edit(self):
         self.render_list()
