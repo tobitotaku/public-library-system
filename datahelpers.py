@@ -129,8 +129,9 @@ class JSONDataLayer:
         with open('./data/' + target.name + '.json', 'w') as outfile:
             try:
                 outfile.write(jString)
-            except:
-                return False
+
+            # except:
+            except Exception as e: print("Something went wrong with loading backup, please check if all files are setup correcty or contact the system administrator: " + e) 
             
 
 
