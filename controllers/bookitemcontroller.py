@@ -1,6 +1,7 @@
 from controllers.controllers import ControllerView
 from controllers.catalogcontroller import *
 from controllers.userscontroller import *
+from utils import *
 
 class BookItemMemberCV(ControllerView):
     def __init__(self, *args):
@@ -38,10 +39,10 @@ class BookItemMemberCV(ControllerView):
         bookitemid = self.select_field_id('[0] Selected BookItemID? ')
         bookitem = self.catalog.getBookItem(bookitemid)
         if bookitem:
-            book = self.catalog.getBookById(bookitem.bookid)
-            print(f'Book selected: {bookitem.id} - {book.title}')
+            # book = self.catalog.getBookById(bookitem.bookid)
+            print(f'Book selected: {bookitem.id} - {bookitem.title}')
             self.loanmanager.loanItemToMember(self.user, bookitem)
-            print(f'Book: {bookitem.id}.{book.title} loaned to Member {self.user.id}.{self.user.username}')
+            print(f'Book: {bookitem.id}.{bookitem.title} loaned to Member {self.user.id}.{self.user.username}')
         else:
             print(f"Bookitem not found")
     
@@ -81,14 +82,12 @@ class BookItemMemberCV(ControllerView):
     def render_list(self):
         self.line()
         print('Bookitems in Library.')
-        bookitems = self.loanmanager.getBookItemWithAvailability()
-        print('- ID - bookid - Author - Title - ISBN -')
+        bookitems = self.catalog.allItems
+        print(f'{s("ID", 3)} - {s("Author")} - {s("Title")} - {s("ISBN")} - {s("Status")}')
         if len(bookitems) == 0:
             print('Empty list.')
         for item in bookitems:
-            book = item[0]
-            bookitem = item[1]
-            print(f" - {bookitem.id} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
+            print(f"{s(item.bookItemId, 3)} - {s(item.title)} - {s(item.author)} - {s(item.ISBN)} - {s(item.itemStatus)}")
 
 class BookItemAdminCV(BookItemMemberCV):
     def __init__(self, *args):

@@ -8,7 +8,7 @@ from utils import getNewId
 from enum import Enum
 import os
 BookStatus = Enum("loanStatus", "Available Loaned")
-
+itemStatus = Enum("itemStatus", "available loaned")
 
 class Catalog:
     
@@ -166,9 +166,7 @@ class Catalog:
             else:
                 importlist[i].id = getNewId(self.allBooks)
                 self.allBooks.append(importlist[i])
-                # initially add bookitem
-                for x in range(3):
-                    self.addBookItem(item)
+                self.addBookItem(item)
         self.resolver.Save(self.allBooks, TargetFile.Book)
         return notadded
         
