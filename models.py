@@ -39,27 +39,29 @@ class Book:
             sort_keys=True, indent=0)
 
 
-class BookItem:
+class BookItem(Book):
 
     def __init__(self, *args):
         if len(args) > 1:
-            self.id = args[0]
-            self.bookid = args[1]
-            self.itemStatus = args[2] if len(args) > 2 else itemStatus.available.value
+            self.bookItemId = args[0]
+            # self.bookid = args[5]
+            self.itemStatus = args[1] if len(args) > 1 and args[1] else itemStatus.available.value
+            Book.__init__(self, args[2].__dict__)
 
         else:
-            self.id = args[0]['id']
-            self.bookid = args[0]['bookid']
+            Book.__init__(self, *args)
+            self.bookItemId = args[0]['bookItemId']
+            # self.bookid = args[0]['bookid']
             self.itemStatus = args[0]['itemStatus']
     
     def getId(self):
-        return self.id
+        return self.bookItemId
 
     def toHeader(self):
-        return ["id","bookid", "itemStatus"]
+        return ["bookItemId","id", "itemStatus","author", "title",  "ISBN"]
 
     def toRow(self):
-        return {"id" : self.id, "bookid" : self.bookid, "itemStatus" : self.itemStatus}
+        return {"bookItemId" : self.bookItemId, "id" : self.id, "itemStatus" : self.itemStatus, "author" : self.author, "title" : self.title, "ISBN" : self.ISBN}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 

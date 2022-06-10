@@ -52,9 +52,9 @@ class Catalog:
         return book
 
 
-    def addBookItem(self, bookid) :
+    def addBookItem(self, book) :
         id = getNewId(self.allItems)
-        bookitem = BookItem(id, bookid)
+        bookitem = BookItem(id, None,book)
         self.allItems.append(bookitem)
         self.save()
         return bookitem
@@ -158,10 +158,10 @@ class Catalog:
                 notadded.append(item)
             else:
                 importlist[i].id = getNewId(self.allBooks)
-                self.allBooks.append(item)
+                self.allBooks.append(importlist[i])
                 # initially add bookitem
                 for x in range(3):
-                    self.addBookItem(item.id, item)
+                    self.addBookItem(item)
         self.resolver.Save(self.allBooks, TargetFile.Book)
         return notadded
         
