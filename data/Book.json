@@ -14,13 +14,7 @@
     {
         "id": 2,
         "author": "J.K. Rowling",
-        "title": "Harry Potter 3",
-        "ISBN": "978-7-0392-1683-1"
-    },
-    {
-        "id": 3,
-        "author": "J.K. Rowling",
-        "title": "Harry Potter 3",
+        "title": "harry potter 3",
         "ISBN": "978-7-0392-1683-1"
     }
 ]

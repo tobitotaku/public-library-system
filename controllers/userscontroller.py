@@ -4,10 +4,10 @@ class MembersCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
         self.actions = [
-            (self.render_list, "List"),
-            (self.render_add, "Add"),
-            (self.render_edit, "Edit"),
-            (self.render_delete, "Delete"),
+            (self.render_list, "List all members"),
+            (self.render_add, "Add a member"),
+            (self.render_edit, "Edit a member"),
+            (self.render_delete, "Delete a member"),
             (self.render_import_list, "List Imports(CSV)"),
             (self.render_import, "Import Bulk Members(CSV)"),
             (self.render_main, "Back to main menu"),

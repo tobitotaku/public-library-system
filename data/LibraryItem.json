@@ -1,62 +1,47 @@
 [
     {
-        "id": 6,
+        "id": 0,
         "bookid": 0,
-        "itemStatus": "available"
+        "itemStatus": 1
+    },
+    {
+        "id": 1,
+        "bookid": 0,
+        "itemStatus": 1
+    },
+    {
+        "id": 2,
+        "bookid": 0,
+        "itemStatus": 1
+    },
+    {
+        "id": 3,
+        "bookid": 1,
+        "itemStatus": 1
+    },
+    {
+        "id": 4,
+        "bookid": 1,
+        "itemStatus": 1
+    },
+    {
+        "id": 5,
+        "bookid": 1,
+        "itemStatus": 1
+    },
+    {
+        "id": 6,
+        "bookid": 2,
+        "itemStatus": 1
     },
     {
         "id": 7,
-        "bookid": 0,
-        "itemStatus": "available"
+        "bookid": 2,
+        "itemStatus": 1
     },
     {
         "id": 8,
-        "bookid": 0,
-        "itemStatus": "available"
-    },
-    {
-        "id": 9,
-        "bookid": 1,
-        "itemStatus": "available"
-    },
-    {
-        "id": 10,
-        "bookid": 4,
-        "itemStatus": "available"
-    },
-    {
-        "id": 11,
-        "bookid": 1,
-        "itemStatus": "available"
-    },
-    {
-        "id": 12,
         "bookid": 2,
-        "itemStatus": "available"
-    },
-    {
-        "id": 13,
-        "bookid": 2,
-        "itemStatus": "available"
-    },
-    {
-        "id": 14,
-        "bookid": 2,
-        "itemStatus": "available"
-    },
-    {
-        "id": 15,
-        "bookid": 3,
-        "itemStatus": "available"
-    },
-    {
-        "id": 16,
-        "bookid": 3,
-        "itemStatus": "available"
-    },
-    {
-        "id": 17,
-        "bookid": 3,
-        "itemStatus": "available"
+        "itemStatus": 1
     }
 ]

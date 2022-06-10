@@ -76,7 +76,7 @@ class BookItemMemberCV(ControllerView):
         for item in res:
             book = item[0]
             bookitem = item[1]
-            print(f" - {bookitem.id} - {bookitem.bookid} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
+            print(f" - {bookitem.id} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
     def render_list(self):
         self.line()
         print('Bookitems in Library.')
@@ -87,7 +87,7 @@ class BookItemMemberCV(ControllerView):
         for item in bookitems:
             book = item[0]
             bookitem = item[1]
-            print(f" - {bookitem.id} - {bookitem.bookid} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
+            print(f" - {bookitem.id} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
 
 class BookItemAdminCV(BookItemMemberCV):
     def __init__(self, *args):
@@ -175,7 +175,7 @@ class BookItemAdminCV(BookItemMemberCV):
     def render_loan_list(self):
         self.line()
         print('Bookitems in Library.')
-        print('- ID - bookitemid - member - Title - Author - ISBN - IssueDate - ReturnDate')
+        print('- ID - member - Title - Author - ISBN - IssueDate - ReturnDate')
         allLoanedItems = self.loanmanager.listAllBookItemsLoaned()
         if len(allLoanedItems) == 0:
             print('Empty list.')
@@ -184,7 +184,7 @@ class BookItemAdminCV(BookItemMemberCV):
             # bookitem = item[1]
             book = item['book']
             person = item['user']
-            print(f" - {loanitem.id} - {loanitem.bookItemId} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
+            print(f" - {loanitem.id} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
 
     def render_loan(self):
         self.line()

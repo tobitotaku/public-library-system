@@ -159,6 +159,9 @@ class Catalog:
             else:
                 importlist[i].id = getNewId(self.allBooks)
                 self.allBooks.append(item)
+                # initially add bookitem
+                for x in range(3):
+                    self.addBookItem(item.id, item)
         self.resolver.Save(self.allBooks, TargetFile.Book)
         return notadded
         

@@ -5,8 +5,8 @@ class CatalogMemberCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
         self.actions = [
-            (self.render_list, "List"),
-            (self.render_search, "Search"),
+            (self.render_list, "List all books"),
+            (self.render_search, "Search a book"),
             (self.render_main, "Back to main menu"),
             (exit, "Exit application"),
         ]
@@ -44,9 +44,9 @@ class CatalogAdminCV(CatalogMemberCV):
     def __init__(self, *args):
         not self.initialized if CatalogMemberCV.__init__(self, *args) else self.initialized
         self.actions = [
-            (self.render_add, "Add"),
-            (self.render_edit, "Edit"),
-            (self.render_delete, "Delete"),
+            (self.render_add, "Add a book"),
+            (self.render_edit, "Edit a book"),
+            (self.render_delete, "Delete a book"),
             (self.render_import_list, "List Imports(JSON)"),
             (self.render_import, "Import Bulk Books(JSON)"),
         ] + self.actions

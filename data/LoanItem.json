@@ -1,26 +1,3 @@
 [
-    {
-        "id": 7,
-        "bookItemId": 8,
-        "userId": 2,
-        "issueDate": "16-04-2022",
-        "returnDate": "16-05-2022",
-        "loanStatus": "Loaned"
-    },
-    {
-        "id": 8,
-        "bookItemId": 8,
-        "userId": 1,
-        "issueDate": "16-04-2022",
-        "returnDate": "16-05-2022",
-        "loanStatus": "Loaned"
-    },
-    {
-        "id": 9,
-        "bookItemId": 9,
-        "userId": 1,
-        "issueDate": "16-04-2022",
-        "returnDate": "16-05-2022",
-        "loanStatus": "Loaned"
-    }
+    
 ]
