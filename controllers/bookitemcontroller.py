@@ -49,7 +49,7 @@ class BookItemMemberCV(ControllerView):
         self.line()
         loanlist = self.loanmanager.getCompleteBookItemLoanedByUserId(self.user.id)
         print('Bookitems in Library.')
-        print('- ID - bookitemid - member - Title - Author - ISBN - IssueDate - ReturnDate')
+        print('ID - bookitemid - member - Title - Author - ISBN - IssueDate - ReturnDate')
         if len(loanlist) == 0:
             print('Empty list.')
         for item in loanlist:

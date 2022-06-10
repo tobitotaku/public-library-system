@@ -47,7 +47,7 @@ class Backup:
             return False
 
 
-        return True
+        return data
 
     
     def readBackupsAvailable(self):
