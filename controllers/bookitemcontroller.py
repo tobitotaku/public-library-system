@@ -77,6 +77,7 @@ class BookItemMemberCV(ControllerView):
             book = item[0]
             bookitem = item[1]
             print(f" - {bookitem.id} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
+
     def render_list(self):
         self.line()
         print('Bookitems in Library.')
@@ -117,8 +118,16 @@ class BookItemAdminCV(BookItemMemberCV):
         book = self.catalog.getBookById(id)
         if book:
             print(f'Book selected {book.id} {book.title}')
-            bookitem = self.catalog.addBookItem(id)
-            print(f'Bookitem {bookitem.id} added')
+            try:
+                nbooks = int(input("[0] how many books would you like to add? (default = 1) "))
+            except:
+                print("Invalid option entered. Retry.")
+                self.render_add()
+            if nbooks is None:
+                nbooks = 1
+            for x in range(nbooks):
+                bookitem = self.catalog.addBookItem(book)
+                print(f'Bookitem {bookitem.title} added')
             self.catalog.listAllBookItems()
         else:
             print('Book not found')
@@ -134,22 +143,10 @@ class BookItemAdminCV(BookItemMemberCV):
 
         bookitem = self.catalog.getBookItem(id)
         if bookitem:
-            # confirm, book = self.edit_form(book)
-            book = self.catalog.getBookById(bookitem.bookid)
-            confirm_field = input(f"[{bookitem.id}] Book: [{book.title}] | edit field or skip? (y/Enter) ")
-            if confirm_field == 'y':
-                print('Books in Catalog')
-                self.catalogcv.render_list()
-                try:
-                    bookid = int(input(f'[0] Bookid? '))
-                except:
-                    print("Invalid ID entered. Retry.")
-                    self.render_edit()
-                confirm_save = input('Save changes or skip? (y/Enter) ')
-                if confirm_save == 'y':
-                    bookitem.bookid = bookid
-                    self.catalog.updateBookitem(id, bookitem)
-                    print(f"Bookitem {bookitem.id} was changed succesfully")
+            confirm, bookitem = self.edit_form(bookitem)
+            if confirm:
+                self.catalog.updateBookitem(id, bookitem)
+            print(f"Bookitem {bookitem.title} was changed succesfully")
         else:
             print('Bookitem not found')
 

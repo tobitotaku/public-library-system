@@ -48,6 +48,8 @@ class Catalog:
         id = getNewId(self.allBooks)
         book = Book(id, Author, Title, ISBN)
         self.allBooks.append(book)
+        for x in range(3):
+            self.addBookItem(book)
         self.resolver.Save(self.allBooks, TargetFile.Book)
         return book
 
@@ -67,6 +69,11 @@ class Catalog:
                 if item.id == id:
                     self.allBooks[i] = book
                     self.save()
+                    for j,bookitem in enumerate(self.allItems):
+                        if bookitem.id == id:
+                            self.allItems[j].author = book.author
+                            self.allItems[j].title = book.title
+                            self.allItems[j].ISBN = book.ISBN
                     return book
         return False
     
