@@ -130,7 +130,7 @@ class CatalogAdminCV(CatalogMemberCV):
         if len(importfiles) == 0:
             print('Empty list.')
         for i,item in enumerate(importfiles):
-            print(f'- {i} - {s(item, 40)} -')
+            print(f'{i} - {s(item, 40)}')
         return importfiles
 
     def render_import(self):
