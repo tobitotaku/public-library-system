@@ -113,8 +113,8 @@ class JSONDataLayer:
                 for row in data[0]['loanitems']:
                     loanItems_ret.append(LoanItem(row))
 
-            except:
-                print("Something went wrong with loading backup, please check if all files are setup correcty or contact the system administrator")
+            except Exception as e: print("Something went wrong with loading backup, please check if all files are setup correcty or contact the system administrator: " + e)
+              
 
 
 
@@ -132,8 +132,9 @@ class JSONDataLayer:
         with open('./data/' + target.name + '.json', 'w') as outfile:
             try:
                 outfile.write(jString)
-            except:
-                return False
+
+            # except:
+            except Exception as e: print("Something went wrong with loading backup, please check if all files are setup correcty or contact the system administrator: " + e) 
             
 
 

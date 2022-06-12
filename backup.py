@@ -35,17 +35,18 @@ class Backup:
         
     def loadBackup(self, file):
         data = self.helper.ReadBackup( file)
+        print(data)
         if len(data) < 3:
             return False
-        if not self.helper.Save(data[0], TargetFile.Member):
-            return False
-        if not self.helper.Save(data[1], TargetFile.Book):
-            return False
-        if not self.helper.Save(data[2], TargetFile.LibraryItem):
-            return False
-        if not self.helper.Save(data[3], TargetFile.LoanItem):
-            return False
-
+        # if not self.helper.Save(data[0], TargetFile.Member):
+        self.helper.Save(data[0], TargetFile.Member)
+            # return False
+        self.helper.Save(data[1], TargetFile.Book)
+            # return False
+        self.helper.Save(data[2], TargetFile.LibraryItem)
+            # return False
+        self.helper.Save(data[3], TargetFile.LoanItem)
+            # return False
 
         return True
 

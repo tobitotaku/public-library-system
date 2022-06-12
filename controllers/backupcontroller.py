@@ -1,5 +1,7 @@
 from controllers.controllers import ControllerView
-
+# from controllers.maincontroller import MainCV
+import os
+import sys
 class BackupCV(ControllerView):
     def __init__(self, *args):
         not self.initialized if ControllerView.__init__(self, *args) else self.initialized
@@ -46,7 +48,15 @@ class BackupCV(ControllerView):
             print(f'Backup [{backupid}] {loadbackup} selected')
             confirm = input('Confirm loading backup? (y/Enter)')
             if confirm == 'y':
-                self.backup.loadBackup(loadbackup)
-                print(f'Backup [{backupid}] {loadbackup} loaded')
+                res = self.backup.loadBackup(loadbackup)
+                print(res)
+                if(res == True):
+                    print(f'Backup [{backupid}] {loadbackup} loaded')
+                    # ControllerView.reload_data(self)
+                    print("backup succesful, restarting application.")
+                    os.execl(sys.executable, os.path.abspath(__file__), *sys.argv) 
+                else:
+                    print('Something went wrong with loading the backup, please restart the application.')
+                
         else:
             print('Backup not found')

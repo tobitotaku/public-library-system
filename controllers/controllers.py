@@ -20,6 +20,15 @@ class ControllerView:
     def line(self):
         print('\n'+'-'*40)
 
+    def reload_data(self):
+        self.usermanager.all()
+        self.catalog.listAllBookItems()
+        self.catalog.listAllBooks()
+        self.loanmanager = LoanManager(self.catalog)
+        self.loanmanager.listAllBookItemsLoaned()
+        
+
+
     def render_menu(self): 
         inp_option = False
         # _options.key should match _actions.key
