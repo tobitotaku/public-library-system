@@ -39,7 +39,6 @@ class BookItemMemberCV(ControllerView):
         bookitemid = self.select_field_id('[0] Select a BookItemID? ')
         bookitem = self.catalog.getBookItem(bookitemid)
         if bookitem:
-            # book = self.catalog.getBookById(bookitem.bookid)
             print(f'Book selected: {bookitem.id} - {bookitem.title}')
             self.loanmanager.loanItemToMember(self.user, bookitem)
             print(f'Book: {bookitem.id}.{bookitem.title} loaned to Member {self.user.id}.{self.user.username}')
@@ -72,18 +71,17 @@ class BookItemMemberCV(ControllerView):
     
     def render_search(self):
         self.line()
-        query = str(input('Search by Title, Author, ISBN: '))
-        res = self.loanmanager.searchBookItemWithAvailability(query)
-        for item in res:
-            book = item[0]
-            bookitem = item[1]
-            print(f" - {bookitem.id} - {book.title} - {book.author} - {book.ISBN} - {item[2]} - ")
+        query = str(input('Search by Title, Author: '))
+        res = self.catalog.searchBookItem(query)
+        self.render_list(res)
 
-    def render_list(self):
+    def render_list(self, bookitems = None):
         self.line()
         print('Bookitems in Library.')
-        bookitems = self.catalog.listAllBookItems()
+        # bookitems = self.catalog.listAllBookItems()
         print(f'{s("#", 3)} - {s("Title")} - {s("Author")} - {s("ISBN")} - {s("Status")}')
+        if not bookitems:
+            bookitems = self.catalog.listAllBookItems()
         if len(bookitems) == 0:
             print('Empty list.')
         for i,item in enumerate(bookitems):
@@ -94,7 +92,7 @@ class BookItemAdminCV(BookItemMemberCV):
         not self.initialized if BookItemMemberCV.__init__(self, *args) else self.initialized
         self.actions = [
             (self.render_list, "All Availible Bookitems"),
-            (self.render_list, "Search Availible Bookitems"),
+            (self.render_search, "Search Availible Bookitems"),
             (self.render_add, "Add Bookitem"),
             (self.render_edit, "Edit Bookitem"),
             (self.render_delete, "Delete Bookitem"),
@@ -183,33 +181,44 @@ class BookItemAdminCV(BookItemMemberCV):
 
     def render_loan_list(self):
         self.line()
-        print('Bookitems in Library.')
-        print('- ID - member - Title - Author - ISBN - IssueDate - ReturnDate')
+        print('Loaned bookitems in Library.')
+        # print('- ID - member - Title - Author - ISBN - IssueDate - ReturnDate')
+        print(f'{s("#", 3)} - {s("Member")} - {s("Title")} - {s("Author")} - {s("ISBN")} - {s("Issue date")} - {s("Return date")} - {s("Status")}')
         allLoanedItems = self.loanmanager.listAllBookItemsLoaned()
         if len(allLoanedItems) == 0:
             print('Empty list.')
-        for item in allLoanedItems:
-            loanitem = item['item']
+        for i,item in enumerate(allLoanedItems):
+            # loanitem = item['item']
             # bookitem = item[1]
-            book = item['book']
-            person = item['user']
-            print(f" - {loanitem.id} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
+            # book = item['book']
+            # person = item['user']
+            print(f'{s(i, 3)} - {s(item.username)} - {s(item.title)} - {s(item.author)} - {s(item.ISBN)} - {s(item.issueDate)} - {s(item.returnDate)} - {s(item.itemStatus)}')
+            # print(f" - {loanitem.id} - {person.username} {person.surname} - {book.title} - {book.author} - {book.ISBN} - {loanitem.issueDate} - {loanitem.returnDate} - ")
+
+    def render_available_bookitems(self):
+        self.line()
+        print('Available bookitems in Library.')
+        print(f'{s("#", 3)} - {s("Title")} - {s("Author")} - {s("ISBN")} - {s("Status")}')
+        allLoanedItems = self.loanmanager.getBookItemsAvailable()
+        if len(allLoanedItems) == 0:
+            print('No booksitem available.')
+        for i,item in enumerate(allLoanedItems):
+            print(f'{s(i, 3)} - {s(item.title)} - {s(item.author)} - {s(item.ISBN)} - {s(item.itemStatus)}')
 
     def render_loan(self):
         self.line()
-        self.render_list()
+        self.render_available_bookitems()
         bookitemid = self.select_field_id('Enter number from column #: ')
         bookitem = self.catalog.getBookItem(bookitemid)
         if bookitem:
-            book = self.catalog.getBookById(bookitem.bookid)
-            print(f'Book selected: {bookitem.id} - {book.title}')
+            print(f'Book selected: {bookitem.title}')
             self.usercv.render_list()
             userid = self.select_field_id('Enter number from column #: ')
             user = self.usermanager.findbyid(userid)
             if user:
-                print(f'User selected: {user.id} - {user.username}')
-                self.loanmanager.loanItemToMember(user, bookitem)
-                print(f'Book: {bookitem.id}.{book.title} loaned to Member {userid}.{user.username}')
+                print(f'User selected: {user.username}')
+                if self.loanmanager.loanItemToMember(user, bookitem):
+                    print(f'Book: {bookitem.title} loaned to Member {userid}.{user.username}')
             else:
                 print(f"User not found")
         else:

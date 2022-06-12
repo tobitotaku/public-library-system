@@ -74,7 +74,7 @@ class Catalog:
                     self.save()
                     self.listAllBookItems()
                     for j,bookitem in enumerate(self.allItems):
-                        if bookitem.bookid == book.id:
+                        if bookitem.id == book.id:
                             self.allItems[j].author = book.author
                             self.allItems[j].title = book.title
                             self.allItems[j].ISBN = book.ISBN
@@ -139,33 +139,55 @@ class Catalog:
         #     if id == item.getId():
         #         return item
         return item
-
-    def getBookItemByBook(self, bookId):
-        ret = []
+        
+    def getBookItemById(self, id):
         self.listAllBookItems()
-        for item in  self.allItems :
-            if int(item.bookid) ==  int(bookId):
-                # print(item.bookid, bookId)
-                ret.append(item)
+        for bookitem in  self.allItems :
+            if id == bookitem.id :
+                return bookitem
 
-        # print(ret)
-        return ret
+    def updateBookitemByBookItem(self, bookitem):
+        if self.listAllBookItems():
+            for i,item in enumerate(self.allItems):
+                if bookitem.id == item.id:
+                    self.allItems[i] = bookitem
+                    self.resolver.Save(self.allItems, TargetFile.LibraryItem)
+                    return bookitem
+        return False
 
     def search(self, query) :
         ret = list()
         self.listAllBooks()
         for book in  self.allBooks :
-            if re.search(query, book.author, re.IGNORECASE) :
+            if re.match(query, book.author + book.title + book.author, re.IGNORECASE) :
                 ret.append(book)
                 # return book
             # elif re.search(query, book.id, re.IGNORECASE) :
                 # ret.append(book)
                 # return book
-            elif re.search(query, book.title, re.IGNORECASE) :
+            # elif re.search(query, book.title, re.IGNORECASE) :
+            #     ret.append(book)
+                # return book
+            # elif re.search(query, book.ISBN, re.IGNORECASE) :
+            #     ret.append(book)
+                # return book
+        return ret
+
+    def searchBookItem(self, query) :
+        ret = list()
+        self.listAllBookItems()
+        for book in self.allItems :
+            if re.search(query, book.author + book.title + book.author, re.IGNORECASE) :
                 ret.append(book)
                 # return book
-            elif re.search(query, book.ISBN, re.IGNORECASE) :
-                ret.append(book)
+            # elif re.search(query, book.id, re.IGNORECASE) :
+                # ret.append(book)
+                # return book
+            # elif re.search(query, book.title, re.IGNORECASE) :
+            #     ret.append(book)
+                # return book
+            # elif re.search(query, book.ISBN, re.IGNORECASE) :
+            #     ret.append(book)
                 # return book
         return ret
 

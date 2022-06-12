@@ -34,26 +34,24 @@ class Book:
     def __init__(self, *args):
         if len(args) > 2:
             self.id = args[0]
-            self.bookid = self.id
             self.author = args[1]
             self.title = args[2]
             self.ISBN = args[3]
 
         else:
             self.id = args[0]['id']
-            self.bookid = self.id
             self.author = args[0]['author']
             self.title = args[0]['title']
             self.ISBN = args[0]['ISBN']
 
     def getId(self):
-        return self.bookid
+        return self.id
 
     def toHeader(self):
-        return ["id","bookid","author", "title",  "ISBN"]
+        return ["id","author", "title",  "ISBN"]
 
     def toRow(self):
-        return { "id" : self.id,"bookid" : self.bookid, "author" : self.author, "title" : self.title, "ISBN" : self.ISBN}
+        return { "id" : self.id, "author" : self.author, "title" : self.title, "ISBN" : self.ISBN}
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -65,26 +63,35 @@ class BookItem(Book):
     def __init__(self, *args):
         if len(args) > 1:
             Book.__init__(self, args[2].__dict__)
-            self.id = args[0]
-            self.bookItemId = self.id
-            # self.bookid = args[5]
+            self.bookItemId = args[0]
             self.itemStatus = args[1] if len(args) > 1 and args[1] is not None else itemStatus.available.name
 
         else:
             Book.__init__(self, *args)
-            self.id = args[0]['id']
             self.bookItemId = args[0]['bookItemId']
-            # self.bookid = args[0]['bookid']
             self.itemStatus = args[0]['itemStatus']
     
     def getId(self):
         return self.bookItemId
 
     def toHeader(self):
-        return ["id","bookItemId","bookid", "itemStatus","author", "title",  "ISBN"]
+        return ["id",
+            "bookItemId",
+            "itemStatus",
+            "author", 
+            "title",  
+            "ISBN"
+            ]
 
     def toRow(self):
-        return {"id" : self.id, "bookItemId" : self.bookItemId, "bookid" : self.bookid, "itemStatus" : self.itemStatus, "author" : self.author, "title" : self.title, "ISBN" : self.ISBN}
+        return {
+            "id" : self.id, 
+            "bookItemId" : self.bookItemId, 
+            "itemStatus" : self.itemStatus, 
+            "author" : self.author, 
+            "title" : self.title, 
+            "ISBN" : self.ISBN
+        }
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -149,32 +156,40 @@ class LibraryAdmin(Person):
 class LoanItem(BookItem, Person):
     def __init__(self, *args):
         if len(args) > 2:
-            self.id = args[0]
-            self.loanItemid = self.id
-            # self.bookItemId = args[1]
-            # self.userId = args[1]
+            BookItem.__init__(self, args[3].__dict__)
+            Person.__init__(self, args[4].__dict__)
+            self.loanItemid = args[0]
             self.issueDate = args[1]
             self.returnDate = args[2]
-            self.loanStatus = args[3]
-            BookItem.__init__(self, args[4].__dict__)
-            Person.__init__(self, args[5].__dict__)
+
 
         else:
             BookItem.__init__(self, *args)
             Person.__init__(self, *args)
-            self.id = args[0]['id']
             self.loanItemid = args[0]['loanItemid']
-            # self.bookItemId = args[0]['bookItemId']
-            # self.userId = args[0]['userId']
             self.issueDate = datetime.strptime(args[0]['issueDate'], "%d-%m-%Y")
             self.returnDate = datetime.strptime(args[0]['returnDate'], "%d-%m-%Y")
-            self.loanStatus = itemStatus.loaned.name
 
     def getId(self):
         return self.id
 
     def toHeader(self):
-        return ["id", "loanItemid", "bookItemId", "userId", "issueDate", "returnDate", "loanStatus"]
+        return ["id", 
+            "loanItemid", 
+            "bookItemId", 
+            "title", 
+            "author", 
+            "ISBN", 
+            "userid", 
+            "username", 
+            "surname", 
+            "password", 
+            "age", 
+            "role", 
+            "issueDate", 
+            "returnDate", 
+            "itemStatus"
+        ]
 
     def toRow(self):
         # dateObject = date.today()
@@ -182,7 +197,23 @@ class LoanItem(BookItem, Person):
         # return { "id" : self.id, "bookItemId" : self.bookItemId, "userId" : self.userId, "issueDate" : self.issueDate, "returnDate" : self.returnDate, "loanStatus" : self.loanStatus}
         today = date.strftime(self.issueDate,"%d-%m-%Y")
         returnDate =  date.strftime(self.returnDate,"%d-%m-%Y")
-        return { "id" : self.id, "loanItemid" : self.loanItemid, "bookItemId" : self.bookItemId, "userId" : self.userId, "issueDate" : today, "returnDate" : returnDate, "loanStatus" : self.loanStatus}
+        return { 
+            "id" : self.id,
+            "loanItemid" : self.loanItemid, 
+            "bookItemId" : self.bookItemId, 
+            "title" : self.title,
+            "author" : self.author,
+            "ISBN" : self.ISBN,
+            "userid" : self.userid, 
+            "username" : self.username,
+            "surname" : self.surname,
+            "age" : self.age,
+            "password" : self.password,
+            "role" : self.role,
+            "issueDate" : today, 
+            "returnDate" : returnDate, 
+            "itemStatus" : self.itemStatus,
+        }
 
     def toJSON(self):
 

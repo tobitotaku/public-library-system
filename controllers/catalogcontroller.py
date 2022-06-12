@@ -30,7 +30,7 @@ class CatalogMemberCV(ControllerView):
 
         self.line()
         print('Books in Catalog.')
-        allBooks = self.catalog.listAllBooks()
+        # allBooks = self.catalog.listAllBooks()
         print(f'{s("#", 3)} - {s("Title")} - {s("Author")} - {s("ISBN")}')
         if not allBooks:
             allBooks = self.catalog.listAllBooks()
@@ -41,7 +41,7 @@ class CatalogMemberCV(ControllerView):
     
     def render_search(self):
         self.line()
-        query = str(input('Search by Title, Author, ISBN: '))
+        query = str(input('Search by Title, Author: '))
         res = self.catalog.search(query)
         self.render_list(res)
 

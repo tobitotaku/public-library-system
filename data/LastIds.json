@@ -1,14 +1,3 @@
 [
-    {
-        "file": "Book",
-        "maxid": 11
-    },
-    {
-        "file": "LibraryItem",
-        "maxid": 37
-    },
-    {
-        "file": "Member",
-        "maxid": 21
-    }
+
 ]

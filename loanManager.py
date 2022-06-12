@@ -1,5 +1,5 @@
 from matplotlib.style import available
-from models import Book, BookItem, LoanItem, Member, Person
+from models import Book, BookItem, LoanItem, Member, Person, itemStatus
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from catalog import Catalog
@@ -7,7 +7,7 @@ from datahelpers import DataResolver, TargetFile
 import re
 import json
 from userManager import UserManager
-from utils import getNewId
+from utils import getNewId, getNewIdTarget
 from enum import Enum
 
 BookStatus = Enum("loanStatus", "Available Loaned")
@@ -23,6 +23,9 @@ class LoanManager:
         self.allLoanedItems = self.resolver.Read( TargetFile.LoanItem, LoanItem)
         self.catalog = catalog
 
+    def load(self):
+        self.allLoanedItems = self.resolver.Read( TargetFile.LoanItem, LoanItem)
+
     def listAllBookItemsLoaned(self) :
         currentItem : LoanItem
         ret = list()
@@ -30,38 +33,20 @@ class LoanManager:
             currentItem = loanItem
             currentItem.bookItemId
             bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
-            book = self.catalog.getBookById(bookItem.bookid)
+            book = self.catalog.getBookById(bookItem.id)
             loaner : Person = self.userManager.findbyid(currentItem.userId)
             ret.append({"item": currentItem,"bookItem" : bookItem, "book":  book,"user": loaner})
         return ret
 
-    def getCompleteBookItemLoanedById(self, id : int) :
-        ret = list()
-        currentItem = self.getLoanItemById(id)
-        bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
-        book = self.catalog.getBookById(bookItem.bookid)
-        loaner : Person = self.userManager.findbyid(currentItem.userId)
-        ret.append({currentItem, bookItem, book, loaner})
-        return ret
-
     def getLoanItemsByUserId(self, userId) :
         ret = list()
-        
+        self.load()
         if self.allLoanedItems:
             for item in self.allLoanedItems:
-                item :LoanItem
-                if item.userId == userId:
+                if item.userid == userId and item.itemStatus == itemStatus.loaned.name:
                     ret.append(item)
         return ret
 
-    def getBookItemAvailable(self, bookItemId):
-        for loanItem in self.allLoanedItems:
-            loanItem : LoanItem
-            if loanItem.bookItemId == bookItemId:
-                if loanItem.loanStatus == BookStatus.Available:
-                    return True
-                return False
-        return False
         
     def getCompleteBookItemLoanedByUserId(self, user) :
         ret = list()
@@ -69,7 +54,7 @@ class LoanManager:
         for item in items:
             t : LoanItem = item
             bookItem : BookItem = self.catalog.getBookItem(t.bookItemId)
-            book = self.catalog.getBookById(bookItem.bookid)
+            book = self.catalog.getBookById(bookItem.id)
             user : Member = self.userManager.findbyid(t.userId)
             ret.append({"item": item,"bookItem" : bookItem, "book":  book,"user": user})
         return ret
@@ -80,7 +65,7 @@ class LoanManager:
         for item in items:
             t : LoanItem = item
             bookItem : BookItem = self.catalog.getBookItem(t.bookItemId)
-            book : Book = self.catalog.getBookById(bookItem.bookid)
+            book : Book = self.catalog.getBookById(bookItem.id)
             user : Member = self.userManager.findbyid(t.userId)
             ret.append({t, bookItem, book, user})
         return ret
@@ -93,40 +78,26 @@ class LoanManager:
                     ret.append(item)
         return ret
 
-    def searchBookItemWithAvailability(self, query):
-        searchRes = self.catalog.search(query)
-        # print(searchRes)
-        ret = list()
-        for book in searchRes:
-            # print(book.toRow())
-            book : Book
-            bookItem = self.catalog.getBookItemByBook(book.getId())
-            for item in bookItem:
-                loanItem : LoanItem = self.getLoanItemsByBookItemId(item.getId())   
-                if not book:
-                    ret.append((Book(-1, "unknown", "unknown", "000"), BookItem(-1, -1, "unknown")) )
-                if loanItem:
-                    ret.append((book, item, "unavailable"))
-                else:
-                    ret.append((book, item, "available"))
-        # print(ret)
-        return ret
+    def getBookItemsAvailable(self):
+        self.catalog.listAllBookItems()
+        res = []
+        if len(self.catalog.allItems) == 0:
+            res = False
+        for i, item in enumerate(self.catalog.allItems):
+            if item.itemStatus == itemStatus.available.name:
+                res.append(item)
+        return res
 
-    def getBookItemWithAvailability(self):
-        ret = list()
-        for item in self.catalog.allItems:
-            # print(item)
-            loanItem : LoanItem = self.getLoanItemsByBookItemId(item.id)   
-            # print(loanItem)
-            book : Book = self.catalog.getBookById(item.bookid)   
-            if not book:
-                ret.append(Book(-1, "unknown", "unknown", "000"))
-            # print(book)
-            if loanItem:
-                ret.append((book, item, "unavailable"))
-            else:
-                ret.append((book, item, "available"))
-        return ret
+    def getBookItemAvailable(self, id):
+        self.getBookItemsAvailable()
+        item =  None
+        if id < len(self.allItems):
+            item = self.allItems[id]
+        # for item in  self.allItems :
+        #     item : BookItem
+        #     if id == item.getId():
+        #         return item
+        return item
 
     def setLoanedItemsReceivedById(self, loanItems ) :
         if not isinstance(loanItems, list):
@@ -147,21 +118,23 @@ class LoanManager:
                     return item
         return False
 
-
     def loanItemToMember(self, member : Person, itemToLoan : BookItem):
         alreadyLoanedItems = self.getLoanItemsByUserId(member.getId())
         if len(alreadyLoanedItems) >= 3:
             print("user has too many books!")
-            return
-        #if (get amount of books currently borrowed >= 3 do not lend):
-        
+            return False
+        for i, item in enumerate(alreadyLoanedItems):
+            if (itemToLoan.id == item.id):
+                print("user has already borrowed this book!")
+                return False
         dateObject = date.today()
-        # today = dateObject
         returnDate = dateObject +relativedelta(days=+30)
-        item : LoanItem = LoanItem(getNewId(self.allLoanedItems), itemToLoan.getId(), member.id, dateObject, returnDate , BookStatus.Loaned.name)
+        itemToLoan.itemStatus = itemStatus.loaned.name
+        self.catalog.updateBookitemByBookItem(itemToLoan)
+        item = LoanItem(getNewIdTarget(TargetFile.LoanItem.name), dateObject, returnDate, itemToLoan, member)
         self.allLoanedItems.append(item)
         self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
-
+        return item
     # TODO To search a book item and its availability in the catalog
     def searchLoanItems(self, query) :
         ret = list()
