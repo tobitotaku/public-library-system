@@ -27,15 +27,12 @@ class LoanManager:
         self.allLoanedItems = self.resolver.Read( TargetFile.LoanItem, LoanItem)
 
     def listAllBookItemsLoaned(self) :
-        currentItem : LoanItem
         ret = list()
-        for loanItem  in self.allLoanedItems :
-            currentItem = loanItem
-            currentItem.bookItemId
-            bookItem : BookItem = self.catalog.getBookItem(currentItem.bookItemId)
-            book = self.catalog.getBookById(bookItem.id)
-            loaner : Person = self.userManager.findbyid(currentItem.userId)
-            ret.append({"item": currentItem,"bookItem" : bookItem, "book":  book,"user": loaner})
+        self.load()
+        if self.allLoanedItems:
+            for item in self.allLoanedItems:
+                if item.itemStatus == itemStatus.loaned.name:
+                    ret.append(item)
         return ret
 
     def getLoanItemsByUserId(self, userId) :
