@@ -149,7 +149,7 @@ class LoanManager:
 
     def loanItemToMember(self, member : Person, itemToLoan : BookItem):
         alreadyLoanedItems = self.getLoanItemsByUserId(member.getId())
-        if len(alreadyLoanedItems) > 3:
+        if len(alreadyLoanedItems) >= 3:
             print("user has too many books!")
             return
         #if (get amount of books currently borrowed >= 3 do not lend):

@@ -11,13 +11,12 @@ import time
 import datetime
 import json;
 import csv
-from utils import *
 from numpy import integer
 
-from models import LoanItem, Person, Book, BookItem
+from models import LoanItem, Person, Book, BookItem, LastIds
 # from usermodels import Person
 
-TargetFile = Enum("target", "Member Book Backup LibraryItem LoanItem")
+TargetFile = Enum("target", "Member Book Backup LibraryItem LoanItem LastIds")
 
 class DataResolver:
     def __init__(self):
@@ -42,6 +41,8 @@ class DataResolver:
             return self.jsonResolver.WriteToFile( target= target, collection=object)
         if(target == TargetFile.LoanItem):
             return self.jsonResolver.WriteToFile( target= target, collection=object)
+        if(target == TargetFile.LastIds):
+            return self.jsonResolver.WriteToFile( target= target, collection=object)
 
     def Read(self, target : TargetFile, ReturnType):
         if(target == TargetFile.Book):
@@ -54,6 +55,8 @@ class DataResolver:
             return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
         # if(target == TargetFile.Backup):
             # return self.jsonResolver.ReadBackup( target= target, objectType=ReturnType)
+        if(target == TargetFile.LastIds):
+            return self.jsonResolver.ReadFromFile( target= target, objectType=ReturnType)
 
     def ReadBackup(self, file):
         return self.jsonResolver.ReadBackup(file)

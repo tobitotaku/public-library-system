@@ -3,7 +3,7 @@
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
 from loanManager import LoanManager
 from userManager import UserManager
-from utils import getNewId
+from utils import getNewId, getNewIdTarget
 from models import Book, BookItem, LibraryAdmin, Person, Member
 from catalog import Catalog
 # from usermodels import LibraryAdmin, Person, Member

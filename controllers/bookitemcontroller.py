@@ -82,7 +82,7 @@ class BookItemMemberCV(ControllerView):
     def render_list(self):
         self.line()
         print('Bookitems in Library.')
-        bookitems = self.catalog.allItems
+        bookitems = self.catalog.listAllBookItems()
         print(f'{s("ID", 3)} - {s("Author")} - {s("Title")} - {s("ISBN")} - {s("Status")}')
         if len(bookitems) == 0:
             print('Empty list.')
@@ -162,9 +162,9 @@ class BookItemAdminCV(BookItemMemberCV):
             is_confirm = input("Confirm delete?  (y/Enter) ")
             if is_confirm == 'y':
                 self.catalog.deleteBookitem(id)
-                print(f"Bookitem {bookitem.id} was deleted succesfully")
+                print(f"Bookitem {bookitem.title} was deleted succesfully")
             else:
-                print(f"Bookitem {bookitem.id} was NOT deleted")
+                print(f"Bookitem {bookitem.title} was NOT deleted")
         else:
             print('Bookitem not found')
 

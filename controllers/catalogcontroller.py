@@ -22,7 +22,7 @@ class CatalogMemberCV(ControllerView):
         print('Catalog list')
         print('- ID - Author - Title - ISBN -')
         if not allBooks:
-            allBooks = self.catalog.allBooks
+            allBooks = self.catalog.listAllBooks()
         if len(allBooks) == 0:
             print('Empty list.')
         for item in allBooks:

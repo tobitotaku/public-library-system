@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from datahelpers import DataResolver, TargetFile
 import re
 import json
-from utils import getNewId
+from utils import getNewId, getNewIdTarget
 from enum import Enum
 import os
 BookStatus = Enum("loanStatus", "Available Loaned")
@@ -31,22 +31,23 @@ class Catalog:
     def getBookById(self, id):
 
         if self.allBooks:
-            for item in self.allBooks:
+            for item in self.listAllBooks():
                 if int(item.id) == int(id):
                     return item
         return False
 
     def getBookByName(self, name):
         self.getBooks()
-        if self.allBooks:
+        if self.listAllBooks():
             for item in self.allBooks:
                 if re.search(name, item.title, re.IGNORECASE):
                     return item
         return False
 
     def addBook(self, Author, Title, ISBN) :
-        id = getNewId(self.allBooks)
+        id = getNewIdTarget(TargetFile.Book.name)
         book = Book(id, Author, Title, ISBN)
+        self.listAllBooks()
         self.allBooks.append(book)
         for x in range(3):
             self.addBookItem(book)
@@ -55,8 +56,9 @@ class Catalog:
 
 
     def addBookItem(self, book) :
-        id = getNewId(self.allItems)
+        id = getNewIdTarget(TargetFile.LibraryItem.name)
         bookitem = BookItem(id, None,book)
+        self.listAllBookItems()
         self.allItems.append(bookitem)
         self.save()
         return bookitem
@@ -64,11 +66,12 @@ class Catalog:
 
     # TODO test and improve this
     def UpdateBook(self, id, book ) :
-        if self.allBooks:
+        if self.listAllBooks():
             for i,item in enumerate(self.allBooks):
                 if item.id == id:
                     self.allBooks[i] = book
                     self.save()
+                    self.listAllBookItems()
                     for j,bookitem in enumerate(self.allItems):
                         if bookitem.id == id:
                             self.allItems[j].author = book.author
@@ -78,7 +81,7 @@ class Catalog:
         return False
     
     def delete(self, id):
-        if self.allBooks:
+        if self.listAllBooks():
             for i,item in enumerate(self.allBooks):
                 if item.id == id:
                     del self.allBooks[i]
@@ -86,6 +89,7 @@ class Catalog:
                     return id
 
     def deleteBookitem(self, id):
+        self.listAllBookItems()
         if self.allItems:
             for i,item in enumerate(self.allItems):
                 if item.id == id:
@@ -94,6 +98,7 @@ class Catalog:
                     return id
 
     def updateBookitem(self, id, bookitem):
+        self.listAllBookItems()
         for i,item in enumerate(self.allItems):
             if item.id == id:
                 self.allItems[i] = bookitem
@@ -114,12 +119,14 @@ class Catalog:
 
 
     def getBook(self, id):
+        self.listAllBooks()
         for book in  self.allBooks :
             book : Book
             if id == book.getId() :
                 return book
 
     def getBookItem(self, id):
+        self.listAllBookItems()
         for item in  self.allItems :
             item : BookItem
             if id == item.getId():
@@ -127,6 +134,7 @@ class Catalog:
 
     def getBookItemByBook(self, bookId):
         ret = []
+        self.listAllBookItems()
         for item in  self.allItems :
             if int(item.bookid) ==  int(bookId):
                 # print(item.bookid, bookId)
@@ -137,6 +145,7 @@ class Catalog:
 
     def search(self, query) :
         ret = list()
+        self.listAllBooks()
         for book in  self.allBooks :
             if re.search(query, book.author, re.IGNORECASE) :
                 ret.append(book)
@@ -164,7 +173,8 @@ class Catalog:
             if book:
                 notadded.append(item)
             else:
-                importlist[i].id = getNewId(self.allBooks)
+                importlist[i].id = getNewIdTarget(TargetFile.Book.name)
+                self.listAllBooks()
                 self.allBooks.append(importlist[i])
                 self.addBookItem(item)
         self.resolver.Save(self.allBooks, TargetFile.Book)
