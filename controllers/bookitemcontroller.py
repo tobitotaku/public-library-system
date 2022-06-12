@@ -134,13 +134,14 @@ class BookItemAdminCV(BookItemMemberCV):
 
     def render_edit(self):
         self.render_list()
+        id = None
         try:
             id = int(input("Enter ID: "))
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
-
-        bookitem = self.catalog.getBookItem(id)
+        if id:
+            bookitem = self.catalog.getBookItem(id)
         if bookitem:
             confirm, bookitem = self.edit_form(bookitem)
             if confirm:

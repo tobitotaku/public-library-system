@@ -77,6 +77,7 @@ class Catalog:
                             self.allItems[j].author = book.author
                             self.allItems[j].title = book.title
                             self.allItems[j].ISBN = book.ISBN
+                    self.resolver.Save(self.allItems, TargetFile.LibraryItem)
                     return book
         return False
     
@@ -176,7 +177,8 @@ class Catalog:
                 importlist[i].id = getNewIdTarget(TargetFile.Book.name)
                 self.listAllBooks()
                 self.allBooks.append(importlist[i])
-                self.addBookItem(item)
+                for x in range(3):
+                    self.addBookItem(item)
         self.resolver.Save(self.allBooks, TargetFile.Book)
         return notadded
         

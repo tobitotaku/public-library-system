@@ -70,13 +70,15 @@ class CatalogAdminCV(CatalogMemberCV):
         
     def render_edit(self):
         self.render_list()
+        id = None
         try:
             id = int(input("Enter ID: "))
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
 
-        book = self.catalog.getBookById(id)
+        if id:
+            book = self.catalog.getBookById(id)
         if book:
             confirm, book = self.edit_form(book)
             if confirm:

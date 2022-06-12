@@ -12,7 +12,6 @@ def getNewIdTarget(Target):
     resolver = DataResolver()
     all = resolver.Read( TargetFile.LastIds, LastIds)
     for i,obj  in enumerate(all):
-        print(Target, obj.file, Target == obj.file)
         if Target == obj.file:
             all[i].maxid += 1
             resolver.Save(all, TargetFile.LastIds)

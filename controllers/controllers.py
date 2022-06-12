@@ -45,7 +45,7 @@ class ControllerView:
         self.render_menu()
         return inp_option
 
-    def edit_form(self, dataModel, skip = ['id', 'role', ]):
+    def edit_form(self, dataModel, skip = ['id', 'role', 'bookid', 'bookItemId', 'loanItemid', 'userid', 'itemStatus']):
         fields = dataModel.__dict__
         print('[fieldid]  [fieldname: fieldvalue] ')
         hide_value = ['password']

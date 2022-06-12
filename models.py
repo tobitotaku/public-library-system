@@ -65,11 +65,11 @@ class BookItem(Book):
 
     def __init__(self, *args):
         if len(args) > 1:
+            Book.__init__(self, args[2].__dict__)
             self.id = args[0]
             self.bookItemId = self.id
             # self.bookid = args[5]
             self.itemStatus = args[1] if len(args) > 1 and args[1] is not None else itemStatus.available.name
-            Book.__init__(self, args[2].__dict__)
 
         else:
             Book.__init__(self, *args)
