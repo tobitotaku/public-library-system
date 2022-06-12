@@ -36,7 +36,7 @@ class BookItemMemberCV(ControllerView):
     def render_loan(self):
         self.line()
         self.render_list()
-        bookitemid = self.select_field_id('[0] Selected BookItemID? ')
+        bookitemid = self.select_field_id('[0] Select a BookItemID? ')
         bookitem = self.catalog.getBookItem(bookitemid)
         if bookitem:
             # book = self.catalog.getBookById(bookitem.bookid)
@@ -61,7 +61,7 @@ class BookItemMemberCV(ControllerView):
 
     def render_return_loan(self):
         self.render_loan_list()
-        idsstr = str(input('Selected LoanItem IDS? '))
+        idsstr = str(input('Enter LoanItemID\'s (separated with a space)? '))
         idslist = idsstr.split(' ')
         ids = []
         for id in idslist:
@@ -83,11 +83,11 @@ class BookItemMemberCV(ControllerView):
         self.line()
         print('Bookitems in Library.')
         bookitems = self.catalog.listAllBookItems()
-        print(f'{s("ID", 3)} - {s("Title")} - {s("Author")} - {s("ISBN")} - {s("Status")}')
+        print(f'{s("#", 3)} - {s("Title")} - {s("Author")} - {s("ISBN")} - {s("Status")}')
         if len(bookitems) == 0:
             print('Empty list.')
-        for item in bookitems:
-            print(f"{s(item.bookItemId, 3)} - {s(item.title)} - {s(item.author)} - {s(item.ISBN)} - {s(item.itemStatus)}")
+        for i,item in enumerate(bookitems):
+            print(f"{s(i, 3)} - {s(item.title)} - {s(item.author)} - {s(item.ISBN)} - {s(item.itemStatus)}")
 
 class BookItemAdminCV(BookItemMemberCV):
     def __init__(self, *args):
@@ -108,17 +108,21 @@ class BookItemAdminCV(BookItemMemberCV):
     def render_add(self):
         self.line()
         self.catalogcv.render_list()        
+        id = None
+        book = None
+        nbooks = None
         try:
-            id = int(input("[0] bookid? "))
+            id = int(input("Enter bookid from column # "))
         except:
             print("Invalid option entered. Retry.")
             self.render_add()
         
-        book = self.catalog.getBookById(id)
+        if id >=0:
+            book = self.catalog.getBookById(id)
         if book:
             print(f'Book selected {book.id} {book.title}')
             try:
-                nbooks = int(input("[0] how many books would you like to add? (default = 1) "))
+                nbooks = int(input("how many books would you like to add? (default = 1) "))
             except:
                 print("Invalid option entered. Retry.")
                 self.render_add()
@@ -135,39 +139,47 @@ class BookItemAdminCV(BookItemMemberCV):
     def render_edit(self):
         self.render_list()
         id = None
+        bookitem = None
         try:
-            id = int(input("Enter number from column #: "))
+            id = int(input("Enter bookitem from column #: "))
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
-        if id:
+        if id >=0:
             bookitem = self.catalog.getBookItem(id)
         if bookitem:
             confirm, bookitem = self.edit_form(bookitem)
             if confirm:
                 self.catalog.updateBookitem(id, bookitem)
-            print(f"Bookitem {bookitem.title} was changed succesfully")
+                print(f"Bookitem {bookitem.title} was changed succesfully")
+            else:
+                print('Bookitem not found. You\'ll now redirected to Library menu.')
         else:
-            print('Bookitem not found')
+            print('Bookitem not found. You\'ll now redirected to Library menu.')
 
     def render_delete(self):
         self.line()
         self.render_list()
+        id = None
+        bookitem = None
         try:
             id = int(input("Enter number from column #: "))
         except:
-            print("Invalid ID entered. Retry.")
+            print("Invalid number entered. Retry.")
             self.render_delete()
-        bookitem = self.catalog.getBookItem(id)
+        if id >=0:
+            bookitem = self.catalog.getBookItem(id)
         if bookitem:
             is_confirm = input("Confirm delete (input:y) or cancel (press:Enter)? ")
             if is_confirm == 'y':
-                self.catalog.deleteBookitem(id)
-                print(f"Bookitem {bookitem.title} was deleted succesfully")
+                if self.catalog.deleteBookitem(id):
+                    print(f"Bookitem {bookitem.title} was deleted succesfully")
+                else:
+                    print(f"Bookitem {bookitem.title} was NOT deleted")
             else:
                 print(f"Bookitem {bookitem.title} was NOT deleted")
         else:
-            print('Bookitem not found')
+            print('Bookitem not found. You\'ll now redirected to Library menu.')
 
     def render_loan_list(self):
         self.line()
@@ -186,13 +198,13 @@ class BookItemAdminCV(BookItemMemberCV):
     def render_loan(self):
         self.line()
         self.render_list()
-        bookitemid = self.select_field_id('[0] Selected BookItemID? ')
+        bookitemid = self.select_field_id('Enter number from column #: ')
         bookitem = self.catalog.getBookItem(bookitemid)
         if bookitem:
             book = self.catalog.getBookById(bookitem.bookid)
             print(f'Book selected: {bookitem.id} - {book.title}')
             self.usercv.render_list()
-            userid = self.select_field_id('[1] Selected UserID? ')
+            userid = self.select_field_id('Enter number from column #: ')
             user = self.usermanager.findbyid(userid)
             if user:
                 print(f'User selected: {user.id} - {user.username}')
@@ -201,5 +213,5 @@ class BookItemAdminCV(BookItemMemberCV):
             else:
                 print(f"User not found")
         else:
-            print(f"Bookitem not found")
+            print(f"Bookitem not found. You\'ll now redirected to Library menu")
 

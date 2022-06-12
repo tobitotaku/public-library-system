@@ -92,21 +92,22 @@ class Catalog:
         return False
 
     def deleteBookitem(self, id):
-        self.listAllBookItems()
-        if self.allItems:
-            for i,item in enumerate(self.allItems):
-                if item.id == id:
-                    del self.allItems[i]
+        if self.listAllBookItems():
+            # for i,item in enumerate(self.allItems):
+                if id < len(self.allItems):
+                    del self.allItems[id]
                     self.resolver.Save(self.allItems, TargetFile.LibraryItem)
                     return id
+        return False
 
     def updateBookitem(self, id, bookitem):
-        self.listAllBookItems()
-        for i,item in enumerate(self.allItems):
-            if item.id == id:
-                self.allItems[i] = bookitem
+        if self.listAllBookItems():
+        # for i,item in enumerate(self.allItems):
+            if id < len(self.allItems):
+                self.allItems[id] = bookitem
                 self.resolver.Save(self.allItems, TargetFile.LibraryItem)
                 return bookitem
+        return False
 
     def listAllBooks(self):
         self.allBooks = self.resolver.Read( TargetFile.Book, Book)
@@ -130,10 +131,14 @@ class Catalog:
 
     def getBookItem(self, id):
         self.listAllBookItems()
-        for item in  self.allItems :
-            item : BookItem
-            if id == item.getId():
-                return item
+        item =  None
+        if id < len(self.allItems):
+            item = self.allItems[id]
+        # for item in  self.allItems :
+        #     item : BookItem
+        #     if id == item.getId():
+        #         return item
+        return item
 
     def getBookItemByBook(self, bookId):
         ret = []

@@ -97,7 +97,7 @@ class CatalogAdminCV(CatalogMemberCV):
             else:
                 print(f"Book {book.title} was NOT changed.")
         else:
-            print('Book not found. Your redirected to Catalog menu')
+            print('Book not found. You\'ll now redirected to Catalog menu')
 
     def render_delete(self):
         self.line()
@@ -121,7 +121,7 @@ class CatalogAdminCV(CatalogMemberCV):
             else:
                 print(f"Book {book.title} was NOT deleted")
         else:
-            print('Book not found. Your redirected to Catalog menu')
+            print('Book not found. You\'ll now redirected to Catalog menu')
 
     def render_import_list(self):
         print('Catalog Available Import Files.')
