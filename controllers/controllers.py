@@ -53,7 +53,7 @@ class ControllerView:
             if item[0] in skip:
                 continue
             fvalue = '*'*8 if item[0] in hide_value else item[1]
-            confirm_field = input(f"[{i}] [{item[0]}: {fvalue}] | edit field or skip? (y/Enter) ")
+            confirm_field = input(f"[{i}] [{item[0]}: {fvalue}] | edit field (input:y) or skip (press:Enter)?")
             if confirm_field == 'y':
                 fields[item[0]] = input(f'[{i}] {item[0]}: ')
             if item[0] == 'username':
@@ -62,7 +62,7 @@ class ControllerView:
                         print(f'Username:{fields[item[0]]} should only contain lowercase')
                         confirm, user = self.edit_form(dataModel)
                         return confirm, user
-        confirm_save = input('Save changes or skip? (y/Enter) ')
+        confirm_save = input('Save changes (input:y) or skip (Enter)? ')
         if confirm_save == 'y':
             dataModelClass = dataModel.__class__
             dataModel = dataModelClass(fields)

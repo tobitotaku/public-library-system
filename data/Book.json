@@ -7,8 +7,15 @@
         "ISBN": "978-6-1276-3992-7"
     },
     {
-        "id": 7,
-        "bookid": 7,
+        "id": 9,
+        "bookid": 9,
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 10,
+        "bookid": 10,
         "author": "J.K. Rowling",
         "title": "harry potter 3",
         "ISBN": "978-7-0392-1683-1"

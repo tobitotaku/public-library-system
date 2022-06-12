@@ -1,5 +1,5 @@
 from controllers.controllers import ControllerView
-
+from utils import *
 
 class CatalogMemberCV(ControllerView):
     def __init__(self, *args):
@@ -18,16 +18,26 @@ class CatalogMemberCV(ControllerView):
             print('Main menu not found')
 
     def render_list(self, allBooks = None):
+        # print('Catalog list')
+        # print('- ID - Author - Title - ISBN -')
+        # if not allBooks:
+        #     allBooks = self.catalog.listAllBooks()
+        # if len(allBooks) == 0:
+        #     print('Empty list.')
+        # for item in allBooks:
+        #     print(f'- {item.id} - {item.author} - {item.title} - {item.ISBN} -')
+        # return self.usermanager.users
+
         self.line()
-        print('Catalog list')
-        print('- ID - Author - Title - ISBN -')
+        print('Books in Catalog.')
+        allBooks = self.catalog.listAllBooks()
+        print(f'{s("#", 3)} - {s("Title")} - {s("Author")} - {s("ISBN")}')
         if not allBooks:
             allBooks = self.catalog.listAllBooks()
         if len(allBooks) == 0:
             print('Empty list.')
-        for item in allBooks:
-            print(f'- {item.id} - {item.author} - {item.title} - {item.ISBN} -')
-        return self.usermanager.users
+        for i,item in enumerate(allBooks):
+            print(f"{s(i, 3)} - {s(item.title)} - {s(item.author)} - {s(item.ISBN)}")
     
     def render_search(self):
         self.line()
@@ -71,40 +81,47 @@ class CatalogAdminCV(CatalogMemberCV):
     def render_edit(self):
         self.render_list()
         id = None
+        book = None
         try:
-            id = int(input("Enter ID: "))
+            id = int(input("Enter number from column #: "))
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
-
-        if id:
+        if id >=0:
             book = self.catalog.getBookById(id)
         if book:
             confirm, book = self.edit_form(book)
             if confirm:
                 self.catalog.UpdateBook(id, book)
-            print(f"Book {book.title} was changed succesfully")
+                print(f"Book {book.title} was changed succesfully.")
+            else:
+                print(f"Book {book.title} was NOT changed.")
         else:
-            print('Book not found')
+            print('Book not found. Your redirected to Catalog menu')
 
     def render_delete(self):
         self.line()
         self.render_list()
+        id = None
+        book = None
         try:
-            id = int(input("Enter ID: "))
+            id = int(input("Enter number from column #: "))
         except:
-            print("Invalid ID entered. Retry.")
+            print("Invalid number entered. Retry.")
             self.render_delete()
-        book = self.catalog.getBookById(id)
+        if id >=0:
+            book = self.catalog.getBookById(id)
         if book:
-            is_confirm = input("confirm delete? (y/Enter) ")
+            is_confirm = input("confirm delete (input:y) or cancel (press:Enter) ?")
             if is_confirm == 'y':
-                self.catalog.delete(id)
-                print(f"Book {book.title} was deleted succesfully")
+                if self.catalog.delete(id):
+                    print(f"Book {book.title} was deleted succesfully")
+                else:
+                    print(f"Book {book.title} was NOT deleted")
             else:
                 print(f"Book {book.title} was NOT deleted")
         else:
-            print('Book not found')
+            print('Book not found. Your redirected to Catalog menu')
 
     def render_import_list(self):
         print('Catalog Available Import Files.')
@@ -122,7 +139,7 @@ class CatalogAdminCV(CatalogMemberCV):
         if len(importlist) > importid:
             loadimport = importlist[importid]
             print(f'Importfile [{importid}] {loadimport} selected')
-            confirm = input('Confirm loading import? (y/Enter)')
+            confirm = input('Confirm loading import (input:y) or cancel (press:Enter)?')
             if confirm == 'y':
                 notadded = self.catalog.bulkAddBooks(loadimport)
                 print(f'Import [{importid}] {loadimport} loaded')

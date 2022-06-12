@@ -1,6 +1,5 @@
 from models import Book, BookItem, LoanItem, Person
 from datetime import date
-from dateutil.relativedelta import relativedelta
 from datahelpers import DataResolver, TargetFile
 import re
 import json
@@ -29,18 +28,20 @@ class Catalog:
         return self.allItems
 
     def getBookById(self, id):
-
-        if self.allBooks:
-            for item in self.listAllBooks():
-                if int(item.id) == int(id):
-                    return item
-        return False
+        self.listAllBooks()
+        book = None
+        if id < len(self.allBooks):
+            book = self.allBooks[id]
+            # for item in self.listAllBooks():
+            #     if int(item.id) == int(id):
+            #         return item
+        return book
 
     def getBookByName(self, name):
         self.getBooks()
         if self.listAllBooks():
             for item in self.allBooks:
-                if re.search(name, item.title, re.IGNORECASE):
+                if name.lower() == item.title.lower():
                     return item
         return False
 
@@ -67,13 +68,13 @@ class Catalog:
     # TODO test and improve this
     def UpdateBook(self, id, book ) :
         if self.listAllBooks():
-            for i,item in enumerate(self.allBooks):
-                if item.id == id:
-                    self.allBooks[i] = book
+            # for i,item in enumerate(self.allBooks):
+                if id < len(self.allBooks):
+                    self.allBooks[id] = book
                     self.save()
                     self.listAllBookItems()
                     for j,bookitem in enumerate(self.allItems):
-                        if bookitem.id == id:
+                        if bookitem.bookid == book.id:
                             self.allItems[j].author = book.author
                             self.allItems[j].title = book.title
                             self.allItems[j].ISBN = book.ISBN
@@ -83,11 +84,12 @@ class Catalog:
     
     def delete(self, id):
         if self.listAllBooks():
-            for i,item in enumerate(self.allBooks):
-                if item.id == id:
-                    del self.allBooks[i]
+            # for i,item in enumerate(self.allBooks):
+                if id < len(self.allBooks):
+                    del self.allBooks[id]
                     self.resolver.Save(self.allBooks, TargetFile.Book)
                     return id
+        return False
 
     def deleteBookitem(self, id):
         self.listAllBookItems()

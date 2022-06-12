@@ -1,10 +1,10 @@
 [
     {
         "file": "Book",
-        "maxid": 7
+        "maxid": 11
     },
     {
         "file": "LibraryItem",
-        "maxid": 23
+        "maxid": 35
     }
 ]

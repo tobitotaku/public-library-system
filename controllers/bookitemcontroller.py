@@ -83,7 +83,7 @@ class BookItemMemberCV(ControllerView):
         self.line()
         print('Bookitems in Library.')
         bookitems = self.catalog.listAllBookItems()
-        print(f'{s("ID", 3)} - {s("Author")} - {s("Title")} - {s("ISBN")} - {s("Status")}')
+        print(f'{s("ID", 3)} - {s("Title")} - {s("Author")} - {s("ISBN")} - {s("Status")}')
         if len(bookitems) == 0:
             print('Empty list.')
         for item in bookitems:
@@ -136,7 +136,7 @@ class BookItemAdminCV(BookItemMemberCV):
         self.render_list()
         id = None
         try:
-            id = int(input("Enter ID: "))
+            id = int(input("Enter number from column #: "))
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
@@ -154,13 +154,13 @@ class BookItemAdminCV(BookItemMemberCV):
         self.line()
         self.render_list()
         try:
-            id = int(input("Enter ID: "))
+            id = int(input("Enter number from column #: "))
         except:
             print("Invalid ID entered. Retry.")
             self.render_delete()
         bookitem = self.catalog.getBookItem(id)
         if bookitem:
-            is_confirm = input("Confirm delete?  (y/Enter) ")
+            is_confirm = input("Confirm delete (input:y) or cancel (press:Enter)? ")
             if is_confirm == 'y':
                 self.catalog.deleteBookitem(id)
                 print(f"Bookitem {bookitem.title} was deleted succesfully")
