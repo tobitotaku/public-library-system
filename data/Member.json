@@ -1,11 +1,29 @@
 [
     {
-        "id": 0,
-        "userid": 0,
-        "username": "admin",
-        "surname": "admin",
-        "age": 33,
-        "password": "admin123",
-        "role": "admin"
+        "id": 1,
+        "userid": 1,
+        "username": "tobi1",
+        "surname": "roessingh",
+        "age": "33",
+        "password": "tobi",
+        "role": "member"
+    },
+    {
+        "id": 2,
+        "userid": 2,
+        "username": "test",
+        "surname": "test",
+        "age": "22",
+        "password": "test",
+        "role": "member"
+    },
+    {
+        "id": 20,
+        "userid": 20,
+        "username": "pieter",
+        "surname": "burg",
+        "age": "33",
+        "password": "test123",
+        "role": "user"
     }
 ]

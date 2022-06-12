@@ -1,4 +1,5 @@
 from controllers.controllers import ControllerView
+from utils import *
 
 class MembersCV(ControllerView):
     def __init__(self, *args):
@@ -27,7 +28,7 @@ class MembersCV(ControllerView):
 
     def render_add(self):
         self.line()
-        print("Enter member in fields:")
+        print("Enter member info in fields:")
         username = input("[0] username? ")
         # input("confirm? yes[y]/no[n]")
         if username:
@@ -46,74 +47,82 @@ class MembersCV(ControllerView):
                 input("[2] age? "),
                 input("[3] password? ")
             )
-            print(f"Member {user.username} was added succesfully")
+            print(f"Member: {user.username} was added succesfully")
         
     def render_list(self):
         self.line()
         print('list of active members')
-        print('- ID - username - surname - age -')
+        print(f'{s("#", 3)} - {s("username")} - {s("surname")} - {s("age", 3)} -')
         if len(self.usermanager.users) == 0:
             print('Empty list.')
-        for item in self.usermanager.users:
-            print(f'- {item.id} - {item.username} - {item.surname} - {item.age} -')
+        for i,item in enumerate(self.usermanager.users):
+            print(f'{s(i, 3)} - {s(item.username)} - {s(item.surname)} - {s(item.age, 3)} -')
 
     def render_edit(self):
         self.render_list()
+        id = None
+        user = None
         try:
-            id = int(input("Enter ID: "))
+            id = int(input("Enter number from column #: "))
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
 
-        user = self.usermanager.findbyid(id)
+        if id >=0:
+            user = self.usermanager.findbyid(id)
         if user:
             confirm, user = self.edit_form(user)
             if confirm:
                 self.usermanager.update(id, user)
-                print(f"Member {user.username} was changed succesfully")
+                print(f"Member: {user.username} was changed succesfully.")
+            else:
+                print(f"Member: {user.username} was NOT changed.")
         else:
             print('Member not found')
 
     def render_delete(self):
         self.line()
         self.render_list()
+        id = None
+        user = None
         try:
-            id = int(input("Enter ID: "))
+            id = int(input("Enter number from column #: "))
         except:
-            print("Invalid ID entered. Retry.")
+            print("Invalid number entered. Retry.")
             self.render_delete()
-        user = self.usermanager.findbyid(id)
+        if id >=0:
+            user = self.usermanager.findbyid(id)
         if user:
-            is_confirm = input("Confirm delete?  (y/Enter) ")
+            is_confirm = input("Confirm delete (input:y) or (press:Enter)?")
             if is_confirm == 'y':
                 self.usermanager.delete(id)
-                print(f"Member {user.username} was deleted succesfully")
+                print(f"Member: {user.username} was deleted succesfully")
             else:
-                print(f"Member {user.username} was NOT deleted")
+                print(f"Member: {user.username} was NOT deleted")
         else:
             print('Member not found')
 
     def render_import_list(self):
         print('Available Members Import Files')
         importfiles = self.usermanager.readImportAvailable()
-        print('- ID - Files -')
+        print(f'{s("#", 3)} - {s("Files", 40)}')
         if len(importfiles) == 0:
             print('Empty list.')
         for i,item in enumerate(importfiles):
-            print(f'- {i} - {item} -')
+            print(f'{s(i, 3)} - {s(item, 40)}')
         return importfiles
 
     def render_import(self):
         importlist = self.render_import_list()
-        importid = self.select_field_id('Selected Import ID? ')
+        importid = self.select_field_id('Enter a number from column #: ')
         if len(importlist) > importid:
             loadimport = importlist[importid]
             print(f'Importfile [{importid}] {loadimport} selected')
-            confirm = input('Confirm loading import? (y/Enter)')
+            confirm = input('Confirm loading import (input:y) or cancel (press:Enter)?')
             if confirm == 'y':
                 notadded = self.usermanager.bulkInsert(loadimport)
                 print(f'Import [{importid}] {loadimport} loaded')
                 for item in notadded:
-                    print(f'Member {item.username} Skipped. Already exists ')
+                    print(f'Member: {item.username} Skipped. Already exists or contains uppercase letters')
         else:
             print('Import not found')

@@ -5,7 +5,7 @@ import json
 import re
 from models import Person
 from multiprocessing.spawn import prepare
-from utils import getNewId
+from utils import getNewId, getNewIdTarget
 import re
 import os
 
@@ -17,7 +17,7 @@ class UserManager:
         self.__resolver = DataResolver()
         self.all()
 
-    def all(self, force = False):
+    def all(self, force = True):
         if len(self.users) == 0 or force:
             self.users = self.__resolver.Read( TargetFile.Member, Person)
         return self.users
@@ -26,9 +26,9 @@ class UserManager:
         user = False
         self.all()
         if self.users:
-            for item in self.users:
-                if item.id == id:
-                    return item
+            # for item in self.users:
+                if id < len(self.users):
+                    user = self.users[id]
         return user
     
     def findbyname(self, name):
@@ -36,7 +36,7 @@ class UserManager:
         self.all()
         if self.users:
             for item in self.users:
-                if re.search(name, item.username, re.IGNORECASE):
+                if name.lower() == item.username.lower():
                     return item
         return user
     
@@ -50,18 +50,18 @@ class UserManager:
     def update(self, id, user):
         self.all()
         if self.users:
-            for i,item in enumerate(self.users):
-                if item.id == id:
-                    self.users[i] = user
+            # for i,item in enumerate(self.users):
+                if id < len(self.users):
+                    self.users[id] = user
                     self.__resolver.Save(self.users, TargetFile.Member)
                     return user
     
     def delete(self, id):
         self.all()
         if self.users:
-            for i,item in enumerate(self.users):
-                if item.id == id:
-                    del self.users[i]
+            # for i,item in enumerate(self.users):
+                if id < len(self.users):
+                    del self.users[id]
                     self.__resolver.Save(self.users, TargetFile.Member)
                     return id
 
@@ -76,8 +76,10 @@ class UserManager:
             user = self.findbyname(item.username)
             if user:
                 notadded.append(item)
+            elif any(ele.isupper() for ele in item.username): 
+                notadded.append(item)
             else:
-                importlist[i].id = getNewId(self.users)
+                importlist[i].id = getNewIdTarget(TargetFile.Member.name)
                 self.users.append(item)
         self.__resolver.Save(self.users, TargetFile.Member)
         return notadded

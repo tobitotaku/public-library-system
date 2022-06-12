@@ -104,7 +104,7 @@ class Person:
             self.role = args[5] if 5 in args else 'member'
         else:
             self.id = args[0]['id']
-            self.userid = args[0]['userid']
+            self.userid = self.id
             self.username = args[0]['username']
             self.surname = args[0]['surname']
             self.age = args[0]['age']

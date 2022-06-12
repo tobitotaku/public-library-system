@@ -6,5 +6,9 @@
     {
         "file": "LibraryItem",
         "maxid": 37
+    },
+    {
+        "file": "Member",
+        "maxid": 21
     }
 ]
