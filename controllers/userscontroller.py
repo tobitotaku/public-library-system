@@ -123,6 +123,6 @@ class MembersCV(ControllerView):
                 notadded = self.usermanager.bulkInsert(loadimport)
                 print(f'Import [{importid}] {loadimport} loaded')
                 for item in notadded:
-                    print(f'Member: {item.username} Skipped. Already exists or contains uppercase letters')
+                    print(f'Member: {item.username} Skipped. Already exists or username contains uppercase letters')
         else:
             print('Import not found')

@@ -22,4 +22,6 @@ def getNewIdTarget(Target):
     return getNewIdTarget(Target)
 
 def s(a, b = 20):
+    if len(str(a)) > b:
+        b = len(str(a))
     return str(a) + ' '*(b-len(str(a)))

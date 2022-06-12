@@ -27,8 +27,15 @@ class MainCV(ControllerView):
             ]
         else:
             self.actions = [
-                (self.catalogcv.render_menu, "Catalog"),
-                (self.bookitemcv.render_menu, "Library"),
+                # (self.catalogcv.render_menu, "Catalog"),
+                # (self.bookitemcv.render_menu, "Library"),
+                (self.catalogcv.render_list, "List all books in Catalog"),
+                (self.catalogcv.render_search, "Search a book in Catalog"),
+                (self.bookitemcv.render_list, "All Bookitems"),
+                (self.bookitemcv.render_search, "Search Bookitems"),
+                (self.bookitemcv.render_loan, "Loan a Book"),
+                (self.bookitemcv.render_loan_list, "Loaned Books"),
+                (self.bookitemcv.render_return_loan, "Return loaned Books"),
                 (exit, "Exit application"),
             ]
     def render_menu(self):

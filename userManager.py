@@ -41,7 +41,7 @@ class UserManager:
         return user
     
     def add(self, *args):
-        id = getNewId(self.users)
+        id = getNewIdTarget(TargetFile.Member.name)
         user = Person(id, *args)
         self.users.append(user)
         self.__resolver.Save(self.users, TargetFile.Member)
@@ -72,6 +72,7 @@ class UserManager:
         except:
             print('Incorrect JSON Format in importfile!')
             return notadded
+        self.all()
         for i,item in enumerate(importlist):
             user = self.findbyname(item.username)
             if user:
@@ -79,7 +80,7 @@ class UserManager:
             elif any(ele.isupper() for ele in item.username): 
                 notadded.append(item)
             else:
-                importlist[i].id = getNewIdTarget(TargetFile.Member.name)
+                item.userid = getNewIdTarget(TargetFile.Member.name)
                 self.users.append(item)
         self.__resolver.Save(self.users, TargetFile.Member)
         return notadded

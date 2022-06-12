@@ -7,7 +7,7 @@ from datetime import datetime, date
 from multiprocessing.spawn import prepare
 
 # itemType = Enum("itemType", "book magazine")
-itemStatus = Enum("itemStatus", "available loaned")
+itemStatus = Enum("itemStatus", "available loaned returned")
 
 class LastIds:
         def __init__(self, *args):
@@ -102,16 +102,14 @@ class Person:
         if len (args) == 0:
             return
         if len(args) > 3:
-            self.id = args[0]
-            self.userid = self.id
+            self.userid = args[0]
             self.username = args[1]
             self.surname = args[2]
             self.age = args[3]
             self.password = args[4]
             self.role = args[5] if 5 in args else 'member'
         else:
-            self.id = args[0]['id']
-            self.userid = self.id
+            self.userid = args[0]['userid']
             self.username = args[0]['username']
             self.surname = args[0]['surname']
             self.age = args[0]['age']
@@ -119,14 +117,13 @@ class Person:
             self.role = args[0]['role'] if args[0]['role'] else 'member'
 
     def getId(self):
-        return self.id
+        return self.userid
 
     def toHeader(self):
-        return ["id", "userid", "username", "surname", "age", "password", "role"]
+        return ["userid", "username", "surname", "age", "password", "role"]
 
     def toRow(self):
         return {
-            "id" : self.id,
             "userid" : self.userid,
             "username" : self.username,
             "surname" : self.surname,

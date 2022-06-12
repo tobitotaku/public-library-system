@@ -96,16 +96,32 @@ class LoanManager:
         #         return item
         return item
 
-    def setLoanedItemsReceivedById(self, loanItems ) :
-        if not isinstance(loanItems, list):
-            loanItems = [loanItems]
+    def setLoanedItemsReceivedById(self, loanitemid , userid) :
+        useritems = self.getLoanItemsByUserId(userid)
+        selecteditem = None
+        if loanitemid < len(useritems):
+            selecteditem = useritems[loanitemid]
+        
+        if selecteditem is None:
+            print("Incorrect LoanItemID entered.")
+            return (False, None)
+        user = self.userManager.findbyid(userid)
+        if user is None:
+            print("User not found.")
+            return (False, None)
 
+        self.load()
         if self.allLoanedItems:
-            for L in loanItems:
-                for i,item in enumerate(self.allLoanedItems):
-                    if item.id == L :
-                        del self.allLoanedItems[i]
-                        self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
+            for i,item in enumerate(self.allLoanedItems):
+                if item.loanItemid == selecteditem.loanItemid and item.userid == userid:
+                    self.allLoanedItems[i].itemStatus = itemStatus.returned.name
+                    self.catalog.listAllBookItems()
+                    bookitem = self.catalog.getBookItemById(item.bookItemId)
+                    bookitem.itemStatus = itemStatus.available.name
+                    self.catalog.updateBookitemByBookItem(bookitem)
+                    self.resolver.Save(self.allLoanedItems, TargetFile.LoanItem)
+                    return (True, item)
+        return (False, None)
                         
 
     def getLoanItemById(self, id):
@@ -118,11 +134,11 @@ class LoanManager:
     def loanItemToMember(self, member : Person, itemToLoan : BookItem):
         alreadyLoanedItems = self.getLoanItemsByUserId(member.getId())
         if len(alreadyLoanedItems) >= 3:
-            print("user has too many books!")
+            print(f"Only a maximum of 3 books can be borrowed. Please return some books before borrowing.")
             return False
         for i, item in enumerate(alreadyLoanedItems):
             if (itemToLoan.id == item.id):
-                print("user has already borrowed this book!")
+                print(f"Member {member.username} has already borrowed this book!")
                 return False
         dateObject = date.today()
         returnDate = dateObject +relativedelta(days=+30)

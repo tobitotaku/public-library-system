@@ -41,7 +41,7 @@ class BookItemMemberCV(ControllerView):
         if bookitem:
             print(f'Book selected: {bookitem.title}')
             if self.loanmanager.loanItemToMember(self.user, bookitem):
-                print(f'Book: {bookitem.title} loaned to Member {self.user.id}.{self.user.username}')
+                print(f'Book: {bookitem.title} loaned to Member: {self.user.username}')
         else:
             print(f"Bookitem not found")
     
@@ -49,7 +49,7 @@ class BookItemMemberCV(ControllerView):
         self.line()
         print('Loaned bookitems in Library.')
         print(f'{s("#", 3)} - {s("Member")} - {s("Title")} - {s("Author")} - {s("ISBN")} - {s("Issue date")} - {s("Return date")} - {s("Status")}')
-        allLoanedItems = self.loanmanager.getLoanItemsByUserId(self.user.id)
+        allLoanedItems = self.loanmanager.getLoanItemsByUserId(self.user.userid)
         if len(allLoanedItems) == 0:
             print('Empty list.')
         for i,item in enumerate(allLoanedItems):
@@ -57,13 +57,12 @@ class BookItemMemberCV(ControllerView):
 
     def render_return_loan(self):
         self.render_loan_list()
-        idsstr = str(input('Enter LoanItemID\'s (separated with a space)? '))
-        idslist = idsstr.split(' ')
-        ids = []
-        for id in idslist:
-            if id.isdigit():
-                ids.append(int(id))
-        self.loanmanager.setLoanedItemsReceivedById(ids)
+        id = self.select_field_id('Enter a LoanItemID from the column #: ')
+        res, item = self.loanmanager.setLoanedItemsReceivedById(id, self.user.userid)
+        if res:
+            print(f'Book {item.title} returned')
+        else:
+            print(f'Book {item.title} NOT returned. Member or Bookitem not found.')
         self.render_loan_list()
     
     def render_search(self):
@@ -83,6 +82,7 @@ class BookItemMemberCV(ControllerView):
             print('Empty list.')
         for i,item in enumerate(bookitems):
             print(f"{s(i, 3)} - {s(item.title)} - {s(item.author)} - {s(item.ISBN)} - {s(item.itemStatus)}")
+        return bookitems
 
     def render_available_bookitems(self):
         self.line()
@@ -98,8 +98,8 @@ class BookItemAdminCV(BookItemMemberCV):
     def __init__(self, *args):
         not self.initialized if BookItemMemberCV.__init__(self, *args) else self.initialized
         self.actions = [
-            (self.render_list, "All Availible Bookitems"),
-            (self.render_search, "Search Availible Bookitems"),
+            (self.render_list, "All Bookitems"),
+            (self.render_search, "Search Bookitems"),
             (self.render_add, "Add Bookitem"),
             (self.render_edit, "Edit Bookitem"),
             (self.render_delete, "Delete Bookitem"),
@@ -142,7 +142,7 @@ class BookItemAdminCV(BookItemMemberCV):
     
 
     def render_edit(self):
-        self.render_list()
+        itemlist = self.render_list()
         id = None
         bookitem = None
         try:
@@ -150,17 +150,18 @@ class BookItemAdminCV(BookItemMemberCV):
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
-        if id >=0:
-            bookitem = self.catalog.getBookItem(id)
-        if bookitem:
-            confirm, bookitem = self.edit_form(bookitem)
-            if confirm:
-                self.catalog.updateBookitem(id, bookitem)
-                print(f"Bookitem {bookitem.title} was changed succesfully")
+        if len(itemlist) > 0:
+            if id >=0:
+                bookitem = self.catalog.getBookItem(id)
+            if bookitem:
+                confirm, bookitem = self.edit_form(bookitem)
+                if confirm:
+                    self.catalog.updateBookitem(id, bookitem)
+                    print(f"Bookitem {bookitem.title} was changed succesfully")
+                else:
+                    print('Bookitem not found. You\'ll now redirected to Library menu.')
             else:
                 print('Bookitem not found. You\'ll now redirected to Library menu.')
-        else:
-            print('Bookitem not found. You\'ll now redirected to Library menu.')
 
     def render_delete(self):
         self.line()
@@ -211,7 +212,7 @@ class BookItemAdminCV(BookItemMemberCV):
             if user:
                 print(f'User selected: {user.username}')
                 if self.loanmanager.loanItemToMember(user, bookitem):
-                    print(f'Book: {bookitem.title} loaned to Member {userid}.{user.username}')
+                    print(f'Book: {bookitem.title} loaned to Member: {user.username}')
             else:
                 print(f"User not found")
         else:

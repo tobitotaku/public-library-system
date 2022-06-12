@@ -143,13 +143,13 @@ class Catalog:
     def getBookItemById(self, id):
         self.listAllBookItems()
         for bookitem in  self.allItems :
-            if id == bookitem.id :
+            if id == bookitem.bookItemId :
                 return bookitem
 
     def updateBookitemByBookItem(self, bookitem):
         if self.listAllBookItems():
             for i,item in enumerate(self.allItems):
-                if bookitem.id == item.id:
+                if bookitem.bookItemId == item.bookItemId:
                     self.allItems[i] = bookitem
                     self.resolver.Save(self.allItems, TargetFile.LibraryItem)
                     return bookitem
