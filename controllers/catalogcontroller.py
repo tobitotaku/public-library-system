@@ -126,16 +126,16 @@ class CatalogAdminCV(CatalogMemberCV):
     def render_import_list(self):
         print('Catalog Available Import Files.')
         importfiles = self.catalog.readImportAvailable()
-        print('- ID - Files -')
+        print(f'{s("#", 3)} - {s("Files", 40)}')
         if len(importfiles) == 0:
             print('Empty list.')
         for i,item in enumerate(importfiles):
-            print(f'- {i} - {item} -')
+            print(f'- {i} - {s(item, 40)} -')
         return importfiles
 
     def render_import(self):
         importlist = self.render_import_list()
-        importid = self.select_field_id('Selected Import ID? ')
+        importid = self.select_field_id('Enter a number from column #: ')
         if len(importlist) > importid:
             loadimport = importlist[importid]
             print(f'Importfile [{importid}] {loadimport} selected')
@@ -144,6 +144,6 @@ class CatalogAdminCV(CatalogMemberCV):
                 notadded = self.catalog.bulkAddBooks(loadimport)
                 print(f'Import [{importid}] {loadimport} loaded')
                 for item in notadded:
-                    print(f'Book {item.title} Skipped. Already exists ')
+                    print(f'Book: {item.title} Skipped. Already exists ')
         else:
             print('Import not found')
