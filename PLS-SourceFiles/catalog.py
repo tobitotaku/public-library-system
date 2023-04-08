@@ -213,7 +213,7 @@ class Catalog:
         
     def readImportAvailable(self):
         options = []
-        for file in os.listdir("./data/import"):
+        for file in os.listdir("./PLS-SourceFiles/data/import"):
             if re.search('.json$', file, re.IGNORECASE):
-                options.append(os.path.join("./data/import/", file))
+                options.append(os.path.join("./PLS-SourceFiles/data/import/", file))
         return options

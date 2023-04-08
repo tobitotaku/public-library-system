@@ -79,7 +79,7 @@ class JSONDataLayer:
 
     def WriteBackupToFile(self, collection):
         ct =  datetime.datetime.now().strftime("%d-%m-%Y")
-        filename = self.findFileName('./data/backups/backup_' + ct, '.json', 0)
+        filename = self.findFileName('./PLS-SourceFiles/data/backups/backup_' + ct, '.json', 0)
         jString = json.dumps(collection, indent=4)
 
 
@@ -129,7 +129,7 @@ class JSONDataLayer:
         toStore = [ob.toRow() for ob in collection]
         jString = json.dumps(toStore, indent=4)#.replace(' ', '').replace('\n', '')
         # jString = json.dumps(collection)
-        with open('./data/' + target.name + '.json', 'w') as outfile:
+        with open('./PLS-SourceFiles/data/' + target.name + '.json', 'w') as outfile:
             try:
                 outfile.write(jString)
 
@@ -139,12 +139,12 @@ class JSONDataLayer:
 
 
     def ReadFromFile(self, target : TargetFile, objectType):
-        if not exists('./data/' + target.name + '.json'):
-            with open('./data/' + target.name + '.json', 'w') as outfile: 
+        if not exists('./PLS-SourceFiles/data/' + target.name + '.json'):
+            with open('./PLS-SourceFiles/data/' + target.name + '.json', 'w') as outfile: 
                 outfile.write('[]')
 
         ret = []
-        with open('./data/' + target.name + '.json') as json_file:
+        with open('./PLS-SourceFiles/data/' + target.name + '.json') as json_file:
             try:
                 data = json.load(json_file)
                 for row in data:
@@ -170,7 +170,7 @@ class CSVDataLayer:
 
 
     def WriteToFile(self, target : TargetFile,  collection :  list() ):
-        with open( "./data/" + target.name + ".csv", mode='w') as toFile:
+        with open( "./PLS-SourceFiles/data/" + target.name + ".csv", mode='w') as toFile:
             writer = csv.DictWriter(toFile,fieldnames=collection[0].toHeader(),  delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
             writer.writeheader()
             for obj in collection : 
@@ -178,11 +178,11 @@ class CSVDataLayer:
 
 
     def ReadFromFile(self, target, objectType) :
-        if not exists('./data/' + target.name + '.json'):
-            with open('./data/' + target.name + '.json', 'w'): pass
+        if not exists('./PLS-SourceFiles/data/' + target.name + '.json'):
+            with open('./PLS-SourceFiles/data/' + target.name + '.json', 'w'): pass
 
         ret = []        
-        with open("./data/" + target.name + '.csv', newline='') as f:
+        with open("./PLS-SourceFiles/data/" + target.name + '.csv', newline='') as f:
             reader = csv.DictReader(f, delimiter=',')
             for row in reader:
                 ret.append(objectType(row))

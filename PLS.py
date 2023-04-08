@@ -1,5 +1,7 @@
 # entrypoint of the application
 # from config import configurationhelper
+import sys, os
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/PLS-SourceFiles")
 from datahelpers import DataResolver, JSONDataLayer, TargetFile
 from loanManager import LoanManager
 from userManager import UserManager
