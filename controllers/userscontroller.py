@@ -1,5 +1,6 @@
 from controllers.controllers import ControllerView
 from utils import *
+import sys
 
 class MembersCV(ControllerView):
     def __init__(self, *args):
@@ -12,7 +13,7 @@ class MembersCV(ControllerView):
             (self.render_import_list, "List Imports(CSV)"),
             (self.render_import, "Import Bulk Members(CSV)"),
             (self.render_main, "Back to main menu"),
-            (exit, "Exit application"),
+            (self.exit, "Exit application"),
         ]
 
     def render_main(self):
@@ -20,6 +21,9 @@ class MembersCV(ControllerView):
             self.breadcrumbs[0].render_menu()
         else:
             print('Main menu not found')
+
+    def exit(self):
+        sys.exit("")
  
     def render_menu(self):
         self.line()

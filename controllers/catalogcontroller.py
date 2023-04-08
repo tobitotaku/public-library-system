@@ -1,5 +1,6 @@
 from controllers.controllers import ControllerView
 from utils import *
+import sys
 
 class CatalogMemberCV(ControllerView):
     def __init__(self, *args):
@@ -8,7 +9,7 @@ class CatalogMemberCV(ControllerView):
             (self.render_list, "List all books"),
             (self.render_search, "Search a book"),
             (self.render_main, "Back to main menu"),
-            (exit, "Exit application"),
+            (self.exit, "Exit application"),
         ]
 
     def render_main(self):
@@ -16,6 +17,9 @@ class CatalogMemberCV(ControllerView):
             self.breadcrumbs[0].render_menu()
         else:
             print('Main menu not found')
+
+    def exit(self):
+        sys.exit("")
 
     def render_list(self, allBooks = None):
         # print('Catalog list')

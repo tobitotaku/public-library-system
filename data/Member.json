@@ -1,6 +1,5 @@
 [
     {
-        "id": 1,
         "userid": 1,
         "username": "tobi1",
         "surname": "roessingh",
@@ -9,7 +8,6 @@
         "role": "member"
     },
     {
-        "id": 2,
         "userid": 2,
         "username": "test",
         "surname": "test",
@@ -18,12 +16,19 @@
         "role": "member"
     },
     {
-        "id": 20,
         "userid": 20,
         "username": "pieter",
         "surname": "burg",
         "age": "33",
         "password": "test123",
         "role": "user"
+    },
+    {
+        "userid": 1,
+        "username": "jer",
+        "surname": "sas",
+        "age": "23",
+        "password": "test",
+        "role": "member"
     }
 ]

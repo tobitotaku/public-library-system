@@ -4,6 +4,7 @@ from controllers.catalogcontroller import *
 from controllers.bookitemcontroller import *
 from controllers.backupcontroller import *
 from models import LibraryAdmin, Person
+import sys
 
 class MainCV(ControllerView):
     def __init__(self, *args):
@@ -23,7 +24,7 @@ class MainCV(ControllerView):
                 (self.catalogcv.render_menu, "Manage Catalog"),
                 (self.bookitemcv.render_menu, "Manage Library"),
                 (self.backupcv.render_menu, "Manage Backup"),
-                (exit, "Exit application"),
+                (self.exit, "Exit application"),
             ]
         else:
             self.actions = [
@@ -36,12 +37,15 @@ class MainCV(ControllerView):
                 (self.bookitemcv.render_loan, "Loan a Book"),
                 (self.bookitemcv.render_loan_list, "Loaned Books"),
                 (self.bookitemcv.render_return_loan, "Return loaned Books"),
-                (exit, "Exit application"),
+                (self.exit, "Exit application"),
             ]
     def render_menu(self):
         self.line()
         print("Menu options:")
         ControllerView.render_menu(self)
+
+    def exit(self):
+        sys.exit("")
 
     def render_login(self):
         if not self.user:

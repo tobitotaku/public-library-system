@@ -2,6 +2,7 @@ from controllers.controllers import ControllerView
 from controllers.catalogcontroller import *
 from controllers.userscontroller import *
 from utils import *
+import sys
 
 class BookItemMemberCV(ControllerView):
     def __init__(self, *args):
@@ -16,7 +17,7 @@ class BookItemMemberCV(ControllerView):
             (self.render_loan_list, "Loaned Books"),
             (self.render_return_loan, "Return loaned Books"),
             (self.render_main, "Back to main menu"),
-            (exit, "Exit application"),
+            (self.exit, "Exit application"),
         ]
         self.catalogcv = CatalogAdminCV(CatalogMemberCV)
         self.usercv = MembersCV(ControllerView)
@@ -27,6 +28,9 @@ class BookItemMemberCV(ControllerView):
             self.breadcrumbs[0].render_menu()
         else:
             print('Main menu not found')
+
+    def exit(self):
+        sys.exit("")
 
     def render_menu(self):
         self.line()
@@ -106,7 +110,7 @@ class BookItemAdminCV(BookItemMemberCV):
             (self.render_loan, "Loan a Book to Member"),
             (self.render_loan_list, "Loaned Books"),
             (self.render_main, "Back to main menu"),
-            (exit, "Exit application"),
+            (self.exit, "Exit application"),
         ]
         self.catalogcv = CatalogAdminCV(ControllerView)
 

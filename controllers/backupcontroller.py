@@ -10,9 +10,12 @@ class BackupCV(ControllerView):
             (self.render_add, "Save backup"),
             (self.render_load_backup, "Load backup"),
             (self.render_main, "Back to main menu"),
-            (exit, "Exit application"),
+            (self.exit, "Exit application"),
         ]
         self.backups = self.backup.readBackupsAvailable()
+
+    def exit(self):
+        sys.exit("")
 
     def render_main(self):
         if len(self.breadcrumbs)>0:
