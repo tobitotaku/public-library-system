@@ -22,6 +22,7 @@ class BackupCV(ControllerView):
  
     def render_menu(self):
         self.line()
+        self.backups = self.backup.readBackupsAvailable()
         print("Backup management options:")
         ControllerView.render_menu(self)
 
@@ -33,6 +34,7 @@ class BackupCV(ControllerView):
 
     def render_list(self):
         self.line()
+        self.backups = self.backup.readBackupsAvailable()
         print('Backups Available')
         print('- ID - backup -')
         if len(self.backups) == 0:

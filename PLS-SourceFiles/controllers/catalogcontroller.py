@@ -48,6 +48,7 @@ class CatalogMemberCV(ControllerView):
 
     def render_menu(self):
         self.line()
+        self.catalog.listAllBooks()
         print("Catalog management options:")
         ControllerView.render_menu(self)
 

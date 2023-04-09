@@ -24,6 +24,7 @@ class MembersCV(ControllerView):
  
     def render_menu(self):
         self.line()
+        self.usermanager.all(True)
         print("Members management options:")
         ControllerView.render_menu(self)
 
@@ -52,6 +53,7 @@ class MembersCV(ControllerView):
         
     def render_list(self):
         self.line()
+        self.usermanager.all(True)
         print('list of active members')
         print(f'{s("#", 3)} - {s("username")} - {s("surname")} - {s("age", 3)} -')
         if len(self.usermanager.users) == 0:

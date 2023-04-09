@@ -32,6 +32,7 @@ class BookItemMemberCV(ControllerView):
 
     def render_menu(self):
         self.line()
+        self.catalog.listAllBookItems()
         print("Library management options:")
         ControllerView.render_menu(self)
 
