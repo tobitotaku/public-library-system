@@ -152,8 +152,10 @@ class BookItemAdminCV(BookItemMemberCV):
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
+        if len(self.catalog.allItems) == 0:
+            return
         if len(itemlist) > 0:
-            if id >=0:
+            if id and id >=0:
                 bookitem = self.catalog.getBookItem(id)
             if bookitem:
                 confirm, bookitem = self.edit_form(bookitem)
@@ -175,7 +177,9 @@ class BookItemAdminCV(BookItemMemberCV):
         except:
             print("Invalid number entered. Retry.")
             self.render_delete()
-        if id >=0:
+        if len(self.catalog.allItems) == 0:
+            return
+        if id and id >=0:
             bookitem = self.catalog.getBookItem(id)
         if bookitem:
             is_confirm = input("Confirm delete (input:y) or cancel (press:Enter)? ")
