@@ -1,3 +1,19 @@
 [
-
+    {
+        "id": 2,
+        "loanItemid": 1,
+        "bookItemId": 19,
+        "title": "Harry Potter 1",
+        "author": "J.K. Rowling",
+        "ISBN": "978-6-6442-4397-3",
+        "userid": 2,
+        "username": "michael",
+        "surname": "heerkens",
+        "age": "22",
+        "password": "test",
+        "role": "member",
+        "issueDate": "09-04-2023",
+        "returnDate": "09-05-2023",
+        "itemStatus": "loaned"
+    }
 ]

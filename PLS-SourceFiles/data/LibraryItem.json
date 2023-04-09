@@ -1,1 +1,154 @@
-[]
+[
+    {
+        "id": 1,
+        "bookItemId": 1,
+        "itemStatus": "available",
+        "author": "Napoleon Hill",
+        "title": "Think and Grow Rich",
+        "ISBN": "978-1-78844-102-5"
+    },
+    {
+        "id": 1,
+        "bookItemId": 2,
+        "itemStatus": "available",
+        "author": "Napoleon Hill",
+        "title": "Think and Grow Rich",
+        "ISBN": "978-1-78844-102-5"
+    },
+    {
+        "id": 1,
+        "bookItemId": 3,
+        "itemStatus": "available",
+        "author": "Napoleon Hill",
+        "title": "Think and Grow Rich",
+        "ISBN": "978-1-78844-102-5"
+    },
+    {
+        "id": 2,
+        "bookItemId": 4,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 2,
+        "bookItemId": 5,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 2,
+        "bookItemId": 6,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 3,
+        "bookItemId": 7,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 2",
+        "ISBN": "978-6-1276-3992-7"
+    },
+    {
+        "id": 3,
+        "bookItemId": 8,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 2",
+        "ISBN": "978-6-1276-3992-7"
+    },
+    {
+        "id": 3,
+        "bookItemId": 9,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 2",
+        "ISBN": "978-6-1276-3992-7"
+    },
+    {
+        "id": 4,
+        "bookItemId": 10,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "harry potter 3",
+        "ISBN": "978-7-0392-1683-1"
+    },
+    {
+        "id": 4,
+        "bookItemId": 11,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "harry potter 3",
+        "ISBN": "978-7-0392-1683-1"
+    },
+    {
+        "id": 4,
+        "bookItemId": 12,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "harry potter 3",
+        "ISBN": "978-7-0392-1683-1"
+    },
+    {
+        "id": 5,
+        "bookItemId": 13,
+        "itemStatus": "available",
+        "author": "JRR Tolkien",
+        "title": "Lord of the Rings",
+        "ISBN": "1234234234"
+    },
+    {
+        "id": 5,
+        "bookItemId": 14,
+        "itemStatus": "available",
+        "author": "JRR Tolkien",
+        "title": "Lord of the Rings",
+        "ISBN": "1234234234"
+    },
+    {
+        "id": 5,
+        "bookItemId": 15,
+        "itemStatus": "available",
+        "author": "JRR Tolkien",
+        "title": "Lord of the Rings",
+        "ISBN": "1234234234"
+    },
+    {
+        "id": 2,
+        "bookItemId": 16,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 2,
+        "bookItemId": 17,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 2,
+        "bookItemId": 18,
+        "itemStatus": "available",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 2,
+        "bookItemId": 19,
+        "itemStatus": "loaned",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    }
+]

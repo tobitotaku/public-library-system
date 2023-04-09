@@ -1,6 +1,18 @@
 [
     {
         "file": "Member",
+        "maxid": 3
+    },
+    {
+        "file": "Book",
+        "maxid": 5
+    },
+    {
+        "file": "LibraryItem",
+        "maxid": 20
+    },
+    {
+        "file": "LoanItem",
         "maxid": 1
     }
 ]

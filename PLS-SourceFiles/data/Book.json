@@ -1,1 +1,26 @@
-[]
+[
+    {
+        "id": 2,
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 1",
+        "ISBN": "978-6-6442-4397-3"
+    },
+    {
+        "id": 3,
+        "author": "J.K. Rowling",
+        "title": "Harry Potter 2",
+        "ISBN": "978-6-1276-3992-7"
+    },
+    {
+        "id": 4,
+        "author": "J.K. Rowling",
+        "title": "harry potter 3",
+        "ISBN": "978-7-0392-1683-1"
+    },
+    {
+        "id": 5,
+        "author": "JRR Tolkien",
+        "title": "Lord of the Rings",
+        "ISBN": "1234234234"
+    }
+]

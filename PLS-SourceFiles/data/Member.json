@@ -8,14 +8,6 @@
         "role": "member"
     },
     {
-        "userid": 2,
-        "username": "test",
-        "surname": "test",
-        "age": "22",
-        "password": "test",
-        "role": "member"
-    },
-    {
         "userid": 20,
         "username": "pieter",
         "surname": "burg",
@@ -25,9 +17,17 @@
     },
     {
         "userid": 1,
-        "username": "jer",
+        "username": "jeremey",
         "surname": "sas",
         "age": "23",
+        "password": "test",
+        "role": "member"
+    },
+    {
+        "userid": 2,
+        "username": "michael",
+        "surname": "heerkens",
+        "age": "22",
         "password": "test",
         "role": "member"
     }
