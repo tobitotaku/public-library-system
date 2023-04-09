@@ -21,9 +21,6 @@ class MembersCV(ControllerView):
             self.breadcrumbs[0].render_menu()
         else:
             print('Main menu not found')
-
-    def exit(self):
-        sys.exit("")
  
     def render_menu(self):
         self.line()
@@ -72,7 +69,7 @@ class MembersCV(ControllerView):
             print("Invalid option entered. Retry.")
             self.render_edit()
 
-        if id >=0:
+        if id and id >=0:
             user = self.usermanager.findbyid(id)
         if user:
             confirm, user = self.edit_form(user)

@@ -3,6 +3,7 @@ from userManager import *
 from loanManager import *
 from catalog import *
 from backup import *
+import sys
 
 class ControllerView:
     initialized = False
@@ -27,7 +28,8 @@ class ControllerView:
         self.loanmanager = LoanManager(self.catalog)
         self.loanmanager.listAllBookItemsLoaned()
         
-
+    def exit(self):
+        sys.exit()
 
     def render_menu(self): 
         inp_option = False

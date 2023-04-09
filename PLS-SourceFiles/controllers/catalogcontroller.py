@@ -18,9 +18,6 @@ class CatalogMemberCV(ControllerView):
         else:
             print('Main menu not found')
 
-    def exit(self):
-        sys.exit("")
-
     def render_list(self, allBooks = None):
         # print('Catalog list')
         # print('- ID - Author - Title - ISBN -')
@@ -91,7 +88,7 @@ class CatalogAdminCV(CatalogMemberCV):
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
-        if id >=0:
+        if id and id >=0:
             book = self.catalog.getBookById(id)
         if book:
             confirm, book = self.edit_form(book)

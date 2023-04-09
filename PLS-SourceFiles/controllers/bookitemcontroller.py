@@ -29,8 +29,6 @@ class BookItemMemberCV(ControllerView):
         else:
             print('Main menu not found')
 
-    def exit(self):
-        sys.exit("")
 
     def render_menu(self):
         self.line()

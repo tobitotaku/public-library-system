@@ -44,9 +44,6 @@ class MainCV(ControllerView):
         print("Menu options:")
         ControllerView.render_menu(self)
 
-    def exit(self):
-        sys.exit("")
-
     def render_login(self):
         if not self.user:
             inp_username = str(input('Username:'))
