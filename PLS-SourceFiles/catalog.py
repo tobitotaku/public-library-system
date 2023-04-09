@@ -199,17 +199,17 @@ class Catalog:
         except:
             print('Incorrect JSON Format in importfile!')
             return notadded
+        self.listAllBooks()
         for i,item in enumerate(importlist):
             book = self.getBookByName(item.title)
             if book:
                 notadded.append(item)
             else:
                 importlist[i].id = getNewIdTarget(TargetFile.Book.name)
-                self.listAllBooks()
                 self.allBooks.append(importlist[i])
                 for x in range(3):
                     self.addBookItem(item)
-        self.resolver.Save(self.allBooks, TargetFile.Book)
+                self.resolver.Save(self.allBooks, TargetFile.Book)
         return notadded
         
     def readImportAvailable(self):

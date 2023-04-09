@@ -71,7 +71,7 @@ class UserManager:
         try:
             importlist = self.__resolver.csvResolver.ReadFromFileName(filename, Person)
         except:
-            print('Incorrect JSON Format in importfile!')
+            print('Incorrect CSV Format in importfile!')
             return notadded
         self.all()
         for i,item in enumerate(importlist):
@@ -83,7 +83,7 @@ class UserManager:
             else:
                 item.userid = getNewIdTarget(TargetFile.Member.name)
                 self.users.append(item)
-        self.__resolver.Save(self.users, TargetFile.Member)
+                self.__resolver.Save(self.users, TargetFile.Member)
         return notadded
 
     def readImportAvailable(self):
