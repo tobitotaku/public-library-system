@@ -52,12 +52,10 @@ class BackupCV(ControllerView):
             confirm = input('Confirm loading backup? (y/Enter)')
             if confirm == 'y':
                 res = self.backup.loadBackup(loadbackup)
-                print(res)
                 if(res == True):
                     print(f'Backup [{backupid}] {loadbackup} loaded')
-                    # ControllerView.reload_data(self)
-                    print("backup succesful, restarting application.")
-                    os.execl(sys.executable, os.path.abspath(__file__), *sys.argv) 
+                    ControllerView.reload_data(self)
+                    print("backup succesful, reloading data.")
                 else:
                     print('Something went wrong with loading the backup, please restart the application.')
                 

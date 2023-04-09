@@ -35,7 +35,6 @@ class Backup:
         
     def loadBackup(self, file):
         data = self.helper.ReadBackup( file)
-        print(data)
         if len(data) < 3:
             return False
         # if not self.helper.Save(data[0], TargetFile.Member):
