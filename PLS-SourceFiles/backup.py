@@ -6,6 +6,7 @@ from loanManager import LoanManager
 # from usermodels import Person
 
 import os
+from os.path import exists
 
 class Backup:
 
@@ -52,9 +53,11 @@ class Backup:
     
     def readBackupsAvailable(self):
         options = []
-        for file in os.listdir("./PLS-SourceFiles/data/backups"):
+        if not exists('./data/backups/'):
+            os.mkdir('./data/backups/')
+        for file in os.listdir("./data/backups"):
             # options.append(file)
-            options.append(os.path.join("./PLS-SourceFiles/data/backups/", file))
+            options.append(os.path.join("./data/backups/", file))
         return options
 
     def listBackupsAvailableForUser(self):

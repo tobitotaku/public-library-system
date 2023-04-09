@@ -6,6 +6,7 @@ import json
 from utils import getNewId, getNewIdTarget
 from enum import Enum
 import os
+from os.path import exists
 BookStatus = Enum("loanStatus", "Available Loaned")
 itemStatus = Enum("itemStatus", "available loaned")
 
@@ -213,7 +214,9 @@ class Catalog:
         
     def readImportAvailable(self):
         options = []
-        for file in os.listdir("./PLS-SourceFiles/data/import"):
+        if not exists('./data/import/'):
+            os.mkdir('./data/import/')
+        for file in os.listdir("./data/import"):
             if re.search('.json$', file, re.IGNORECASE):
-                options.append(os.path.join("./PLS-SourceFiles/data/import/", file))
+                options.append(os.path.join("./data/import/", file))
         return options

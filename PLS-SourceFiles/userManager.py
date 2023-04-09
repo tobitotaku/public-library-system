@@ -8,6 +8,7 @@ from multiprocessing.spawn import prepare
 from utils import getNewId, getNewIdTarget
 import re
 import os
+from os.path import exists
 
 class UserManager:
 
@@ -87,7 +88,9 @@ class UserManager:
 
     def readImportAvailable(self):
         options = []
-        for file in os.listdir("./PLS-SourceFiles/data/import"):
+        if not exists('./data/import/'):
+            os.mkdir('./data/import/')
+        for file in os.listdir("./data/import"):
             if re.search('.csv$', file, re.IGNORECASE):
-                options.append(os.path.join("./PLS-SourceFiles/data/import/", file))
+                options.append(os.path.join("./data/import/", file))
         return options
