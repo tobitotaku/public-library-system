@@ -120,13 +120,14 @@ class BookItemAdminCV(BookItemMemberCV):
         book = None
         nbooks = None
         try:
-            id = int(input("Enter bookid from column # "))
+            id = input("Enter bookid from column # ")
         except:
             print("Invalid option entered. Retry.")
             self.render_add()
-        
-        if id >=0:
-            book = self.catalog.getBookById(id)
+        if len(str(id)) > 0:
+            id = int(id)
+            if id >=0:
+                book = self.catalog.getBookById(id)
         if book:
             print(f'Book selected {book.id} {book.title}')
             try:
@@ -149,14 +150,15 @@ class BookItemAdminCV(BookItemMemberCV):
         id = None
         bookitem = None
         try:
-            id = int(input("Enter bookitem from column #: "))
+            id = input("Enter bookitem from column #: ")
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
         if len(self.catalog.allItems) == 0:
             return
-        if len(itemlist) > 0:
-            if id and id >=0:
+        if len(str(id)) > 0:
+            id = int(id)
+            if id >=0:
                 bookitem = self.catalog.getBookItem(id)
             if bookitem:
                 confirm, bookitem = self.edit_form(bookitem)
@@ -174,14 +176,16 @@ class BookItemAdminCV(BookItemMemberCV):
         id = None
         bookitem = None
         try:
-            id = int(input("Enter number from column #: "))
+            id = input("Enter number from column #: ")
         except:
             print("Invalid number entered. Retry.")
             self.render_delete()
         if len(self.catalog.allItems) == 0:
             return
-        if id and id >=0:
-            bookitem = self.catalog.getBookItem(id)
+        if len(str(id)) > 0:
+            id = int(id)
+            if id >=0:
+                bookitem = self.catalog.getBookItem(id)
         if bookitem:
             is_confirm = input("Confirm delete (input:y) or cancel (press:Enter)? ")
             if is_confirm == 'y':

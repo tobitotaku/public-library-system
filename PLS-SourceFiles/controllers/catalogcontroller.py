@@ -85,14 +85,16 @@ class CatalogAdminCV(CatalogMemberCV):
         id = None
         book = None
         try:
-            id = int(input("Enter number from column #: "))
+            id = input("Enter number from column #: ")
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
         if len(self.catalog.allBooks) == 0:
             return
-        if id and id >=0:
-            book = self.catalog.getBookById(id)
+        if len(str(id)) > 0:
+            id = int(id)
+            if id >=0:
+                book = self.catalog.getBookById(id)
         if book:
             confirm, book = self.edit_form(book)
             if confirm:
@@ -109,14 +111,16 @@ class CatalogAdminCV(CatalogMemberCV):
         id = None
         book = None
         try:
-            id = int(input("Enter number from column #: "))
+            id = input("Enter number from column #: ")
         except:
             print("Invalid number entered. Retry.")
             self.render_delete()
         if len(self.catalog.allBooks) == 0:
             return
-        if id and id >=0:
-            book = self.catalog.getBookById(id)
+        if len(str(id)) > 0:
+            id = int(id)
+            if id >=0:
+                book = self.catalog.getBookById(id)
         if book:
             is_confirm = input("confirm delete (input:y) or cancel (press:Enter) ?")
             if is_confirm == 'y':

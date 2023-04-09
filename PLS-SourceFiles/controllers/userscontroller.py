@@ -66,15 +66,17 @@ class MembersCV(ControllerView):
         id = None
         user = None
         try:
-            id = int(input("Enter number from column #: "))
+            id = input("Enter number from column #: ")
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
 
         if len(self.usermanager.users) == 0:
             return
-        if id and id >=0:
-            user = self.usermanager.findbyid(id)
+        if len(str(id)) > 0:
+            id = int(id)
+            if id >=0:
+                user = self.usermanager.findbyid(id)
         if user:
             confirm, user = self.edit_form(user)
             if confirm:
@@ -98,8 +100,10 @@ class MembersCV(ControllerView):
         
         if len(self.usermanager.users) == 0:
             return
-        if id and id >=0:
-            user = self.usermanager.findbyid(id)
+        if len(str(id)) > 0:
+            id = int(id)
+            if id >=0:
+                user = self.usermanager.findbyid(id)
         if user:
             is_confirm = input("Confirm delete (input:y) or (press:Enter)?")
             if is_confirm == 'y':
