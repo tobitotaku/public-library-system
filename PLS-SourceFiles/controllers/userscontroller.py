@@ -69,6 +69,8 @@ class MembersCV(ControllerView):
             print("Invalid option entered. Retry.")
             self.render_edit()
 
+        if len(self.usermanager.users) == 0:
+            return
         if id and id >=0:
             user = self.usermanager.findbyid(id)
         if user:
@@ -91,7 +93,10 @@ class MembersCV(ControllerView):
         except:
             print("Invalid number entered. Retry.")
             self.render_delete()
-        if id >=0:
+        
+        if len(self.usermanager.users) == 0:
+            return
+        if id and id >=0:
             user = self.usermanager.findbyid(id)
         if user:
             is_confirm = input("Confirm delete (input:y) or (press:Enter)?")
