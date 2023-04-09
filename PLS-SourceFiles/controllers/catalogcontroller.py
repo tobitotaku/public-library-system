@@ -88,6 +88,8 @@ class CatalogAdminCV(CatalogMemberCV):
         except:
             print("Invalid option entered. Retry.")
             self.render_edit()
+        if len(self.catalog.allBooks) == 0:
+            return
         if id and id >=0:
             book = self.catalog.getBookById(id)
         if book:
@@ -110,7 +112,9 @@ class CatalogAdminCV(CatalogMemberCV):
         except:
             print("Invalid number entered. Retry.")
             self.render_delete()
-        if id >=0:
+        if len(self.catalog.allBooks) == 0:
+            return
+        if id and id >=0:
             book = self.catalog.getBookById(id)
         if book:
             is_confirm = input("confirm delete (input:y) or cancel (press:Enter) ?")
